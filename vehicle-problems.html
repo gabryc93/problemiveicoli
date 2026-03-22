@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoDiagnosi — Problemi Noti</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --surface: #111114;
+    --card: #16161a;
+    --border: #2a2a32;
+    --accent: #e8433a;
+    --accent2: #f5a623;
+    --text: #f0eff4;
+    --muted: #7a798a;
+    --success: #2ecc71;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,67,58,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,67,58,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* HEADER */
+  header {
+    padding: 48px 0 40px;
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .logo-icon {
+    width: 52px;
+    height: 52px;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(0 0, 85% 0, 100% 15%, 100% 100%, 15% 100%, 0 85%);
+    flex-shrink: 0;
+  }
+
+  .logo-icon svg { width: 28px; height: 28px; fill: white; }
+
+  .header-text h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .header-text p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* SELECTOR PANEL */
+  .selector-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 32px;
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+  .selector-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .panel-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .selectors-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  @media (max-width: 700px) {
+    .selectors-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 420px) {
+    .selectors-grid { grid-template-columns: 1fr; }
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .field-group label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 36px 12px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 500;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a798a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color 0.2s, background-color 0.2s;
+    width: 100%;
+  }
+
+  select:hover { border-color: var(--accent); }
+  select:focus { outline: none; border-color: var(--accent); background-color: #1a1a20; }
+  select option { background: #1a1a20; }
+
+  .btn-diagnose {
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .btn-diagnose::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s;
+  }
+
+  .btn-diagnose:hover::after { transform: translateX(100%); }
+  .btn-diagnose:hover { background: #d63830; }
+  .btn-diagnose:active { transform: scale(0.99); }
+  .btn-diagnose:disabled { background: #3a3a3a; cursor: not-allowed; }
+  .btn-diagnose:disabled::after { display: none; }
+
+  .btn-icon { font-size: 1.1rem; }
+
+  /* VEHICLE SUMMARY BAR */
+  .vehicle-bar {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    padding: 14px 20px;
+    margin-bottom: 28px;
+    align-items: center;
+    gap: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+  }
+
+  .vehicle-bar.visible { display: flex; flex-wrap: wrap; }
+
+  .vehicle-bar .tag {
+    background: rgba(245,166,35,0.1);
+    border: 1px solid rgba(245,166,35,0.3);
+    color: var(--accent2);
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* RESULTS */
+  #results { animation: fadeUp 0.4s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .results-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    color: var(--text);
+  }
+
+  .problem-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+  }
+
+  /* PROBLEM CARD */
+  .problem-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+    animation: cardIn 0.3s ease both;
+  }
+
+  .problem-card:nth-child(1) { animation-delay: 0.05s; }
+  .problem-card:nth-child(2) { animation-delay: 0.10s; }
+  .problem-card:nth-child(3) { animation-delay: 0.15s; }
+  .problem-card:nth-child(4) { animation-delay: 0.20s; }
+  .problem-card:nth-child(5) { animation-delay: 0.25s; }
+  .problem-card:nth-child(6) { animation-delay: 0.30s; }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateX(-12px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .problem-card:hover { border-color: #3a3a46; }
+
+  .problem-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .severity-badge {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px currentColor;
+  }
+
+  .severity-alta { background: var(--danger); color: var(--danger); }
+  .severity-media { background: var(--warning); color: var(--warning); }
+  .severity-bassa { background: var(--success); color: var(--success); }
+
+  .problem-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    flex: 1;
+    color: var(--text);
+  }
+
+  .severity-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border: 1px solid;
+  }
+
+  .label-alta { color: var(--danger); border-color: rgba(231,76,60,0.4); background: rgba(231,76,60,0.08); }
+  .label-media { color: var(--warning); border-color: rgba(243,156,18,0.4); background: rgba(243,156,18,0.08); }
+  .label-bassa { color: var(--success); border-color: rgba(46,204,113,0.4); background: rgba(46,204,113,0.08); }
+
+  .chevron {
+    color: var(--muted);
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .problem-card.open .chevron { transform: rotate(180deg); }
+
+  .problem-body {
+    display: none;
+    padding: 0 20px 20px 42px;
+    border-top: 1px solid var(--border);
+  }
+
+  .problem-card.open .problem-body { display: block; }
+
+  .problem-section {
+    margin-top: 16px;
+  }
+
+  .problem-section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .problem-body p, .problem-body li {
+    font-size: 0.88rem;
+    color: #b8b7c8;
+    line-height: 1.7;
+  }
+
+  .problem-body ul {
+    padding-left: 16px;
+  }
+
+  .problem-body li { margin-bottom: 4px; }
+
+  .cost-badge {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent2);
+    background: rgba(245,166,35,0.08);
+    border: 1px solid rgba(245,166,35,0.25);
+    padding: 6px 14px;
+  }
+
+  /* LOADING */
+  .loading-state {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 64px 0;
+    gap: 20px;
+  }
+
+  .loading-state.visible { display: flex; }
+
+  .engine-loader {
+    width: 56px;
+    height: 56px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-state p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: blink 1.4s ease infinite;
+  }
+
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* ERROR */
+  .error-box {
+    display: none;
+    background: rgba(231,76,60,0.08);
+    border: 1px solid rgba(231,76,60,0.3);
+    padding: 20px 24px;
+    color: #e88;
+    font-size: 0.88rem;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .error-box.visible { display: flex; }
+
+  /* DISCLAIMER */
+  .disclaimer {
+    margin-top: 48px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.6;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .disclaimer strong { color: #555; }
+
+  /* API KEY BANNER */
+  .apikey-banner {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    padding: 18px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .apikey-banner .apikey-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+
+  .apikey-input-wrap {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .apikey-input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .apikey-input:focus { border-color: var(--accent2); }
+  .apikey-input::placeholder { color: var(--muted); }
+
+  .apikey-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: border-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+  .apikey-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  .apikey-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .apikey-status.ok { color: var(--success); border-color: rgba(46,204,113,0.4); background: rgba(46,204,113,0.08); }
+  .apikey-status.missing { color: var(--muted); border-color: var(--border); background: transparent; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M19 17H5v-1.26A2 2 0 0 1 3 14v-3a9 9 0 0 1 18 0v3a2 2 0 0 1-2 1.74V17zm-2 2H7v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1zM7.5 10a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
+    </div>
+    <div class="header-text">
+      <h1>AutoDiagnosi</h1>
+      <p>Analisi problemi noti per veicolo</p>
+    </div>
+  </header>
+
+  <!-- SELECTOR PANEL -->
+  
+  <!-- API KEY BANNER -->
+  <div class="apikey-banner">
+    <span class="apikey-label">🔑 API Key</span>
+    <div class="apikey-input-wrap">
+      <input
+        class="apikey-input"
+        id="apikey-input"
+        type="password"
+        placeholder="sk-ant-api03-..."
+        oninput="updateKeyStatus()"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button class="apikey-toggle" onclick="toggleKeyVisibility()" title="Mostra/Nascondi">👁</button>
+    </div>
+    <span class="apikey-status missing" id="apikey-status">Non inserita</span>
+  </div>
+
+<div class="selector-panel">
+    <div class="panel-label">// Seleziona il veicolo</div>
+    <div class="selectors-grid">
+      <div class="field-group">
+        <label>Marca</label>
+        <select id="sel-marca" onchange="updateModelli()">
+          <option value="">— Seleziona —</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Modello</label>
+        <select id="sel-modello" onchange="updateAnni()">
+          <option value="">— Seleziona marca —</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Anno</label>
+        <select id="sel-anno" onchange="updateMotori()">
+          <option value="">— Seleziona modello —</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Motorizzazione</label>
+        <select id="sel-motore">
+          <option value="">— Seleziona anno —</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-diagnose" onclick="avviaDiagnosi()">
+      <span class="btn-icon">⚙</span>
+      ANALIZZA PROBLEMI NOTI
+    </button>
+  </div>
+
+  <!-- VEHICLE BAR -->
+  <div class="vehicle-bar" id="vehicle-bar"></div>
+
+  <!-- LOADING -->
+  <div class="loading-state" id="loading">
+    <div class="engine-loader"></div>
+    <p>Analisi in corso...</p>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-box" id="error-box">
+    <span>⚠</span>
+    <span id="error-msg">Errore durante l'analisi. Riprova.</span>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results"></div>
+
+  <div class="disclaimer">
+    <strong>NOTA:</strong> Le informazioni fornite sono generate da intelligenza artificiale a scopo informativo.
+    Consultare sempre un meccanico qualificato per diagnosi e riparazioni. I costi indicati sono stime indicative.
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATABASE VEICOLI
+// ═══════════════════════════════════════════
+const VEHICLES = {
+  "Alfa Romeo": {
+    "Giulia": {
+      "2016–2019": ["2.0T 200cv", "2.0T 280cv Veloce", "2.9 V6 510cv Quadrifoglio", "2.2 JTDm 150cv", "2.2 JTDm 180cv"],
+      "2020–2024": ["2.0T 200cv", "2.0T 280cv Veloce", "2.9 V6 520cv Quadrifoglio", "2.2 JTDm 160cv"]
+    },
+    "Stelvio": {
+      "2017–2019": ["2.0T 200cv", "2.0T 280cv Veloce", "2.9 V6 510cv Quadrifoglio", "2.2 JTDm 180cv", "2.2 JTDm 210cv"],
+      "2020–2024": ["2.0T 200cv", "2.0T 280cv Veloce", "2.9 V6 520cv Quadrifoglio", "2.2 JTDm 160cv"]
+    },
+    "147": {
+      "2001–2005": ["1.6 TS 105cv", "1.6 TS 120cv", "2.0 TS 150cv", "1.9 JTD 100cv", "1.9 JTD 115cv"],
+      "2005–2010": ["1.6 JTS 105cv", "2.0 JTS 150cv", "1.9 JTD 120cv"]
+    },
+    "156": {
+      "1997–2003": ["1.6 TS 120cv", "1.8 TS 144cv", "2.0 JTS 165cv", "1.9 JTD 115cv", "2.4 JTD 140cv"],
+      "2003–2007": ["2.0 JTS 165cv", "2.5 V6 192cv", "1.9 JTD 150cv", "2.4 JTD 175cv"]
+    },
+    "159": {
+      "2005–2008": ["1.8 MPI 140cv", "1.9 JTDm 120cv", "1.9 JTDm 150cv", "2.4 JTDm 200cv", "3.2 V6 260cv"],
+      "2008–2011": ["1.8 TBI 160cv", "2.0 JTDm 170cv", "2.4 JTDm 210cv"]
+    },
+    "Mito": {
+      "2008–2013": ["1.4 70cv", "1.4 TB 120cv", "1.4 TB 155cv Cloverleaf", "1.3 JTDm 95cv"],
+      "2013–2018": ["1.4 70cv", "1.4 TB 105cv", "1.4 TB 170cv Cloverleaf", "1.3 JTDm 95cv", "1.6 JTDm 120cv"]
+    },
+    "Giulietta": {
+      "2010–2014": ["1.4 TB 120cv", "1.4 TB 170cv", "1.75 TB 235cv Quadrifoglio", "1.6 JTDm 105cv", "2.0 JTDm 140cv", "2.0 JTDm 170cv"],
+      "2014–2020": ["1.4 TB 120cv", "1.4 TB 150cv", "1.75 TB 240cv Quadrifoglio Verde", "1.6 JTDm 120cv", "2.0 JTDm 150cv", "2.0 JTDm 175cv"]
+    },
+    "Tonale": {
+      "2022–2024": ["1.5 MHEV 130cv", "1.5 MHEV 160cv", "1.6 Multijet 130cv", "1.3 PHEV 280cv Q4"]
+    }
+  },
+  "Audi": {
+    "A1 (8X/GB)": {
+      "2010–2014": ["1.2 TFSI 86cv", "1.4 TFSI 122cv", "1.4 TFSI 185cv S1", "1.6 TDI 90cv", "2.0 TDI 143cv"],
+      "2015–2018": ["1.0 TFSI 95cv", "1.4 TFSI 125cv", "1.8 TFSI 192cv S1", "1.6 TDI 116cv"],
+      "2019–2024": ["25 TFSI 95cv", "30 TFSI 116cv", "35 TFSI 150cv", "30 TDI 116cv"]
+    },
+    "A3 (8V/8Y)": {
+      "2012–2016": ["1.2 TFSI 105cv", "1.4 TFSI 140cv", "1.8 TFSI 180cv", "2.0 TFSI 300cv S3", "1.6 TDI 105cv", "2.0 TDI 150cv", "2.0 TDI 184cv"],
+      "2017–2020": ["1.0 TFSI 116cv", "1.5 TFSI 150cv", "2.0 TFSI 300cv S3", "1.6 TDI 116cv", "2.0 TDI 150cv", "2.0 TDI 184cv"],
+      "2020–2024": ["30 TFSI 110cv", "35 TFSI 150cv", "40 TFSI 204cv", "45 TFSI 245cv S3", "30 TDI 116cv", "35 TDI 150cv", "45 TFSIe 245cv PHEV"]
+    },
+    "A4 (B8/B9)": {
+      "2008–2015": ["1.8 TFSI 120cv", "2.0 TFSI 211cv", "3.0 TFSI 272cv", "2.0 TDI 143cv", "2.0 TDI 177cv", "3.0 TDI 245cv"],
+      "2015–2019": ["1.4 TFSI 150cv", "2.0 TFSI 190cv", "2.0 TFSI 252cv", "3.0 TFSI 354cv S4", "2.0 TDI 150cv", "2.0 TDI 190cv", "3.0 TDI 272cv"],
+      "2019–2024": ["2.0 TFSI 150cv MHEV", "2.0 TFSI 204cv MHEV", "40 TDI 190cv MHEV", "3.0 TDI 286cv"]
+    },
+    "A6 (C7/C8)": {
+      "2011–2018": ["2.0 TFSI 252cv", "3.0 TFSI 310cv", "2.0 TDI 190cv", "3.0 TDI 218cv", "3.0 TDI 272cv", "3.0 TDI 320cv"],
+      "2018–2024": ["45 TFSI 245cv MHEV", "55 TFSI 340cv", "40 TDI 204cv MHEV", "45 TDI 231cv MHEV", "55 TFSIe 367cv PHEV"]
+    },
+    "Q3 (8U/F3)": {
+      "2011–2018": ["1.4 TFSI 125cv", "2.0 TFSI 170cv", "2.0 TFSI 220cv", "1.4 TDI 90cv", "2.0 TDI 150cv", "2.0 TDI 177cv"],
+      "2018–2024": ["35 TFSI 150cv", "40 TFSI 190cv", "35 TDI 150cv", "45 TFSIe 245cv PHEV"]
+    },
+    "Q5 (8R/FY)": {
+      "2008–2017": ["2.0 TFSI 211cv", "3.0 TFSI 272cv", "2.0 TDI 177cv", "3.0 TDI 240cv", "3.0 TDI 313cv SQ5"],
+      "2017–2024": ["2.0 TFSI 252cv quattro", "3.0 TFSI 354cv SQ5", "2.0 TDI 190cv quattro", "3.0 TDI 286cv quattro", "55 TFSIe 367cv PHEV"]
+    },
+    "Q7 (4L/4M)": {
+      "2006–2015": ["3.0 TFSI 272cv", "4.2 FSI 350cv", "3.0 TDI 233cv", "4.2 TDI 340cv"],
+      "2015–2024": ["3.0 TFSI 333cv", "55 TFSI 340cv e-tron", "3.0 TDI 218cv", "45 TDI 231cv", "50 TDI 286cv"]
+    },
+    "A5 (8T/F5)": {
+      "2007–2016": ["1.8 TFSI 177cv", "2.0 TFSI 211cv", "3.0 TFSI 272cv S5", "2.0 TDI 177cv", "3.0 TDI 245cv"],
+      "2016–2024": ["2.0 TFSI 190cv", "2.0 TFSI 245cv", "3.0 TFSI 354cv RS5", "2.0 TDI 190cv", "3.0 TDI 286cv"]
+    }
+  },
+  "BMW": {
+    "Serie 1 (E87/F20/F40)": {
+      "2004–2011": ["116i 116cv", "118i 143cv", "120i 170cv", "130i 265cv", "116d 115cv", "118d 143cv", "120d 177cv"],
+      "2012–2019": ["116i 136cv", "118i 136cv", "120i 184cv", "125i 224cv", "118d 150cv", "120d 184cv", "125d 224cv"],
+      "2019–2024": ["116i 109cv", "118i 136cv", "120i 178cv", "M135i xDrive 306cv", "116d 116cv", "118d 150cv", "120d 190cv"]
+    },
+    "Serie 2 (F22/F45/G42)": {
+      "2014–2021": ["218i 136cv", "220i 184cv", "228i 245cv", "M240i 340cv", "216d 116cv", "218d 150cv", "220d 190cv"],
+      "2021–2024": ["218i 156cv Active Tourer", "220i 204cv", "M240i xDrive 374cv", "216d 136cv Active Tourer", "218d 150cv"]
+    },
+    "Serie 3 (E90/F30/G20)": {
+      "2005–2012": ["318i 143cv", "320i 150cv", "325i 218cv", "330i 272cv", "335i 306cv", "318d 122cv", "320d 163cv", "330d 245cv"],
+      "2012–2018": ["316i 136cv", "318i 156cv", "320i 184cv", "328i 245cv", "335i 306cv", "316d 116cv", "318d 143cv", "320d 184cv", "330d 258cv"],
+      "2019–2024": ["318i 156cv", "320i 184cv", "330i 258cv", "M340i xDrive 374cv", "316d 122cv", "318d 150cv", "320d 190cv", "330d 286cv", "330e PHEV 292cv"]
+    },
+    "Serie 4 (F32/G22)": {
+      "2013–2020": ["420i 184cv", "428i 245cv", "440i 326cv", "418d 150cv", "420d 190cv", "430d 258cv"],
+      "2020–2024": ["420i 184cv", "430i 258cv", "M440i xDrive 374cv", "420d 190cv", "430d 286cv", "M4 Competition 510cv"]
+    },
+    "Serie 5 (F10/G30)": {
+      "2010–2017": ["520i 184cv", "528i 245cv", "530i 258cv", "535i 306cv", "518d 143cv", "520d 184cv", "525d 218cv", "530d 258cv", "535d 313cv"],
+      "2017–2024": ["520i 184cv", "530i 252cv", "540i 340cv", "M550i xDrive 462cv", "520d 190cv", "530d 265cv", "540d 340cv", "530e PHEV 292cv"]
+    },
+    "X1 (E84/F48/U11)": {
+      "2009–2015": ["sDrive20i 184cv", "xDrive25i 218cv", "sDrive18d 143cv", "xDrive20d 184cv", "xDrive25d 218cv"],
+      "2015–2022": ["sDrive18i 140cv", "xDrive20i 192cv", "xDrive28i 231cv", "sDrive18d 150cv", "xDrive20d 190cv", "xDrive25d 231cv"],
+      "2022–2024": ["sDrive18i 136cv", "xDrive23i 218cv", "sDrive18d 150cv", "xDrive23d 211cv", "xDrive30e PHEV 326cv", "iX1 xDrive30 313cv BEV"]
+    },
+    "X3 (E83/F25/G01)": {
+      "2003–2010": ["2.0i 150cv", "2.5i 192cv", "3.0i 231cv", "2.0d 150cv", "3.0d 218cv"],
+      "2010–2017": ["sDrive20i 184cv", "xDrive28i 245cv", "xDrive35i 306cv", "sDrive18d 143cv", "xDrive20d 184cv", "xDrive30d 258cv"],
+      "2017–2024": ["xDrive20i 184cv", "xDrive30i 252cv", "M40i 354cv", "xDrive18d 150cv", "xDrive20d 190cv", "xDrive30d 265cv", "xDrive30e PHEV 292cv"]
+    },
+    "X5 (E53/E70/F15/G05)": {
+      "2000–2006": ["3.0i 231cv", "4.4i 320cv", "3.0d 218cv"],
+      "2007–2013": ["xDrive30i 272cv", "xDrive35i 306cv", "xDrive30d 235cv", "xDrive40d 306cv"],
+      "2014–2018": ["xDrive25d 218cv", "xDrive30d 258cv", "xDrive40e PHEV 313cv", "xDrive50i 450cv"],
+      "2018–2024": ["xDrive40i 340cv", "M50i 530cv", "xDrive30d 286cv", "xDrive40d 340cv", "xDrive45e PHEV 394cv", "xDrive50e PHEV 490cv"]
+    }
+  },
+  "Citroën": {
+    "C3 (II/III)": {
+      "2009–2016": ["1.2 VTi 82cv", "1.4 VTi 95cv", "1.6 VTi 120cv", "1.6 THP 155cv", "1.4 HDi 70cv", "1.6 HDi 90cv", "1.6 HDi 114cv"],
+      "2017–2024": ["1.2 PureTech 83cv", "1.2 PureTech 110cv", "1.5 BlueHDi 100cv"]
+    },
+    "C4 (II/III)": {
+      "2010–2018": ["1.2 PureTech 130cv", "1.6 THP 155cv", "1.6 BlueHDi 100cv", "2.0 BlueHDi 150cv"],
+      "2020–2024": ["1.2 PureTech 100cv", "1.2 PureTech 130cv", "1.5 BlueHDi 110cv", "ë-C4 136cv BEV"]
+    },
+    "C5 Aircross": {
+      "2018–2021": ["1.2 PureTech 130cv", "1.6 PureTech 180cv", "1.5 BlueHDi 130cv", "2.0 BlueHDi 180cv", "1.6 PHEV 225cv"],
+      "2021–2024": ["1.2 PureTech 130cv", "1.6 PureTech 180cv", "1.5 BlueHDi 130cv", "PHEV 225cv", "PHEV 300cv"]
+    },
+    "C5 (II)": {
+      "2008–2012": ["1.6 THP 150cv", "2.0 143cv", "3.0 V6 215cv", "1.6 HDi 115cv", "2.0 HDi 140cv", "2.7 V6 HDi 208cv"],
+      "2012–2017": ["1.6 THP 155cv", "2.0 THP 200cv", "1.6 BlueHDi 120cv", "2.0 BlueHDi 150cv", "2.0 BlueHDi 180cv"]
+    },
+    "Berlingo III": {
+      "2018–2024": ["1.2 PureTech 110cv", "1.5 BlueHDi 100cv", "1.5 BlueHDi 130cv", "ë-Berlingo 136cv BEV"]
+    }
+  },
+  "Dacia": {
+    "Sandero (II/III)": {
+      "2013–2020": ["1.0 SCe 73cv", "0.9 TCe 90cv", "1.5 dCi 75cv", "1.5 dCi 90cv"],
+      "2020–2024": ["1.0 SCe 65cv", "1.0 TCe 90cv", "1.0 TCe 100cv ECO-G bi-fuel", "1.5 Blue dCi 95cv"]
+    },
+    "Duster (I/II)": {
+      "2010–2017": ["1.6 115cv 4x2", "2.0 143cv 4x4", "1.5 dCi 85cv 4x2", "1.5 dCi 110cv 4x4"],
+      "2018–2024": ["1.0 TCe 100cv", "1.3 TCe 130cv", "1.3 TCe 150cv 4x4", "1.5 Blue dCi 115cv 4x4"]
+    },
+    "Logan (II/III)": {
+      "2012–2020": ["1.0 SCe 73cv", "0.9 TCe 90cv", "1.5 dCi 75cv", "1.5 dCi 90cv"],
+      "2020–2024": ["1.0 SCe 65cv", "1.0 TCe 90cv", "1.0 TCe 100cv ECO-G"]
+    },
+    "Jogger": {
+      "2022–2024": ["1.0 TCe 110cv", "1.0 TCe 100cv ECO-G bi-fuel", "1.6 Hybrid 140cv"]
+    }
+  },
+  "Fiat": {
+    "500 (312)": {
+      "2007–2015": ["1.2 69cv", "1.4 100cv", "0.9 TwinAir 85cv", "0.9 TwinAir 105cv", "1.3 MultiJet 75cv", "1.3 MultiJet 95cv"],
+      "2015–2024": ["1.2 69cv", "1.4 100cv", "0.9 TwinAir 85cv", "0.9 TwinAir 105cv", "1.3 MultiJet 95cv", "elettrica 118cv"]
+    },
+    "500X": {
+      "2015–2018": ["1.4 MultiAir 140cv", "1.4 MultiAir 170cv 4x4", "2.0 MultiJet 140cv 4x4", "1.6 MultiJet 120cv"],
+      "2018–2024": ["1.0 FireFly 120cv", "1.3 FireFly 150cv DCT", "1.6 MultiJet 130cv", "2.0 MultiJet 140cv"]
+    },
+    "Panda III": {
+      "2012–2017": ["1.2 69cv", "0.9 TwinAir 65cv", "0.9 TwinAir 85cv", "1.3 MultiJet 75cv", "1.3 MultiJet 95cv 4x4"],
+      "2018–2024": ["1.2 69cv", "0.9 TwinAir 85cv", "1.0 Hybrid 70cv", "1.3 MultiJet 95cv"]
+    },
+    "Tipo (356)": {
+      "2016–2020": ["1.4 95cv", "1.4 T-Jet 120cv", "1.6 MultiJet 120cv", "2.0 MultiJet 150cv"],
+      "2020–2024": ["1.0 FireFly 100cv", "1.5 Hybrid 130cv", "1.6 MultiJet 130cv"]
+    },
+    "Bravo II": {
+      "2007–2011": ["1.4 90cv", "1.4 T-Jet 120cv", "1.4 T-Jet 150cv", "1.6 MJet 90cv", "1.9 MJet 120cv", "1.9 MJet 150cv"],
+      "2011–2014": ["1.4 T-Jet 120cv", "1.6 MJet 105cv", "2.0 MJet 165cv"]
+    },
+    "Punto III": {
+      "2005–2012": ["1.2 65cv", "1.4 77cv", "1.4 T-Jet 120cv", "1.3 MJet 75cv", "1.3 MJet 90cv"],
+      "2012–2018": ["1.2 69cv", "1.4 77cv", "0.9 TwinAir 85cv", "1.3 MJet 75cv", "1.3 MJet 95cv"]
+    },
+    "Stilo": {
+      "2001–2007": ["1.2 80cv", "1.4 95cv", "1.6 103cv", "1.8 133cv", "2.4 20V 170cv Abarth", "1.9 MJet 80cv", "1.9 MJet 115cv", "1.9 MJet 140cv"]
+    }
+  },
+  "Ford": {
+    "Fiesta (VI/VII)": {
+      "2008–2017": ["1.0 EcoBoost 100cv", "1.0 EcoBoost 125cv", "1.6 Ti-VCT 85cv", "1.6 Ti-VCT 120cv", "ST 200cv", "1.5 TDCi 75cv", "1.5 TDCi 95cv"],
+      "2017–2023": ["1.0 EcoBoost 95cv", "1.0 EcoBoost 100cv MHEV", "1.0 EcoBoost 125cv", "ST 200cv", "1.5 TDCi 85cv", "1.5 TDCi 120cv"]
+    },
+    "Focus (III/IV)": {
+      "2011–2018": ["1.0 EcoBoost 100cv", "1.0 EcoBoost 125cv", "1.5 EcoBoost 150cv", "2.0 EcoBoost 250cv ST", "1.5 TDCi 95cv", "1.5 TDCi 120cv", "2.0 TDCi 150cv", "2.0 TDCi 185cv"],
+      "2018–2024": ["1.0 EcoBoost 125cv MHEV", "1.0 EcoBoost 155cv", "2.3 EcoBoost 280cv ST", "1.5 EcoBlue 95cv", "1.5 EcoBlue 120cv", "2.0 EcoBlue 150cv"]
+    },
+    "Kuga (II/III)": {
+      "2012–2019": ["1.5 EcoBoost 120cv", "1.5 EcoBoost 150cv", "2.0 EcoBoost 240cv 4x4", "1.5 TDCi 120cv", "2.0 TDCi 150cv", "2.0 TDCi 180cv 4x4"],
+      "2020–2024": ["1.5 EcoBoost 150cv", "2.5 Duratec FHEV 190cv", "2.5 PHEV 225cv", "1.5 EcoBlue 120cv"]
+    },
+    "Puma": {
+      "2019–2024": ["1.0 EcoBoost 125cv MHEV", "1.0 EcoBoost 155cv MHEV", "ST 200cv", "1.5 EcoBlue 120cv"]
+    },
+    "Mondeo (IV/V)": {
+      "2007–2014": ["1.6 EcoBoost 160cv", "2.0 EcoBoost 203cv", "2.0 EcoBoost 240cv", "1.6 TDCi 115cv", "2.0 TDCi 140cv", "2.2 TDCi 200cv"],
+      "2015–2022": ["1.5 EcoBoost 160cv", "2.0 EcoBoost 203cv", "2.0 EcoBoost 240cv", "2.0 Hybrid 187cv", "1.5 TDCi 120cv", "2.0 TDCi 150cv", "2.0 TDCi 210cv"]
+    },
+    "Explorer (V/VI)": {
+      "2011–2019": ["2.0 EcoBoost 240cv", "3.5 Ti-VCT 290cv", "3.5 EcoBoost 370cv", "2.0 TDCi 182cv"],
+      "2019–2024": ["3.0 EcoBoost PHEV 457cv", "3.0 EcoBoost 336cv"]
+    }
+  },
+  "Honda": {
+    "Civic (IX/X/XI)": {
+      "2012–2017": ["1.4 i-VTEC 100cv", "1.8 i-VTEC 142cv", "2.0 Si 201cv", "1.6 i-DTEC 120cv", "2.2 i-DTEC 150cv"],
+      "2017–2022": ["1.0 VTEC Turbo 126cv", "1.5 VTEC Turbo 182cv", "1.6 i-DTEC 120cv", "Type R 320cv"],
+      "2022–2024": ["1.5 e:HEV 143cv", "2.0 e:HEV 184cv", "Type R 329cv"]
+    },
+    "CR-V (IV/V)": {
+      "2012–2018": ["1.6 i-DTEC 120cv 2WD", "1.6 i-DTEC 160cv 4WD", "2.0 i-VTEC 155cv"],
+      "2018–2024": ["1.5 VTEC Turbo 173cv", "1.5 VTEC Turbo 4WD 173cv", "2.0 e:HEV 184cv", "2.0 PHEV 306cv"]
+    },
+    "Jazz (III/IV)": {
+      "2008–2015": ["1.2 i-VTEC 90cv", "1.4 i-VTEC 100cv", "1.3 IMA Hybrid 88cv", "1.3 i-VTEC 88cv"],
+      "2015–2020": ["1.2 i-VTEC 90cv", "1.3 i-VTEC 102cv", "1.5 i-VTEC 130cv"],
+      "2020–2024": ["1.5 e:HEV 109cv", "1.5 e:HEV Crosstar 109cv"]
+    },
+    "HR-V (II/III)": {
+      "2015–2022": ["1.5 i-VTEC 130cv", "1.6 i-DTEC 120cv"],
+      "2022–2024": ["1.5 e:HEV 131cv 2WD", "1.5 e:HEV 4WD 131cv"]
+    }
+  },
+  "Hyundai": {
+    "i20 (II/III)": {
+      "2014–2020": ["1.0 T-GDI 100cv", "1.2 MPI 75cv", "1.2 MPI 84cv", "1.4 MPI 100cv", "1.1 CRDi 75cv", "1.4 CRDi 90cv"],
+      "2020–2024": ["1.0 T-GDI 100cv MHEV", "1.0 T-GDI 120cv MHEV", "N Performance 204cv"]
+    },
+    "i30 (II/III)": {
+      "2012–2017": ["1.4 100cv", "1.6 135cv", "2.0 i30 N 275cv", "1.4 CRDi 90cv", "1.6 CRDi 110cv", "2.0 CRDi 136cv"],
+      "2017–2024": ["1.0 T-GDI 120cv", "1.4 T-GDI 140cv", "1.5 T-GDI 160cv MHEV", "N 275cv", "1.6 CRDi 115cv", "2.0 CRDi 136cv"]
+    },
+    "Tucson (III/IV)": {
+      "2015–2020": ["1.6 GDI 132cv", "1.6 T-GDI 177cv", "2.0 CRDi 136cv", "2.0 CRDi 185cv 4WD"],
+      "2020–2024": ["1.6 T-GDI 150cv MHEV", "1.6 T-GDI 230cv PHEV", "1.6 T-GDI 265cv FHEV", "1.6 CRDi 136cv MHEV"]
+    },
+    "Kona (OS/SX2)": {
+      "2017–2023": ["1.0 T-GDI 120cv", "1.6 T-GDI 177cv", "1.6 CRDi 115cv", "64kWh Electric 204cv"],
+      "2023–2024": ["1.0 T-GDI 120cv MHEV", "1.6 T-GDI 199cv FHEV", "65.4kWh Electric 218cv"]
+    },
+    "Santa Fe (III/IV)": {
+      "2012–2018": ["2.0 GDI 150cv", "2.4 GDI 192cv", "2.2 CRDi 150cv", "2.2 CRDi 200cv"],
+      "2018–2024": ["2.0 T-GDI 235cv", "2.2 CRDi 200cv", "1.6 T-GDI PHEV 265cv", "1.6 T-GDI FHEV 230cv"]
+    }
+  },
+  "Jeep": {
+    "Renegade": {
+      "2014–2019": ["1.4 MultiAir 140cv FWD", "1.4 MultiAir 170cv 4x4", "2.0 MultiJet 120cv FWD", "2.0 MultiJet 140cv 4x4", "2.0 MultiJet 170cv 4x4 Auto"],
+      "2019–2024": ["1.0 T3 120cv", "1.3 T4 150cv FWD", "1.3 T4 150cv 4xe PHEV", "1.6 E-Torq 110cv", "1.3 4xe PHEV 240cv"]
+    },
+    "Compass (II)": {
+      "2017–2020": ["1.4 MultiAir 140cv FWD", "1.4 MultiAir 170cv 4x4", "2.0 MultiJet 140cv FWD", "2.0 MultiJet 170cv 4x4"],
+      "2021–2024": ["1.3 T4 130cv", "1.3 T4 150cv", "1.3 4xe PHEV 240cv", "1.6 E-Torq 130cv"]
+    },
+    "Cherokee (KL)": {
+      "2014–2019": ["2.0 MultiAir 170cv FWD", "2.4 MultiAir 184cv", "3.2 V6 272cv", "2.2 MultiJet 200cv 4x4"],
+      "2019–2023": ["2.0 GME 270cv", "3.2 V6 272cv", "2.2 MultiJet 195cv"]
+    },
+    "Wrangler (JK/JL)": {
+      "2007–2018": ["3.6 V6 284cv", "3.8 V6 202cv", "2.8 CRD 200cv"],
+      "2018–2024": ["2.0 T 272cv", "3.6 V6 285cv", "2.2 MultiJet 200cv", "4xe PHEV 380cv"]
+    }
+  },
+  "Kia": {
+    "Ceed (II/III)": {
+      "2012–2018": ["1.0 T-GDI 100cv", "1.4 MPI 100cv", "1.6 GDI 135cv", "1.4 CRDi 90cv", "1.6 CRDi 110cv"],
+      "2018–2024": ["1.0 T-GDI 120cv", "1.4 T-GDI 140cv", "1.5 T-GDI 160cv", "Proceed GT 204cv", "1.6 CRDi 115cv", "1.6 CRDi 136cv"]
+    },
+    "Sportage (III/IV/V)": {
+      "2010–2016": ["1.6 GDI 135cv", "2.0 GDI 163cv", "2.0 CRDi 136cv", "2.0 CRDi 184cv"],
+      "2016–2021": ["1.6 T-GDI 177cv", "2.0 MPI 163cv", "2.0 CRDi 136cv", "2.0 CRDi 185cv"],
+      "2021–2024": ["1.6 T-GDI 150cv MHEV", "1.6 T-GDI 230cv PHEV", "1.6 CRDi 136cv MHEV", "1.6 T-GDI 265cv FHEV"]
+    },
+    "Sorento (III/IV)": {
+      "2015–2020": ["2.0 GDI 163cv", "2.2 CRDi 200cv", "2.4 GDI 192cv"],
+      "2020–2024": ["1.6 T-GDI 230cv PHEV", "1.6 T-GDI 230cv FHEV", "2.2 CRDi 202cv AWD"]
+    },
+    "Stonic": {
+      "2017–2021": ["1.0 T-GDI 100cv", "1.0 T-GDI 120cv", "1.4 MPI 100cv", "1.6 CRDi 115cv"],
+      "2021–2024": ["1.0 T-GDI 100cv MHEV", "1.0 T-GDI 120cv MHEV"]
+    }
+  },
+  "Land Rover": {
+    "Freelander 2": {
+      "2006–2010": ["3.2 i6 233cv", "2.2 TD4 160cv"],
+      "2010–2014": ["2.0 Si4 240cv", "2.2 SD4 190cv", "2.2 TD4 150cv"]
+    },
+    "Discovery Sport (L550)": {
+      "2015–2019": ["2.0 Si4 240cv", "2.0 eD4 150cv FWD", "2.0 TD4 150cv", "2.0 TD4 180cv"],
+      "2019–2024": ["2.0 P200 200cv MHEV", "2.0 P250 249cv MHEV", "1.5 P300e PHEV 309cv", "2.0 D150 150cv MHEV", "2.0 D200 204cv MHEV"]
+    },
+    "Range Rover Evoque (L538/L551)": {
+      "2011–2018": ["2.0 Si4 240cv 4WD", "2.0 Si4 280cv Dynamic", "2.0 eD4 150cv FWD", "2.0 TD4 150cv", "2.0 TD4 180cv"],
+      "2019–2024": ["P200 200cv MHEV", "P250 249cv MHEV", "P300e PHEV 309cv", "D150 150cv MHEV", "D200 204cv MHEV"]
+    },
+    "Range Rover Sport (L320/L494)": {
+      "2005–2013": ["4.4 V8 305cv", "5.0 V8 510cv SVR", "3.0 TDV6 245cv", "3.6 TDV8 270cv"],
+      "2013–2022": ["3.0 SDV6 249cv", "3.0 SDV6 306cv", "5.0 P525 SVR", "3.0 P400e PHEV 404cv"]
+    },
+    "Defender (L663)": {
+      "2020–2024": ["P300 300cv", "P400 400cv", "P525 V8 525cv", "D200 200cv MHEV", "D240 240cv MHEV", "D300 300cv MHEV", "P400e PHEV 404cv"]
+    }
+  },
+  "Mazda": {
+    "Mazda2 (DJ)": {
+      "2015–2019": ["1.5 Skyactiv-G 75cv", "1.5 Skyactiv-G 90cv", "1.5 Skyactiv-G 115cv", "1.5 Skyactiv-D 105cv"],
+      "2019–2024": ["1.5 Skyactiv-G 75cv", "1.5 Skyactiv-G 90cv", "M Hybrid 116cv"]
+    },
+    "Mazda3 (BM/BP)": {
+      "2013–2018": ["1.5 Skyactiv-G 100cv", "2.0 Skyactiv-G 120cv", "2.5 Skyactiv-G 185cv", "1.5 Skyactiv-D 105cv", "2.2 Skyactiv-D 150cv", "2.2 Skyactiv-D 175cv"],
+      "2019–2024": ["2.0 Skyactiv-G 122cv M Hybrid", "2.0 Skyactiv-G 150cv M Hybrid", "2.5 Skyactiv-G 186cv", "2.0 Skyactiv-X 180cv", "1.8 Skyactiv-D 116cv"]
+    },
+    "CX-5 (KE/KF)": {
+      "2012–2017": ["2.0 Skyactiv-G 165cv", "2.5 Skyactiv-G 192cv", "2.2 Skyactiv-D 150cv", "2.2 Skyactiv-D 175cv AWD"],
+      "2017–2024": ["2.0 Skyactiv-G 165cv", "2.5 Skyactiv-G 194cv", "2.5 Turbo 231cv AWD", "2.2 Skyactiv-D 150cv", "2.2 Skyactiv-D 184cv AWD"]
+    },
+    "MX-5 (ND)": {
+      "2015–2019": ["1.5 Skyactiv-G 131cv", "2.0 Skyactiv-G 160cv"],
+      "2019–2024": ["1.5 Skyactiv-G 132cv", "2.0 Skyactiv-G 184cv"]
+    },
+    "CX-30": {
+      "2019–2024": ["2.0 Skyactiv-G 122cv M Hybrid", "2.0 Skyactiv-G 150cv M Hybrid", "2.0 Skyactiv-X 186cv M Hybrid", "1.8 Skyactiv-D 116cv", "e-Skyactiv X 186cv M Hybrid"]
+    }
+  },
+  "Mercedes-Benz": {
+    "Classe A (W168/W169/W176/W177)": {
+      "1998–2004": ["1.4 82cv", "1.6 102cv", "1.7 CDI 95cv"],
+      "2004–2012": ["1.5 95cv", "2.0 Turbo 193cv", "2.0 CDI 109cv", "2.0 CDI 136cv"],
+      "2013–2018": ["A180 122cv", "A200 156cv", "A250 211cv", "A180 CDI 109cv", "A200 CDI 136cv", "A45 AMG 360cv"],
+      "2018–2024": ["A180 136cv", "A200 163cv", "A250 224cv", "A180d 116cv", "A200d 150cv", "A35 AMG 306cv", "A45 AMG 387cv"]
+    },
+    "Classe B (W246/W247)": {
+      "2011–2018": ["B180 122cv", "B200 156cv", "B250 211cv", "B180 CDI 109cv", "B200 CDI 136cv", "B250 4Matic"],
+      "2018–2024": ["B160 109cv", "B180 136cv", "B200 163cv", "B250 224cv", "B180d 116cv", "B200d 150cv", "B250e EQ Power 218cv"]
+    },
+    "Classe C (W204/W205/W206)": {
+      "2007–2014": ["C180 156cv", "C200 184cv", "C250 204cv", "C180 CDI 120cv", "C200 CDI 136cv", "C220 CDI 170cv", "C63 AMG 457cv"],
+      "2014–2021": ["C180 156cv", "C200 184cv", "C300 245cv", "C220d 170cv", "C250d 204cv", "C300d 245cv", "C43 AMG 390cv", "C63 AMG 476cv"],
+      "2021–2024": ["C200 204cv MHEV", "C300 258cv", "C220d 197cv MHEV", "C300d 265cv MHEV", "C300e PHEV 313cv", "AMG C43 408cv"]
+    },
+    "Classe E (W212/W213)": {
+      "2009–2016": ["E200 184cv", "E250 204cv", "E350 292cv", "E200 CDI 136cv", "E220 CDI 170cv", "E250 CDI 204cv", "E63 AMG 557cv"],
+      "2016–2024": ["E200 184cv MHEV", "E300 258cv", "E220d 194cv MHEV", "E300d 265cv MHEV", "E350e PHEV 286cv", "E63 AMG 571cv"]
+    },
+    "GLC (X253/X254)": {
+      "2015–2022": ["GLC200 184cv", "GLC300 245cv", "GLC220d 194cv", "GLC300d 245cv", "GLC350e PHEV 320cv", "AMG GLC43 390cv"],
+      "2022–2024": ["GLC300 258cv MHEV", "GLC400e PHEV 381cv", "GLC220d 197cv MHEV", "GLC300d 270cv MHEV", "AMG GLC43 421cv"]
+    },
+    "GLA (X156/H247)": {
+      "2014–2020": ["GLA180 122cv", "GLA200 156cv", "GLA250 211cv", "GLA220d 170cv", "GLA250 4Matic"],
+      "2020–2024": ["GLA180 136cv", "GLA200 163cv", "GLA250 224cv", "GLA180d 116cv", "GLA200d 150cv", "GLA250e PHEV 218cv"]
+    },
+    "GLE (W166/V167)": {
+      "2015–2019": ["GLE350 258cv", "GLE450 367cv", "GLE43 AMG 390cv", "GLE250d 204cv", "GLE350d 258cv", "GLE500e PHEV 442cv"],
+      "2019–2024": ["GLE300d 245cv MHEV", "GLE350de PHEV 320cv", "GLE580 503cv", "GLE63 AMG S 612cv"]
+    }
+  },
+  "Mini": {
+    "Mini (R56/R58/F56)": {
+      "2006–2013": ["One 98cv", "Cooper 122cv", "Cooper S 184cv", "JCW 211cv", "One D 75cv", "Cooper D 112cv"],
+      "2014–2024": ["One 102cv", "Cooper 136cv", "Cooper S 192cv", "JCW 231cv", "One D 95cv", "Cooper D 116cv", "Cooper SD 170cv"]
+    },
+    "Mini Clubman (R55/F54)": {
+      "2007–2015": ["One 98cv", "Cooper 122cv", "Cooper S 184cv", "Cooper D 110cv"],
+      "2015–2024": ["One 102cv", "Cooper 136cv", "Cooper S 192cv", "Cooper D 116cv", "Cooper SD 190cv", "JCW 306cv"]
+    },
+    "Mini Countryman (R60/F60)": {
+      "2010–2016": ["Cooper 122cv", "Cooper S 184cv ALL4", "Cooper D 112cv", "Cooper SD 143cv ALL4"],
+      "2017–2024": ["Cooper 136cv", "Cooper S 192cv ALL4", "Cooper SE PHEV 224cv", "Cooper D 116cv", "Cooper SD 190cv ALL4", "JCW 306cv"]
+    }
+  },
+  "Mitsubishi": {
+    "ASX (GA)": {
+      "2010–2016": ["1.6 117cv 2WD", "2.0 150cv 4WD", "1.8 DI-D 116cv 2WD", "2.2 Di-D 150cv 4WD"],
+      "2016–2022": ["1.6 117cv", "2.0 150cv 4WD", "2.0 MIVEC 150cv"]
+    },
+    "Outlander (CW/GF/GG)": {
+      "2007–2012": ["2.0 150cv", "2.4 170cv 4WD", "2.0 DI-D 140cv"],
+      "2012–2021": ["2.0 150cv", "2.4 167cv 4WD", "2.0 PHEV 224cv 4WD", "2.2 DI-D 150cv"]
+    },
+    "Eclipse Cross": {
+      "2017–2021": ["1.5 T 163cv", "1.5 T 163cv 4WD", "2.4 PHEV 188cv 4WD"],
+      "2021–2024": ["2.4 PHEV 188cv 4WD"]
+    },
+    "Colt (Z30)": {
+      "2004–2008": ["1.1 75cv", "1.3 95cv", "1.5 109cv", "1.5 DI-D 95cv"],
+      "2008–2012": ["1.1 75cv", "1.3 95cv", "Ralliart 150cv", "1.5 DI-D 95cv"]
+    }
+  },
+  "Nissan": {
+    "Micra (K12/K13/K14)": {
+      "2003–2010": ["1.0 65cv", "1.2 80cv", "1.4 88cv", "1.5 dCi 65cv", "1.5 dCi 86cv"],
+      "2010–2016": ["1.2 80cv", "1.2 DIG-S 98cv", "1.5 dCi 90cv"],
+      "2017–2024": ["1.0 IG-T 100cv", "1.0 IG-T 117cv", "0.9 IG-T 90cv", "1.5 dCi 90cv"]
+    },
+    "Juke (F15/F16)": {
+      "2010–2019": ["1.6 117cv FWD", "1.6 DIG-T 190cv 4WD", "1.5 dCi 110cv FWD"],
+      "2019–2024": ["1.0 DIG-T 114cv", "1.0 DIG-T 117cv", "1.6 Hybrid 143cv"]
+    },
+    "Qashqai (J10/J11/J12)": {
+      "2007–2013": ["1.6 115cv", "2.0 140cv", "1.5 dCi 106cv", "2.0 dCi 150cv 4WD"],
+      "2014–2021": ["1.2 DIG-T 115cv", "1.6 DIG-T 163cv", "1.5 dCi 110cv", "1.6 dCi 130cv 4WD", "2.0 dCi 177cv 4WD"],
+      "2021–2024": ["1.3 DIG-T 140cv MHEV", "1.3 DIG-T 158cv MHEV 4WD", "1.5 e-Power 190cv"]
+    },
+    "X-Trail (T31/T32)": {
+      "2007–2013": ["2.0 141cv", "2.5 172cv", "2.0 dCi 150cv"],
+      "2014–2021": ["1.6 DIG-T 163cv", "2.0 144cv", "1.6 dCi 130cv", "2.0 dCi 177cv 4WD"],
+      "2021–2024": ["1.5 e-Power 213cv FWD", "1.5 e-Power 4WD 250cv"]
+    },
+    "Leaf": {
+      "2011–2017": ["24kWh 109cv", "30kWh 109cv"],
+      "2018–2024": ["40kWh 150cv", "62kWh e+ 217cv"]
+    }
+  },
+  "Opel": {
+    "Corsa (D/E/F)": {
+      "2006–2014": ["1.0 65cv", "1.2 80cv", "1.4 100cv", "1.6 OPC 192cv", "1.0 CDTI 75cv", "1.3 CDTI 75cv", "1.3 CDTI 95cv"],
+      "2014–2019": ["1.0 Turbo 90cv", "1.0 Turbo 115cv", "1.4 100cv", "1.4 Turbo 150cv", "1.6 OPC 207cv", "1.3 CDTI 75cv", "1.3 CDTI 95cv"],
+      "2019–2024": ["1.2 75cv", "1.2 T 100cv", "1.2 T 130cv", "GS Line 1.2T 130cv", "BEV 136cv"]
+    },
+    "Astra (H/J/K/L)": {
+      "2004–2009": ["1.4 90cv", "1.6 115cv", "1.8 140cv", "2.0 OPC 240cv", "1.3 CDTi 90cv", "1.7 CDTi 100cv", "1.9 CDTi 120cv", "1.9 CDTi 150cv"],
+      "2010–2015": ["1.4 Turbo 100cv", "1.4 Turbo 140cv", "1.6 Turbo 180cv", "2.0 OPC 280cv", "1.3 CDTi 95cv", "1.6 CDTi 110cv", "2.0 CDTi 165cv"],
+      "2015–2021": ["1.0 Turbo 105cv", "1.4 Turbo 125cv", "1.4 Turbo 150cv", "1.6 Turbo 200cv OPC", "1.0 CDTI 95cv", "1.6 CDTI 110cv", "2.0 CDTI 165cv"],
+      "2021–2024": ["1.2 Turbo 110cv", "1.2 Turbo 130cv", "1.5 CDTi 130cv", "PHEV 225cv", "BEV 54kWh 156cv"]
+    },
+    "Mokka (A/B)": {
+      "2012–2016": ["1.4 Turbo 140cv", "1.6 115cv", "1.7 CDTI 130cv", "2.0 CDTI 130cv 4WD"],
+      "2016–2020": ["1.4 Turbo 140cv", "1.6 CDTI 136cv", "2.0 CDTI 130cv 4WD"],
+      "2020–2024": ["1.2 T 100cv", "1.2 T 130cv", "BEV 136cv"]
+    },
+    "Insignia (A/B)": {
+      "2008–2013": ["1.6 Turbo 180cv", "2.0 Turbo 220cv", "2.8 V6 Turbo 325cv OPC", "2.0 CDTI 130cv", "2.0 CDTI 160cv"],
+      "2013–2017": ["1.4 Turbo 140cv", "1.6 Turbo 170cv", "2.0 Turbo 220cv", "2.0 CDTI 110cv", "2.0 CDTI 163cv"],
+      "2017–2022": ["1.5 Turbo 140cv", "2.0 Turbo 260cv GS Line", "2.0 CDTI 110cv", "2.0 CDTI 170cv"]
+    },
+    "Crossland / Grandland": {
+      "2017–2024": ["1.2 PureTech 110cv", "1.5 CDTi 120cv", "2.0 CDTI 177cv 4WD", "PHEV 300cv 4WD", "BEV 156cv"]
+    }
+  },
+  "Peugeot": {
+    "208 (I/II)": {
+      "2012–2019": ["1.0 VTi 68cv", "1.2 PureTech 82cv", "1.2 PureTech 110cv", "1.6 THP 155cv GTi", "1.4 HDi 70cv", "1.6 BlueHDi 100cv"],
+      "2019–2024": ["1.2 PureTech 75cv", "1.2 PureTech 100cv", "1.2 PureTech 130cv", "1.5 BlueHDi 100cv", "BEV 136cv"]
+    },
+    "308 (I/II/III)": {
+      "2007–2013": ["1.4 VTi 95cv", "1.6 VTi 120cv", "1.6 THP 150cv", "1.6 THP 175cv", "1.6 HDi 90cv", "2.0 HDi 136cv"],
+      "2013–2021": ["1.2 PureTech 130cv", "1.6 THP 205cv GT", "1.5 BlueHDi 100cv", "2.0 BlueHDi 150cv", "2.0 BlueHDi 180cv"],
+      "2021–2024": ["1.2 PureTech 130cv", "1.6 PHEV 180cv", "1.6 PHEV 225cv", "1.5 BlueHDi 130cv"]
+    },
+    "3008 / 5008 (I/II)": {
+      "2009–2016": ["1.6 THP 156cv", "2.0 THP 165cv", "1.6 BlueHDi 120cv", "2.0 BlueHDi 150cv", "2.0 BlueHDi 180cv"],
+      "2016–2024": ["1.2 PureTech 130cv", "1.6 THP 165cv", "1.6 PHEV4 300cv 4WD", "1.5 BlueHDi 130cv", "2.0 BlueHDi 180cv"]
+    },
+    "2008 (A94/P24)": {
+      "2013–2019": ["1.2 PureTech 82cv", "1.2 PureTech 110cv", "1.6 VTi 115cv", "1.6 BlueHDi 100cv"],
+      "2019–2024": ["1.2 PureTech 100cv", "1.2 PureTech 130cv", "1.5 BlueHDi 110cv", "BEV 136cv"]
+    },
+    "508 (I/II)": {
+      "2011–2018": ["1.6 THP 156cv", "2.0 THP 200cv", "1.6 BlueHDi 120cv", "2.0 BlueHDi 150cv", "2.0 BlueHDi 180cv"],
+      "2018–2024": ["1.6 PureTech 180cv", "1.6 PureTech 225cv", "1.6 PHEV 360cv", "1.5 BlueHDi 130cv", "2.0 BlueHDi 180cv"]
+    }
+  },
+  "Porsche": {
+    "911 (996/997/991/992)": {
+      "1998–2004": ["3.4 Carrera 300cv", "3.6 Carrera 4S 320cv", "3.6 Turbo 420cv"],
+      "2005–2011": ["3.6 Carrera 325cv", "3.8 Carrera S 385cv", "3.6 Turbo 480cv", "3.8 GT3 RS 450cv"],
+      "2012–2019": ["3.4 Carrera 350cv", "3.8 Carrera S 400cv", "3.0 Carrera 370cv", "3.0 Carrera S 420cv", "3.8 Turbo S 560cv"],
+      "2019–2024": ["3.0 Carrera 385cv", "3.0 Carrera S 450cv", "3.8 Turbo S 650cv", "4.0 GT3 510cv"]
+    },
+    "Cayenne (9PA/92A/9YA)": {
+      "2002–2010": ["3.2 V6 250cv", "4.5 V8 340cv", "4.8 Turbo S 550cv", "3.0 TDI 240cv", "4.2 TDI 385cv"],
+      "2010–2017": ["3.6 V6 300cv", "4.8 S 400cv", "4.8 Turbo S 570cv", "3.0 Diesel 245cv", "3.0 S E-Hybrid 416cv"],
+      "2018–2024": ["3.0 V6 340cv", "2.9 S 440cv", "4.0 Turbo 550cv", "3.0 E-Hybrid 462cv", "4.0 Turbo S E-Hybrid 680cv"]
+    },
+    "Macan (95B/J1)": {
+      "2014–2018": ["2.0 252cv", "3.0 S 340cv", "3.0 GTS 360cv", "3.0 Turbo 400cv", "2.2 TDI 150cv", "3.0 TDI 258cv"],
+      "2018–2024": ["2.0 245cv", "2.9 S 380cv", "2.9 GTS 440cv", "Macan EV 408cv BEV"]
+    },
+    "Panamera (970/971)": {
+      "2009–2016": ["3.6 V6 300cv", "4.8 S 400cv", "4.8 Turbo 500cv", "3.0 Diesel 250cv", "S E-Hybrid 416cv"],
+      "2016–2024": ["2.9 S 440cv", "4.0 Turbo 550cv", "2.9 4 E-Hybrid 462cv", "4.0 Turbo S E-Hybrid 700cv"]
+    }
+  },
+  "Renault": {
+    "Clio (III/IV/V)": {
+      "2005–2012": ["1.2 75cv", "1.2 TCe 100cv", "2.0 RS 200cv", "1.5 dCi 75cv", "1.5 dCi 106cv"],
+      "2012–2019": ["0.9 TCe 90cv", "1.2 TCe 120cv", "1.6 RS 220cv Trophy", "1.5 dCi 75cv", "1.5 dCi 90cv", "1.5 dCi 110cv"],
+      "2019–2024": ["1.0 SCe 65cv", "1.0 TCe 90cv", "1.0 TCe 100cv", "1.3 TCe 130cv", "E-Tech Hybrid 145cv", "1.5 Blue dCi 85cv", "1.5 Blue dCi 100cv"]
+    },
+    "Mégane (III/IV)": {
+      "2008–2016": ["1.2 TCe 132cv", "1.4 TCe 130cv", "2.0 Turbo RS 265cv", "1.5 dCi 110cv", "1.6 dCi 130cv", "2.0 dCi 165cv"],
+      "2016–2022": ["1.2 TCe 130cv", "1.3 TCe 140cv", "1.8 TCe RS 280cv Trophy", "1.5 Blue dCi 115cv", "1.6 dCi 165cv"]
+    },
+    "Captur (I/II)": {
+      "2013–2019": ["0.9 TCe 90cv", "1.2 TCe 120cv", "1.5 dCi 90cv", "1.5 dCi 110cv"],
+      "2019–2024": ["1.0 TCe 100cv", "1.3 TCe 140cv", "1.3 TCe 155cv", "E-Tech PHEV 160cv", "E-Tech PHEV 145cv", "1.5 Blue dCi 115cv"]
+    },
+    "Kadjar": {
+      "2015–2018": ["1.2 TCe 130cv", "1.6 TCe 163cv", "1.5 dCi 110cv", "1.6 dCi 130cv 4WD"],
+      "2018–2022": ["1.3 TCe 140cv", "1.3 TCe 160cv", "1.5 Blue dCi 115cv", "1.7 Blue dCi 150cv 4WD"]
+    },
+    "Arkana": {
+      "2021–2024": ["1.3 TCe 140cv", "1.3 TCe 160cv", "E-Tech Hybrid 145cv"]
+    },
+    "Zoe": {
+      "2013–2019": ["R240 88cv 22kWh", "R400 88cv 41kWh", "Q90 92cv"],
+      "2019–2024": ["R135 135cv 52kWh", "R110 108cv 52kWh"]
+    }
+  },
+  "SEAT": {
+    "Ibiza (IV/V)": {
+      "2008–2017": ["1.2 TDI 75cv", "1.2 TSI 90cv", "1.4 TSI 180cv Cupra", "1.6 TDI 90cv", "1.6 TDI 105cv"],
+      "2017–2024": ["1.0 MPI 65cv", "1.0 TSI 95cv", "1.0 TSI 115cv", "FR 1.5 TSI 150cv", "1.6 TDI 95cv"]
+    },
+    "Leon (II/III/IV)": {
+      "2005–2012": ["1.4 TSI 125cv", "1.8 TSI 160cv", "2.0 TSI Cupra 210cv", "2.0 TDI 140cv", "2.0 TDI 170cv"],
+      "2012–2020": ["1.2 TSI 105cv", "1.4 TSI 125cv", "1.8 TSI 180cv", "2.0 Cupra 290cv", "1.6 TDI 105cv", "2.0 TDI 150cv", "2.0 TDI 184cv"],
+      "2020–2024": ["1.0 eTSI 90cv", "1.0 eTSI 110cv", "1.5 TSI 130cv", "1.5 eTSI 150cv", "1.4 eHybrid 204cv PHEV", "1.6 TDI 115cv", "2.0 TDI 150cv"]
+    },
+    "Ateca": {
+      "2016–2020": ["1.0 TSI 115cv", "1.4 TSI 150cv", "1.8 TSI 180cv", "2.0 TSI 300cv Cupra", "1.6 TDI 115cv", "2.0 TDI 150cv", "2.0 TDI 190cv 4Drive"],
+      "2020–2024": ["1.0 TSI 110cv", "1.5 TSI 150cv", "2.0 TSI 300cv Cupra", "1.5 TSI 150cv DSG", "2.0 TDI 150cv"]
+    },
+    "Tarraco": {
+      "2018–2024": ["1.5 TSI 150cv", "2.0 TSI 190cv 4Drive", "1.5 TSI eHybrid 245cv", "2.0 TDI 150cv", "2.0 TDI 190cv 4Drive"]
+    }
+  },
+  "Skoda": {
+    "Fabia (II/III/IV)": {
+      "2007–2014": ["1.2 HTP 70cv", "1.4 85cv", "1.2 TSI 105cv", "1.6 TDI 75cv", "1.6 TDI 105cv"],
+      "2015–2021": ["1.0 MPI 60cv", "1.0 TSI 95cv", "1.2 TSI 90cv", "1.4 TSI 150cv", "1.4 TDI 90cv"],
+      "2021–2024": ["1.0 MPI 65cv", "1.0 TSI 95cv", "1.0 TSI 115cv", "1.4 TSI 150cv Monte Carlo", "1.6 TDI 95cv"]
+    },
+    "Octavia (II/III/IV)": {
+      "2004–2013": ["1.4 TSI 122cv", "1.8 TSI 160cv", "2.0 TSI RS 200cv", "1.9 TDI 105cv", "2.0 TDI 140cv", "2.0 TDI 170cv"],
+      "2013–2020": ["1.0 TSI 115cv", "1.2 TSI 105cv", "1.4 TSI 150cv", "2.0 TSI RS 245cv", "1.6 TDI 116cv", "2.0 TDI 150cv", "2.0 TDI 184cv"],
+      "2020–2024": ["1.0 TSI 110cv", "1.5 TSI 150cv", "2.0 TSI RS 245cv", "1.4 iV PHEV 245cv", "2.0 TDI 115cv", "2.0 TDI 150cv", "2.0 TDI 200cv"]
+    },
+    "Kodiaq": {
+      "2017–2021": ["1.4 TSI 125cv", "2.0 TSI 180cv", "2.0 TSI 240cv SportLine", "1.5 TSI 150cv", "2.0 TDI 150cv", "2.0 TDI 190cv 4x4", "2.0 TDI 200cv"],
+      "2021–2024": ["1.5 TSI 150cv", "2.0 TSI 190cv", "2.0 TDI 150cv", "2.0 TDI 200cv 4x4", "1.4 iV PHEV 245cv"]
+    },
+    "Karoq": {
+      "2017–2024": ["1.0 TSI 115cv", "1.5 TSI 150cv", "2.0 TSI 190cv 4x4", "1.6 TDI 115cv", "2.0 TDI 150cv", "2.0 TDI 190cv 4x4"]
+    },
+    "Superb (II/III)": {
+      "2008–2015": ["1.4 TSI 125cv", "1.8 TSI 160cv", "2.0 TSI 200cv", "1.9 TDI 105cv", "2.0 TDI 140cv", "2.0 TDI 170cv"],
+      "2015–2024": ["1.4 TSI 150cv", "1.8 TSI 180cv", "2.0 TSI 272cv", "1.5 TSI 150cv", "2.0 TDI 150cv", "2.0 TDI 190cv", "1.4 iV PHEV 218cv"]
+    }
+  },
+  "Subaru": {
+    "Impreza (GD/GH/GP/GT)": {
+      "2001–2007": ["1.5 100cv", "2.0 125cv", "2.0 WRX 225cv", "2.5 WRX STI 265cv", "2.0 D 150cv"],
+      "2007–2011": ["1.5 R 107cv", "2.0 R 150cv", "2.5 WRX 230cv", "2.5 WRX STI 300cv"],
+      "2011–2016": ["1.6i 114cv", "2.0i 150cv", "2.0 WRX STI 280cv"],
+      "2016–2024": ["1.6i 114cv", "2.0i-L 156cv", "2.0GT 182cv e-Boxer"]
+    },
+    "Forester (SG/SH/SJ/SK)": {
+      "2002–2008": ["2.0 128cv", "2.5 XT Turbo 230cv", "2.0D 108cv"],
+      "2008–2012": ["2.0 X 150cv", "2.5 XT 230cv", "2.0D 147cv"],
+      "2013–2018": ["2.0i 150cv", "2.0XT 280cv", "2.0D 147cv"],
+      "2019–2024": ["2.0i-L 156cv e-Boxer MHEV", "2.0i 150cv"]
+    },
+    "Outback (BP/BR/BS/BT)": {
+      "2003–2009": ["2.5i 165cv", "3.0R 245cv", "2.0D 150cv"],
+      "2009–2014": ["2.5i 167cv", "3.6R 260cv", "2.0D 150cv"],
+      "2014–2021": ["2.5i 175cv", "3.6R 260cv", "2.0D 150cv"],
+      "2021–2024": ["2.5i 175cv", "2.4T 264cv Wilderness", "2.0e-Boxer 150cv"]
+    },
+    "XV / Crosstrek": {
+      "2012–2017": ["2.0i 150cv", "2.0D 147cv"],
+      "2017–2024": ["2.0i 156cv", "2.0i e-Boxer 150cv MHEV", "2.5i 182cv 2024"]
+    }
+  },
+  "Suzuki": {
+    "Swift (MZ/SZ/AZ)": {
+      "2005–2011": ["1.3 92cv", "1.6 Sport 125cv", "1.3 DDiS 70cv"],
+      "2011–2017": ["1.2 94cv", "1.4 Boosterjet 140cv Sport", "1.3 DDiS 75cv"],
+      "2017–2024": ["1.2 Dualjet 90cv Hybrid", "1.0 BoosterJet 111cv", "1.4 BoosterJet 140cv Sport"]
+    },
+    "Vitara (LY)": {
+      "2015–2018": ["1.6 120cv 4WD", "1.4 BoosterJet 140cv AllGrip", "1.6 DDiS 120cv"],
+      "2018–2024": ["1.4 BoosterJet 129cv MHEV", "1.5 Hybrid 102cv", "1.4 BoosterJet 140cv AllGrip"]
+    },
+    "Jimny (JB74)": {
+      "2018–2024": ["1.5 102cv 4WD"]
+    },
+    "SX4 S-Cross (JY/EY)": {
+      "2013–2021": ["1.6 120cv", "1.4 BoosterJet 140cv AllGrip", "1.6 DDiS 120cv"],
+      "2021–2024": ["1.4 BoosterJet 129cv MHEV", "1.4 BoosterJet 140cv AllGrip MHEV"]
+    }
+  },
+  "Toyota": {
+    "Yaris (XP10/XP13/XP210)": {
+      "1999–2005": ["1.0 VVT-i 68cv", "1.3 VVT-i 87cv", "1.4 D-4D 75cv"],
+      "2005–2011": ["1.0 VVT-i 69cv", "1.3 VVT-i 86cv", "1.5 VVT-i 106cv", "1.4 D-4D 90cv"],
+      "2011–2020": ["1.0 69cv", "1.3 99cv", "1.5 Hybrid 100cv", "1.4 D-4D 90cv"],
+      "2020–2024": ["1.5 Hybrid 116cv", "1.5 GR Sport 261cv", "1.5 GR GRMN 272cv"]
+    },
+    "Corolla (E120/E140/E170/E210)": {
+      "2002–2006": ["1.4 VVT-i 97cv", "1.6 VVT-i 110cv", "1.8 VVT-i 136cv", "2.0 D-4D 116cv"],
+      "2006–2013": ["1.4 VVT-i 97cv", "1.6 VVT-i 132cv", "2.0 D-4D 126cv"],
+      "2013–2018": ["1.33 99cv", "1.6 132cv", "2.0 D-4D 143cv"],
+      "2019–2024": ["1.2T 116cv", "1.8 Hybrid 122cv", "2.0 Hybrid 184cv"]
+    },
+    "Auris (E150/E180)": {
+      "2006–2012": ["1.3 100cv", "1.6 132cv", "2.0 D-4D 126cv", "1.8 Hybrid 136cv"],
+      "2013–2019": ["1.2T 116cv", "1.4 D-4D 90cv", "1.6 132cv", "1.8 Hybrid 136cv", "2.0 D-4D 143cv"]
+    },
+    "RAV4 (XA30/XA40/XA50)": {
+      "2006–2012": ["2.0 VVT-i 158cv", "2.2 D-4D 136cv", "2.2 D-4D 177cv 4WD"],
+      "2013–2018": ["2.0 VVT-i 151cv", "2.5 Hybrid 197cv", "2.0 D-4D 124cv", "2.5 D-4D 177cv 4WD"],
+      "2019–2024": ["2.0 175cv", "2.5 Hybrid 218cv", "2.5 PHEV 306cv", "2.0 D-4D 150cv"]
+    },
+    "C-HR": {
+      "2016–2020": ["1.2T 116cv", "1.8 Hybrid 122cv 2WD", "2.0 Hybrid 184cv 4WD"],
+      "2020–2024": ["1.8 Hybrid 122cv", "2.0 Hybrid 184cv", "2.0 PHEV 224cv"]
+    },
+    "Camry (XV70)": {
+      "2018–2024": ["2.5 Hybrid 218cv", "2.5 VVT-iW 201cv"]
+    },
+    "Land Cruiser (J200/J300)": {
+      "2007–2021": ["4.0 V6 275cv", "4.5 V8 Diesel 286cv", "4.6 V8 Benzina 310cv"],
+      "2021–2024": ["3.3 V6 Diesel 309cv", "3.5 V6 Twin-Turbo 415cv GR Sport"]
+    }
+  },
+  "Volkswagen": {
+    "Polo (5/6)": {
+      "2009–2017": ["1.2 60cv", "1.2 TSI 90cv", "1.2 TSI 105cv", "1.4 TSI 180cv GTI", "1.2 TDI 75cv", "1.4 TDI 90cv"],
+      "2017–2024": ["1.0 MPI 65cv", "1.0 TSI 95cv", "1.0 TSI 115cv", "2.0 GTI 207cv", "1.6 TDI 80cv", "1.6 TDI 95cv"]
+    },
+    "Golf (VI/VII/VIII)": {
+      "2008–2012": ["1.2 TSI 85cv", "1.4 TSI 160cv", "2.0 GTI 210cv", "2.0 R 256cv", "1.6 TDI 90cv", "2.0 TDI 110cv", "2.0 TDI 140cv"],
+      "2013–2020": ["1.0 TSI 115cv", "1.2 TSI 85cv", "1.4 TSI 125cv", "1.5 TSI EVO 150cv", "2.0 GTI 230cv", "2.0 R 310cv", "1.6 TDI 90cv", "2.0 TDI 150cv", "2.0 TDI 184cv GTD", "GTE PHEV 204cv"],
+      "2020–2024": ["1.0 eTSI 90cv MHEV", "1.0 eTSI 110cv MHEV", "1.5 eTSI 130cv MHEV", "1.5 eTSI 150cv MHEV", "2.0 GTI 245cv", "2.0 R 320cv", "2.0 TDI 115cv", "2.0 TDI 150cv", "eHybrid PHEV 245cv"]
+    },
+    "Passat (B7/B8)": {
+      "2011–2014": ["1.4 TSI 122cv", "1.8 TSI 160cv", "2.0 TSI 200cv", "1.6 TDI 105cv", "2.0 TDI 140cv", "2.0 TDI 177cv"],
+      "2015–2019": ["1.4 TSI 125cv", "1.8 TSI 180cv", "2.0 TSI 220cv", "1.6 TDI 120cv", "2.0 TDI 150cv", "2.0 TDI 190cv", "GTE PHEV 218cv"],
+      "2019–2024": ["1.5 TSI 150cv", "2.0 TSI 272cv", "1.6 TDI 120cv", "2.0 TDI 150cv", "2.0 TDI 190cv"]
+    },
+    "Tiguan (5N/AD)": {
+      "2007–2016": ["1.4 TSI 122cv", "2.0 TSI 200cv 4Motion", "2.0 TDI 110cv", "2.0 TDI 140cv", "2.0 TDI 170cv 4Motion"],
+      "2016–2024": ["1.4 TSI 125cv", "1.5 TSI 150cv", "2.0 TSI 180cv 4Motion", "2.0 TSI 220cv Allspace", "1.6 TDI 115cv", "2.0 TDI 150cv", "2.0 TDI 200cv 4Motion", "1.4 eHybrid PHEV 245cv"]
+    },
+    "T-Roc": {
+      "2017–2021": ["1.0 TSI 115cv", "1.5 TSI 150cv", "2.0 TSI 190cv R-Line", "2.0 R 300cv", "1.6 TDI 115cv", "2.0 TDI 150cv"],
+      "2021–2024": ["1.0 TSI 110cv eTSI MHEV", "1.5 TSI 150cv eTSI MHEV", "2.0 R 300cv", "2.0 TDI 115cv", "2.0 TDI 150cv"]
+    },
+    "Touareg (7L/7P/CR)": {
+      "2002–2010": ["3.2 V6 220cv", "4.2 V8 310cv", "5.0 TDI 313cv", "3.0 TDI 225cv"],
+      "2010–2018": ["3.6 FSI 280cv", "4.2 FSI 350cv", "3.0 TDI 204cv", "3.0 TDI 262cv", "3.6 FSI e-Hybrid 380cv"],
+      "2018–2024": ["3.0 TSI 340cv", "3.0 TDI 231cv", "3.0 TDI 286cv", "3.0 eHybrid PHEV 381cv"]
+    },
+    "ID.4 / ID.3": {
+      "2020–2024": ["ID.3 Pure 150cv 45kWh", "ID.3 Pro 204cv 58kWh", "ID.3 Pro S 204cv 77kWh", "ID.4 Pure RWD 170cv", "ID.4 Pro 204cv 77kWh", "ID.4 GTX AWD 299cv 77kWh"]
+    }
+  },
+  "Volvo": {
+    "V40 / S40": {
+      "2004–2012": ["1.6 100cv", "2.0 145cv", "2.5 T5 230cv", "1.6 D2 115cv", "2.0 D3 150cv"],
+      "2012–2019": ["1.5 T2 120cv", "1.5 T3 152cv", "2.0 T4 190cv", "2.0 T5 254cv", "1.6 D2 115cv", "2.0 D2 120cv", "2.0 D3 150cv", "2.0 D4 190cv"]
+    },
+    "XC40": {
+      "2018–2021": ["T2 129cv", "T3 163cv", "T4 190cv", "T5 AWD 247cv", "T4 PHEV 211cv", "D3 150cv", "D4 190cv"],
+      "2021–2024": ["B3 163cv MHEV", "B4 197cv MHEV AWD", "Recharge P8 408cv BEV", "Recharge Twin 408cv BEV"]
+    },
+    "XC60 (I/II)": {
+      "2008–2017": ["2.0T 203cv", "3.0 T6 285cv", "2.4D 185cv", "2.0D 163cv", "2.4D5 215cv AWD"],
+      "2017–2024": ["B4 197cv MHEV", "B5 254cv MHEV AWD", "T6 AWD 253cv PHEV", "T8 AWD 390cv PHEV", "D4 190cv AWD"]
+    },
+    "XC90 (I/II)": {
+      "2002–2014": ["2.5T 210cv", "4.4 V8 315cv", "2.4D5 185cv", "2.4D5 200cv"],
+      "2015–2024": ["B5 250cv AWD MHEV", "B6 300cv AWD MHEV", "T8 AWD 455cv PHEV", "D4 190cv", "D5 235cv AWD"]
+    },
+    "S60 / V60 (II/III)": {
+      "2010–2018": ["T3 152cv", "T5 254cv", "T6 AWD 329cv Polestar", "D2 120cv", "D3 150cv", "D4 190cv", "D5 215cv AWD"],
+      "2019–2024": ["B3 163cv MHEV", "B4 197cv MHEV", "B5 254cv MHEV", "T6 AWD 253cv PHEV", "D3 150cv", "D4 190cv"]
+    }
+  }
+};
+
+// ═══════════════════════════════════════════
+// POPULATION SELECTS
+// ═══════════════════════════════════════════
+function populateMarca() {
+  const sel = document.getElementById('sel-marca');
+  Object.keys(VEHICLES).sort().forEach(m => {
+    const o = document.createElement('option');
+    o.value = m; o.textContent = m;
+    sel.appendChild(o);
+  });
+  // Default: Alfa Romeo
+  sel.value = 'Alfa Romeo';
+  updateModelli(true);
+}
+
+function updateModelli(init = false) {
+  const marca = document.getElementById('sel-marca').value;
+  const sel = document.getElementById('sel-modello');
+  sel.innerHTML = '';
+  if (!marca) { sel.innerHTML = '<option>— Seleziona marca —</option>'; return; }
+  Object.keys(VEHICLES[marca]).forEach(m => {
+    const o = document.createElement('option');
+    o.value = m; o.textContent = m;
+    sel.appendChild(o);
+  });
+  if (init) sel.value = 'Giulia';
+  updateAnni(init);
+}
+
+function updateAnni(init = false) {
+  const marca = document.getElementById('sel-marca').value;
+  const modello = document.getElementById('sel-modello').value;
+  const sel = document.getElementById('sel-anno');
+  sel.innerHTML = '';
+  if (!marca || !modello || !VEHICLES[marca]?.[modello]) {
+    sel.innerHTML = '<option>— Seleziona modello —</option>'; return;
+  }
+  Object.keys(VEHICLES[marca][modello]).forEach(a => {
+    const o = document.createElement('option');
+    o.value = a; o.textContent = a;
+    sel.appendChild(o);
+  });
+  if (init) sel.value = '2016–2019';
+  updateMotori(init);
+}
+
+function updateMotori(init = false) {
+  const marca = document.getElementById('sel-marca').value;
+  const modello = document.getElementById('sel-modello').value;
+  const anno = document.getElementById('sel-anno').value;
+  const sel = document.getElementById('sel-motore');
+  sel.innerHTML = '';
+  if (!marca || !modello || !anno) {
+    sel.innerHTML = '<option>— Seleziona anno —</option>'; return;
+  }
+  const motori = VEHICLES[marca]?.[modello]?.[anno] || [];
+  motori.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m; o.textContent = m;
+    sel.appendChild(o);
+  });
+  if (init && motori.includes('2.0T 200cv')) sel.value = '2.0T 200cv';
+}
+
+// ═══════════════════════════════════════════
+// DIAGNOSI
+// ═══════════════════════════════════════════
+async function avviaDiagnosi() {
+  const marca = document.getElementById('sel-marca').value;
+  const modello = document.getElementById('sel-modello').value;
+  const anno = document.getElementById('sel-anno').value;
+  const motore = document.getElementById('sel-motore').value;
+
+  if (!marca || !modello || !anno || !motore) {
+    showError('Seleziona tutti i campi prima di procedere.');
+    return;
+  }
+
+  setLoading(true);
+  hideError();
+  document.getElementById('results').innerHTML = '';
+
+  // Vehicle bar
+  const bar = document.getElementById('vehicle-bar');
+  bar.className = 'vehicle-bar visible';
+  bar.innerHTML = `<span style="color:var(--muted);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;">Veicolo:</span>
+    <span class="tag">${marca}</span>
+    <span class="tag">${modello}</span>
+    <span class="tag">${anno}</span>
+    <span class="tag">${motore}</span>`;
+
+  const prompt = `Sei un esperto meccanico e tecnico automobilistico con 20 anni di esperienza.
+Analizza il seguente veicolo e fornisci un report dettagliato sui problemi più noti e difetti ricorrenti:
+
+Veicolo: ${marca} ${modello} ${anno} — ${motore}
+
+Rispondi SOLO con un JSON valido (senza markdown, senza backtick), con questo schema esatto:
+{
+  "sommario": "breve frase riassuntiva sulla affidabilità generale del veicolo (max 2 righe)",
+  "affidabilita": "alta|media|bassa",
+  "problemi": [
+    {
+      "titolo": "Nome breve del problema",
+      "severita": "alta|media|bassa",
+      "descrizione": "Descrizione dettagliata del problema (2-4 righe)",
+      "sintomi": ["sintomo 1", "sintomo 2", "sintomo 3"],
+      "soluzione": "Come risolvere il problema",
+      "costo_stima": "es: 200–500 €"
+    }
+  ]
+}
+
+Includi esattamente 5 problemi reali e documentati per questo specifico veicolo e motore. Le descrizioni devono essere concise (max 2 righe ciascuna).
+Sii specifico e tecnico. Menziona componenti reali (es: turbo, catena distribuzione, iniettori, DSG, ecc.).`;
+
+  try {
+    const apiKey = document.getElementById('apikey-input').value.trim();
+    if (!apiKey) {
+      setLoading(false);
+      showError('Inserisci la tua API key Anthropic prima di procedere.');
+      return;
+    }
+
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 4000,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+    if (data.error) throw new Error(data.error.message || 'Errore API');
+    const raw = data.content.map(i => i.text || '').join('');
+    const parsed = extractJSON(raw);
+    renderResults(parsed, marca, modello, anno, motore);
+  } catch (err) {
+    showError('Errore durante l\'analisi: ' + err.message);
+  } finally {
+    setLoading(false);
+  }
+}
+
+// ═══════════════════════════════════════════
+// JSON EXTRACTION — handles markdown fences & truncation
+// ═══════════════════════════════════════════
+function extractJSON(raw) {
+  // Strip markdown fences
+  let text = raw.replace(/```json\s*/gi, '').replace(/```/g, '').trim();
+
+  // Try direct parse first
+  try { return JSON.parse(text); } catch(e) {}
+
+  // Find first { and last } to extract JSON object
+  const start = text.indexOf('{');
+  if (start === -1) throw new Error('Nessun JSON trovato nella risposta');
+
+  // Walk backwards from end to find valid closing brace
+  let end = text.lastIndexOf('}');
+  while (end > start) {
+    try {
+      return JSON.parse(text.slice(start, end + 1));
+    } catch(e) {
+      end = text.lastIndexOf('}', end - 1);
+    }
+  }
+
+  // Last resort: try to fix truncated JSON by closing open structures
+  let partial = text.slice(start);
+  // Remove last incomplete item if needed
+  const lastComma = partial.lastIndexOf(',');
+  const lastBrace = partial.lastIndexOf('{');
+  if (lastBrace > lastComma) {
+    partial = partial.slice(0, lastComma);
+  }
+  // Count unclosed brackets/braces
+  let opens = 0, openBrackets = 0;
+  for (const ch of partial) {
+    if (ch === '{') opens++;
+    else if (ch === '}') opens--;
+    else if (ch === '[') openBrackets++;
+    else if (ch === ']') openBrackets--;
+  }
+  partial += ']'.repeat(Math.max(0, openBrackets));
+  partial += '}'.repeat(Math.max(0, opens));
+  return JSON.parse(partial);
+}
+
+// ═══════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════
+function renderResults(data, marca, modello, anno, motore) {
+  const affColors = { alta: 'var(--success)', media: 'var(--warning)', bassa: 'var(--danger)' };
+  const affLabels = { alta: '▲ Alta affidabilità', media: '◆ Affidabilità media', bassa: '▼ Bassa affidabilità' };
+
+  let html = `
+    <div class="results-header">
+      <div class="results-title">Problemi Noti</div>
+      <div class="problem-count">${data.problemi.length} problemi identificati</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);padding:18px 20px;margin-bottom:24px;border-left:3px solid ${affColors[data.affidabilita] || 'var(--muted)'}">
+      <div style="font-family:'DM Mono',monospace;font-size:0.72rem;color:${affColors[data.affidabilita] || 'var(--muted)'};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">${affLabels[data.affidabilita] || ''}</div>
+      <div style="font-size:0.9rem;color:#b8b7c8;line-height:1.6">${data.sommario}</div>
+    </div>`;
+
+  data.problemi.forEach((p, i) => {
+    const sev = p.severita || 'media';
+    const sintomiHtml = (p.sintomi || []).map(s => `<li>${s}</li>`).join('');
+    html += `
+    <div class="problem-card" id="card-${i}">
+      <div class="problem-card-header" onclick="toggleCard(${i})">
+        <span class="severity-badge severity-${sev}"></span>
+        <span class="problem-title">${p.titolo}</span>
+        <span class="severity-label label-${sev}">${sev}</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="problem-body">
+        <div class="problem-section">
+          <div class="problem-section-title">// Descrizione</div>
+          <p>${p.descrizione}</p>
+        </div>
+        ${p.sintomi?.length ? `<div class="problem-section">
+          <div class="problem-section-title">// Sintomi</div>
+          <ul>${sintomiHtml}</ul>
+        </div>` : ''}
+        ${p.soluzione ? `<div class="problem-section">
+          <div class="problem-section-title">// Soluzione</div>
+          <p>${p.soluzione}</p>
+        </div>` : ''}
+        ${p.costo_stima ? `<div class="cost-badge">💶 Costo stimato: ${p.costo_stima}</div>` : ''}
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('results').innerHTML = html;
+}
+
+function toggleCard(i) {
+  const card = document.getElementById('card-' + i);
+  card.classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function setLoading(v) {
+  document.getElementById('loading').className = v ? 'loading-state visible' : 'loading-state';
+  document.querySelector('.btn-diagnose').disabled = v;
+}
+
+function showError(msg) {
+  const b = document.getElementById('error-box');
+  document.getElementById('error-msg').textContent = msg;
+  b.className = 'error-box visible';
+}
+
+function hideError() {
+  document.getElementById('error-box').className = 'error-box';
+}
+
+// ═══════════════════════════════════════════
+// API KEY HELPERS
+// ═══════════════════════════════════════════
+function updateKeyStatus() {
+  const val = document.getElementById('apikey-input').value.trim();
+  const status = document.getElementById('apikey-status');
+  if (val.startsWith('sk-ant-')) {
+    status.textContent = '✓ Pronta';
+    status.className = 'apikey-status ok';
+  } else if (val.length > 0) {
+    status.textContent = '⚠ Formato non valido';
+    status.className = 'apikey-status missing';
+  } else {
+    status.textContent = 'Non inserita';
+    status.className = 'apikey-status missing';
+  }
+}
+
+function toggleKeyVisibility() {
+  const input = document.getElementById('apikey-input');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+// INIT
+populateMarca();
+</script>
+</body>
+</html>
