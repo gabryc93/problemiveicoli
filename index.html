@@ -439,73 +439,164 @@
 
   .disclaimer strong { color: #555; }
 
-  /* API KEY BANNER */
-  .apikey-banner {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent2);
-    padding: 18px 24px;
-    margin-bottom: 28px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  .apikey-banner .apikey-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent2);
-    white-space: nowrap;
-  }
-
-  .apikey-input-wrap {
-    flex: 1;
-    min-width: 200px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .apikey-input {
-    flex: 1;
+  /* SEARCH INPUT */
+  .search-wrap { position: relative; }
+  .search-input {
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text);
-    padding: 10px 14px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.82rem;
-    letter-spacing: 0.05em;
-    outline: none;
+    padding: 12px 14px 12px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 500;
+    width: 100%;
     transition: border-color 0.2s;
   }
-
-  .apikey-input:focus { border-color: var(--accent2); }
-  .apikey-input::placeholder { color: var(--muted); }
-
-  .apikey-toggle {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 10px 12px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: border-color 0.2s, color 0.2s;
-    flex-shrink: 0;
+  .search-input:focus { outline: none; border-color: var(--accent); }
+  .search-input::placeholder { color: var(--muted); }
+  .search-icon {
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); font-size: 0.85rem; pointer-events: none;
   }
-  .apikey-toggle:hover { border-color: var(--accent2); color: var(--accent2); }
-
-  .apikey-status {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    padding: 4px 10px;
-    border: 1px solid;
-    white-space: nowrap;
+  .search-dropdown {
+    display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    background: #1e1e24; border: 1px solid var(--border);
+    max-height: 220px; overflow-y: auto; z-index: 100;
   }
-  .apikey-status.ok { color: var(--success); border-color: rgba(46,204,113,0.4); background: rgba(46,204,113,0.08); }
-  .apikey-status.missing { color: var(--muted); border-color: var(--border); background: transparent; }
+  .search-dropdown.open { display: block; }
+  .search-option {
+    padding: 10px 14px; font-size: 0.88rem; cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.15s;
+  }
+  .search-option:hover, .search-option.highlighted { background: rgba(232,67,58,0.12); color: var(--accent); }
+  .search-option mark { background: none; color: var(--accent); font-weight: 600; }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: none; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; align-items: center;
+  }
+  .filter-bar.visible { display: flex; }
+  .filter-label { font-family:'DM Mono',monospace; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+  .filter-btn {
+    background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+    padding: 6px 14px; font-family:'DM Mono',monospace; font-size:0.7rem;
+    text-transform:uppercase; letter-spacing:0.08em; cursor:pointer; transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active-alta { border-color:var(--danger); color:var(--danger); background:rgba(231,76,60,0.08); }
+  .filter-btn.active-media { border-color:var(--warning); color:var(--warning); background:rgba(243,156,18,0.08); }
+  .filter-btn.active-bassa { border-color:var(--success); color:var(--success); background:rgba(46,204,113,0.08); }
+  .filter-btn.active-all { border-color:var(--accent); color:var(--accent); background:rgba(232,67,58,0.08); }
+  .problem-card.hidden-filter { display: none; }
+
+  /* TABS */
+  .tabs {
+    display: none; gap: 0; margin-bottom: 28px; border-bottom: 1px solid var(--border);
+  }
+  .tabs.visible { display: flex; flex-wrap: wrap; }
+  .tab-btn {
+    background: none; border: none; border-bottom: 2px solid transparent;
+    color: var(--muted); padding: 12px 20px; font-family:'DM Mono',monospace;
+    font-size:0.72rem; text-transform:uppercase; letter-spacing:0.1em; cursor:pointer;
+    margin-bottom: -1px; transition: all 0.2s; white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; animation: fadeUp 0.3s ease; }
+
+  /* STAT CARDS */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px; margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border); padding: 18px 20px;
+    position: relative; overflow: hidden;
+  }
+  .stat-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  }
+  .stat-card.green::before { background: var(--success); }
+  .stat-card.orange::before { background: var(--accent2); }
+  .stat-card.red::before { background: var(--danger); }
+  .stat-card.blue::before { background: #3498db; }
+  .stat-label { font-family:'DM Mono',monospace; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:8px; }
+  .stat-value { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:0.05em; line-height:1; }
+  .stat-sub { font-size:0.75rem; color:var(--muted); margin-top:4px; }
+
+  /* RED FLAGS */
+  .redflag-list { list-style: none; }
+  .redflag-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 14px 0; border-bottom: 1px solid var(--border);
+  }
+  .redflag-item:last-child { border-bottom: none; }
+  .redflag-km {
+    font-family:'Bebas Neue',sans-serif; font-size:1.3rem; color:var(--accent2);
+    min-width: 90px; line-height:1;
+  }
+  .redflag-km span { display:block; font-family:'DM Mono',monospace; font-size:0.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+  .redflag-desc { font-size:0.88rem; color:#b8b7c8; line-height:1.6; }
+
+  /* CHECKLIST */
+  .checklist { list-style:none; }
+  .checklist-item {
+    display:flex; align-items:flex-start; gap:12px; padding:12px 0;
+    border-bottom:1px solid var(--border); cursor:pointer; user-select:none;
+  }
+  .checklist-item:last-child { border-bottom:none; }
+  .check-box {
+    width:18px; height:18px; border:1.5px solid var(--border); flex-shrink:0;
+    margin-top:2px; transition: all 0.2s; display:flex; align-items:center; justify-content:center;
+  }
+  .checklist-item.checked .check-box { background:var(--success); border-color:var(--success); }
+  .checklist-item.checked .check-box::after { content:'✓'; color:#fff; font-size:0.7rem; font-weight:700; }
+  .checklist-item.checked .check-text { text-decoration:line-through; color:var(--muted); }
+  .check-text { font-size:0.88rem; color:#b8b7c8; line-height:1.6; }
+  .checklist-progress {
+    display:flex; align-items:center; gap:12px; margin-bottom:20px;
+    font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted);
+  }
+  .progress-bar { flex:1; height:3px; background:var(--border); }
+  .progress-fill { height:100%; background:var(--success); transition:width 0.3s; }
+
+  /* DOMANDE */
+  .question-item {
+    background:var(--card); border:1px solid var(--border); border-left:3px solid var(--accent2);
+    padding:14px 18px; margin-bottom:10px; font-size:0.88rem; color:#b8b7c8; line-height:1.6;
+    display:flex; align-items:flex-start; gap:12px;
+  }
+  .question-num {
+    font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--accent2);
+    min-width:24px; line-height:1.3;
+  }
+
+  /* RECALL BOX */
+  .recall-box {
+    background: rgba(52,152,219,0.06); border:1px solid rgba(52,152,219,0.3);
+    padding:18px 20px; margin-bottom:14px;
+  }
+  .recall-title { font-family:'DM Mono',monospace; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:#3498db; margin-bottom:8px; }
+  .recall-box p { font-size:0.85rem; color:#b8b7c8; line-height:1.7; }
+  .recall-box a { color:#3498db; text-decoration:none; }
+  .recall-box a:hover { text-decoration:underline; }
+
+  /* SECTION HEADER */
+  .section-hd {
+    font-family:'DM Mono',monospace; font-size:0.7rem; text-transform:uppercase;
+    letter-spacing:0.12em; color:var(--accent); margin-bottom:16px;
+    padding-bottom:8px; border-bottom:1px solid var(--border);
+  }
+
+  /* PRINT */
+  @media print {
+    header, .selector-panel, .vehicle-bar, .filter-bar, .tabs, .btn-diagnose,
+    .disclaimer, .tab-btn, body::before { display:none !important; }
+    .tab-pane { display:block !important; }
+    .problem-card { break-inside:avoid; }
+    body { background:#fff; color:#000; }
+  }
 </style>
 </head>
 <body>
@@ -522,39 +613,28 @@
   </header>
 
   <!-- SELECTOR PANEL -->
-  
-  <!-- API KEY BANNER -->
-  <div class="apikey-banner">
-    <span class="apikey-label">🔑 API Key</span>
-    <div class="apikey-input-wrap">
-      <input
-        class="apikey-input"
-        id="apikey-input"
-        type="password"
-        placeholder="sk-ant-api03-..."
-        oninput="updateKeyStatus()"
-        autocomplete="off"
-        spellcheck="false"
-      />
-      <button class="apikey-toggle" onclick="toggleKeyVisibility()" title="Mostra/Nascondi">👁</button>
-    </div>
-    <span class="apikey-status missing" id="apikey-status">Non inserita</span>
-  </div>
-
 <div class="selector-panel">
     <div class="panel-label">// Seleziona il veicolo</div>
     <div class="selectors-grid">
       <div class="field-group">
         <label>Marca</label>
-        <select id="sel-marca" onchange="updateModelli()">
-          <option value="">— Seleziona —</option>
-        </select>
+        <div class="search-wrap" id="wrap-marca">
+          <span class="search-icon">⌕</span>
+          <input class="search-input" id="search-marca" placeholder="Cerca marca..." autocomplete="off"
+            oninput="filterSearch('marca')" onfocus="openDropdown('marca')" onblur="closeDropdown('marca')">
+          <div class="search-dropdown" id="drop-marca"></div>
+        </div>
+        <input type="hidden" id="sel-marca">
       </div>
       <div class="field-group">
         <label>Modello</label>
-        <select id="sel-modello" onchange="updateAnni()">
-          <option value="">— Seleziona marca —</option>
-        </select>
+        <div class="search-wrap" id="wrap-modello">
+          <span class="search-icon">⌕</span>
+          <input class="search-input" id="search-modello" placeholder="Seleziona prima la marca" autocomplete="off"
+            oninput="filterSearch('modello')" onfocus="openDropdown('modello')" onblur="closeDropdown('modello')" disabled>
+          <div class="search-dropdown" id="drop-modello"></div>
+        </div>
+        <input type="hidden" id="sel-modello">
       </div>
       <div class="field-group">
         <label>Anno</label>
@@ -577,6 +657,24 @@
 
   <!-- VEHICLE BAR -->
   <div class="vehicle-bar" id="vehicle-bar"></div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar" id="filter-bar">
+    <span class="filter-label">Filtra:</span>
+    <button class="filter-btn active-all" onclick="applyFilter('all')">Tutti</button>
+    <button class="filter-btn" onclick="applyFilter('alta')">🔴 Alta severità</button>
+    <button class="filter-btn" onclick="applyFilter('media')">🟡 Media severità</button>
+    <button class="filter-btn" onclick="applyFilter('bassa')">🟢 Bassa severità</button>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" onclick="switchTab('problemi')">⚙ Problemi</button>
+    <button class="tab-btn" onclick="switchTab('stats')">📊 Statistiche</button>
+    <button class="tab-btn" onclick="switchTab('checklist')">✓ Checklist Ispezione</button>
+    <button class="tab-btn" onclick="switchTab('domande')">💬 Domande al Venditore</button>
+    <button class="tab-btn" onclick="switchTab('extra')">ℹ Extra & Recall</button>
+  </div>
 
   <!-- LOADING -->
   <div class="loading-state" id="loading">
@@ -1291,29 +1389,15 @@ const VEHICLES = {
 // POPULATION SELECTS
 // ═══════════════════════════════════════════
 function populateMarca() {
-  const sel = document.getElementById('sel-marca');
-  Object.keys(VEHICLES).sort().forEach(m => {
-    const o = document.createElement('option');
-    o.value = m; o.textContent = m;
-    sel.appendChild(o);
-  });
+  buildMarcaList();
   // Default: Alfa Romeo
-  sel.value = 'Alfa Romeo';
-  updateModelli(true);
+  selectOption('marca', 'Alfa Romeo');
+  selectOption('modello', 'Giulia');
+  updateAnni(true);
 }
 
 function updateModelli(init = false) {
-  const marca = document.getElementById('sel-marca').value;
-  const sel = document.getElementById('sel-modello');
-  sel.innerHTML = '';
-  if (!marca) { sel.innerHTML = '<option>— Seleziona marca —</option>'; return; }
-  Object.keys(VEHICLES[marca]).forEach(m => {
-    const o = document.createElement('option');
-    o.value = m; o.textContent = m;
-    sel.appendChild(o);
-  });
-  if (init) sel.value = 'Giulia';
-  updateAnni(init);
+  // This is now handled by selectOption for search
 }
 
 function updateAnni(init = false) {
@@ -1378,46 +1462,55 @@ async function avviaDiagnosi() {
     <span class="tag">${anno}</span>
     <span class="tag">${motore}</span>`;
 
-  const prompt = `Sei un esperto meccanico e tecnico automobilistico con 20 anni di esperienza.
-Analizza il seguente veicolo e fornisci un report dettagliato sui problemi più noti e difetti ricorrenti:
+  const prompt = `Sei un esperto meccanico e tecnico automobilistico con 20 anni di esperienza e un esperto di mercato assicurativo auto italiano.
+Analizza il seguente veicolo in modo completo.
 
 Veicolo: ${marca} ${modello} ${anno} — ${motore}
 
-Rispondi SOLO con un JSON valido (senza markdown, senza backtick), con questo schema esatto:
+Rispondi SOLO con un JSON valido (senza markdown, senza backtick), con questo schema ESATTO:
 {
-  "sommario": "breve frase riassuntiva sulla affidabilità generale del veicolo (max 2 righe)",
+  "sommario": "frase riassuntiva sull'affidabilità generale (max 2 righe)",
   "affidabilita": "alta|media|bassa",
+  "costo_totale_min": 800,
+  "costo_totale_max": 3000,
+  "assicurazione_fascia": "600–900 €/anno",
+  "consumo_dichiarato": "6.5 l/100km",
+  "consumo_reale": "8.0–10.0 l/100km",
+  "km_red_flags": [
+    { "km": 80000, "descrizione": "Sostituzione cinghia/catena distribuzione consigliata" },
+    { "km": 120000, "descrizione": "Verifica iniettori e turbina" }
+  ],
   "problemi": [
     {
       "titolo": "Nome breve del problema",
       "severita": "alta|media|bassa",
-      "descrizione": "Descrizione dettagliata del problema (2-4 righe)",
-      "sintomi": ["sintomo 1", "sintomo 2", "sintomo 3"],
-      "soluzione": "Come risolvere il problema",
-      "costo_stima": "es: 200–500 €"
+      "descrizione": "Descrizione concisa (max 2 righe)",
+      "sintomi": ["sintomo 1", "sintomo 2"],
+      "soluzione": "Come risolvere",
+      "costo_min": 200,
+      "costo_max": 600
     }
-  ]
+  ],
+  "checklist_ispezione": [
+    "Verificare il livello e colore dell'olio motore",
+    "Controllare presenza di fumo allo scarico"
+  ],
+  "domande_venditore": [
+    "Quando è stata cambiata l'ultima volta la distribuzione?",
+    "Ha il libretto tagliandi completo?"
+  ],
+  "recall_note": "Breve nota su eventuali recall noti per questo modello e come verificarli"
 }
 
-Includi esattamente 5 problemi reali e documentati per questo specifico veicolo e motore. Le descrizioni devono essere concise (max 2 righe ciascuna).
-Sii specifico e tecnico. Menziona componenti reali (es: turbo, catena distribuzione, iniettori, DSG, ecc.).`;
+Regole: esattamente 5 problemi reali e documentati; almeno 8 voci in checklist_ispezione; almeno 6 domande_venditore; 2-4 km_red_flags. Sii specifico e tecnico.`;
 
   try {
-    const apiKey = document.getElementById('apikey-input').value.trim();
-    if (!apiKey) {
-      setLoading(false);
-      showError('Inserisci la tua API key Anthropic prima di procedere.');
-      return;
-    }
+    // ⬇ Sostituisci con l'URL del tuo Cloudflare Worker dopo il deploy
+    const WORKER_URL = "https://IL-TUO-WORKER.IL-TUO-ACCOUNT.workers.dev";
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const response = await fetch(WORKER_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-        "anthropic-dangerous-direct-browser-access": "true"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 4000,
@@ -1429,7 +1522,7 @@ Sii specifico e tecnico. Menziona componenti reali (es: turbo, catena distribuzi
     if (data.error) throw new Error(data.error.message || 'Errore API');
     const raw = data.content.map(i => i.text || '').join('');
     const parsed = extractJSON(raw);
-    renderResults(parsed, marca, modello, anno, motore);
+    renderResults(parsed);
   } catch (err) {
     showError('Errore durante l\'analisi: ' + err.message);
   } finally {
@@ -1483,27 +1576,158 @@ function extractJSON(raw) {
 }
 
 // ═══════════════════════════════════════════
+// SEARCH HELPERS
+// ═══════════════════════════════════════════
+let searchData = { marca: [], modello: [] };
+let closeTimer = {};
+
+function buildMarcaList() {
+  searchData.marca = Object.keys(VEHICLES).sort();
+}
+
+function buildModelloList(marca) {
+  searchData.modello = marca ? Object.keys(VEHICLES[marca]).sort() : [];
+}
+
+function filterSearch(type) {
+  const input = document.getElementById('search-' + type);
+  const drop  = document.getElementById('drop-' + type);
+  const q     = input.value.toLowerCase();
+  const items = searchData[type].filter(x => x.toLowerCase().includes(q));
+  renderDropdown(type, items, q);
+  drop.classList.add('open');
+}
+
+function renderDropdown(type, items, q) {
+  const drop = document.getElementById('drop-' + type);
+  if (!items.length) { drop.innerHTML = '<div class="search-option" style="color:var(--muted)">Nessun risultato</div>'; return; }
+  drop.innerHTML = items.map(item => {
+    const hi = q ? item.replace(new RegExp(`(${q})`, 'gi'), '<mark>$1</mark>') : item;
+    return `<div class="search-option" onmousedown="selectOption('${type}','${item.replace(/'/g,"\\'")}')">` + hi + `</div>`;
+  }).join('');
+}
+
+function selectOption(type, value) {
+  document.getElementById('search-' + type).value = value;
+  document.getElementById('sel-' + type).value = value;
+  document.getElementById('drop-' + type).classList.remove('open');
+  if (type === 'marca') {
+    buildModelloList(value);
+    document.getElementById('search-modello').value = '';
+    document.getElementById('sel-modello').value = '';
+    document.getElementById('search-modello').disabled = false;
+    document.getElementById('search-modello').placeholder = 'Cerca modello...';
+    updateAnni_reset();
+  } else if (type === 'modello') {
+    updateAnni();
+  }
+}
+
+function openDropdown(type) {
+  clearTimeout(closeTimer[type]);
+  filterSearch(type);
+}
+
+function closeDropdown(type) {
+  closeTimer[type] = setTimeout(() => {
+    document.getElementById('drop-' + type).classList.remove('open');
+  }, 200);
+}
+
+function updateAnni_reset() {
+  document.getElementById('sel-anno').innerHTML = '<option value="">— Seleziona modello prima —</option>';
+  document.getElementById('sel-motore').innerHTML = '<option value="">— Seleziona anno —</option>';
+}
+
+// ═══════════════════════════════════════════
+// TAB SYSTEM
+// ═══════════════════════════════════════════
+function switchTab(id) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const pane = document.getElementById('tab-' + id);
+  const btn  = [...document.querySelectorAll('.tab-btn')].find(b => b.onclick.toString().includes("'" + id + "'"));
+  if (pane) pane.classList.add('active');
+  if (btn)  btn.classList.add('active');
+  if (id === 'problemi') document.getElementById('filter-bar').classList.add('visible');
+  else document.getElementById('filter-bar').classList.remove('visible');
+}
+
+// ═══════════════════════════════════════════
+// FILTER
+// ═══════════════════════════════════════════
+let activeFilter = 'all';
+function applyFilter(sev) {
+  activeFilter = sev;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.className = 'filter-btn';
+    if (b.onclick.toString().includes("'" + sev + "'")) b.classList.add('active-' + sev);
+  });
+  document.querySelectorAll('.problem-card').forEach(card => {
+    if (sev === 'all' || card.dataset.sev === sev) card.classList.remove('hidden-filter');
+    else card.classList.add('hidden-filter');
+  });
+}
+
+// ═══════════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════════
-function renderResults(data, marca, modello, anno, motore) {
+function renderResults(data) {
   const affColors = { alta: 'var(--success)', media: 'var(--warning)', bassa: 'var(--danger)' };
   const affLabels = { alta: '▲ Alta affidabilità', media: '◆ Affidabilità media', bassa: '▼ Bassa affidabilità' };
 
-  let html = `
-    <div class="results-header">
-      <div class="results-title">Problemi Noti</div>
-      <div class="problem-count">${data.problemi.length} problemi identificati</div>
+  document.getElementById('tabs').className = 'tabs visible';
+  document.getElementById('filter-bar').className = 'filter-bar visible';
+  switchTab('problemi');
+
+  // ── STATS TAB ──────────────────────────────────────────────────────────────
+  const statsHtml = `
+    <div class="stats-grid">
+      <div class="stat-card red">
+        <div class="stat-label">Budget manutenzione preventiva</div>
+        <div class="stat-value" style="color:var(--danger)">€${(data.costo_totale_min||0).toLocaleString()}–${(data.costo_totale_max||0).toLocaleString()}</div>
+        <div class="stat-sub">stima totale problemi noti</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="stat-label">RC Auto indicativa</div>
+        <div class="stat-value" style="color:var(--accent2)">${data.assicurazione_fascia || 'N/D'}</div>
+        <div class="stat-sub">fascia mercato Italia</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Consumi dichiarati</div>
+        <div class="stat-value" style="color:var(--success)">${data.consumo_dichiarato || 'N/D'}</div>
+        <div class="stat-sub">dato ufficiale WLTP/NEDC</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-label">Consumi reali stimati</div>
+        <div class="stat-value" style="color:#3498db">${data.consumo_reale || 'N/D'}</div>
+        <div class="stat-sub">uso misto reale</div>
+      </div>
     </div>
-    <div style="background:var(--card);border:1px solid var(--border);padding:18px 20px;margin-bottom:24px;border-left:3px solid ${affColors[data.affidabilita] || 'var(--muted)'}">
-      <div style="font-family:'DM Mono',monospace;font-size:0.72rem;color:${affColors[data.affidabilita] || 'var(--muted)'};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">${affLabels[data.affidabilita] || ''}</div>
-      <div style="font-size:0.9rem;color:#b8b7c8;line-height:1.6">${data.sommario}</div>
+
+    <div class="section-hd">// Red flag per chilometraggio</div>
+    <ul class="redflag-list">
+      ${(data.km_red_flags||[]).map(f => `
+      <li class="redflag-item">
+        <div class="redflag-km">${Number(f.km).toLocaleString()}<span>km</span></div>
+        <div class="redflag-desc">${f.descrizione}</div>
+      </li>`).join('')}
+    </ul>
+  `;
+
+  // ── PROBLEMI TAB ───────────────────────────────────────────────────────────
+  const affidBlock = `
+    <div style="background:var(--card);border:1px solid var(--border);padding:16px 20px;margin-bottom:20px;border-left:3px solid ${affColors[data.affidabilita]||'var(--muted)'}">
+      <div style="font-family:'DM Mono',monospace;font-size:0.72rem;color:${affColors[data.affidabilita]||'var(--muted)'};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">${affLabels[data.affidabilita]||''}</div>
+      <div style="font-size:0.88rem;color:#b8b7c8;line-height:1.6">${data.sommario}</div>
     </div>`;
 
-  data.problemi.forEach((p, i) => {
+  let problemiHtml = affidBlock;
+  (data.problemi||[]).forEach((p, i) => {
     const sev = p.severita || 'media';
-    const sintomiHtml = (p.sintomi || []).map(s => `<li>${s}</li>`).join('');
-    html += `
-    <div class="problem-card" id="card-${i}">
+    const costoStr = (p.costo_min && p.costo_max) ? `€${p.costo_min.toLocaleString()}–${p.costo_max.toLocaleString()}` : (p.costo_stima || '');
+    problemiHtml += `
+    <div class="problem-card" id="card-${i}" data-sev="${sev}">
       <div class="problem-card-header" onclick="toggleCard(${i})">
         <span class="severity-badge severity-${sev}"></span>
         <span class="problem-title">${p.titolo}</span>
@@ -1517,23 +1741,109 @@ function renderResults(data, marca, modello, anno, motore) {
         </div>
         ${p.sintomi?.length ? `<div class="problem-section">
           <div class="problem-section-title">// Sintomi</div>
-          <ul>${sintomiHtml}</ul>
+          <ul>${p.sintomi.map(s=>`<li>${s}</li>`).join('')}</ul>
         </div>` : ''}
         ${p.soluzione ? `<div class="problem-section">
           <div class="problem-section-title">// Soluzione</div>
           <p>${p.soluzione}</p>
         </div>` : ''}
-        ${p.costo_stima ? `<div class="cost-badge">💶 Costo stimato: ${p.costo_stima}</div>` : ''}
+        ${costoStr ? `<div class="cost-badge">💶 Costo stimato: ${costoStr}</div>` : ''}
       </div>
     </div>`;
   });
 
-  document.getElementById('results').innerHTML = html;
+  // ── CHECKLIST TAB ──────────────────────────────────────────────────────────
+  const checkItems = data.checklist_ispezione || [];
+  const checkHtml = `
+    <div class="checklist-progress">
+      <span id="check-count">0/${checkItems.length} completati</span>
+      <div class="progress-bar"><div class="progress-fill" id="check-fill" style="width:0%"></div></div>
+      <button onclick="resetChecklist()" style="background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;cursor:pointer;font-size:0.7rem;font-family:'DM Mono',monospace">RESET</button>
+      <button onclick="window.print()" style="background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;cursor:pointer;font-size:0.7rem;font-family:'DM Mono',monospace">🖨 STAMPA</button>
+    </div>
+    <ul class="checklist" id="checklist-ul">
+      ${checkItems.map((item, i) => `
+      <li class="checklist-item" id="chk-${i}" onclick="toggleCheck(${i})">
+        <div class="check-box"></div>
+        <span class="check-text">${item}</span>
+      </li>`).join('')}
+    </ul>`;
+
+  // ── DOMANDE TAB ────────────────────────────────────────────────────────────
+  const domande = data.domande_venditore || [];
+  const domandeHtml = `
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:20px;font-family:'DM Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;">
+      Domande basate sui problemi noti di questo veicolo
+    </p>
+    ${domande.map((d, i) => `
+    <div class="question-item">
+      <span class="question-num">${i+1}</span>
+      <span>${d}</span>
+    </div>`).join('')}`;
+
+  // ── EXTRA TAB ──────────────────────────────────────────────────────────────
+  const extraHtml = `
+    <div class="recall-box">
+      <div class="recall-title">📋 Recall e campagne di richiamo</div>
+      <p>${data.recall_note || 'Nessuna nota specifica disponibile.'}</p>
+      <p style="margin-top:12px">Verifica i recall ufficiali su:
+        <a href="https://www.motorizzazione.it/servizi/campagne_di_richiamo/" target="_blank">Ministero Trasporti IT</a> ·
+        <a href="https://www.nhtsa.gov/vehicle/recalls" target="_blank">NHTSA (USA)</a> ·
+        <a href="https://www.autoscout24.it/informazioni/recall-auto/" target="_blank">AutoScout24 Recall</a>
+      </p>
+    </div>
+    <div class="recall-box" style="border-color:rgba(245,166,35,0.3);background:rgba(245,166,35,0.04)">
+      <div class="recall-title" style="color:var(--accent2)">🔗 Risorse utili</div>
+      <p>
+        <a href="https://www.autouncle.it/" target="_blank" style="color:var(--accent2)">AutoUncle</a> — valutazione prezzo di mercato<br>
+        <a href="https://www.automobile.it/" target="_blank" style="color:var(--accent2)">Automobile.it</a> — annunci verificati<br>
+        <a href="https://www.quattroruote.it/" target="_blank" style="color:var(--accent2)">Quattroruote</a> — prove e affidabilità<br>
+        <a href="https://www.motorionline.com/prove/" target="_blank" style="color:var(--accent2)">Motorionline</a> — prove su strada
+      </p>
+    </div>`;
+
+  // ── INJECT ALL ─────────────────────────────────────────────────────────────
+  document.getElementById('results').innerHTML = `
+    <div class="tab-pane active" id="tab-problemi">
+      <div class="results-header">
+        <div class="results-title">Problemi Noti</div>
+        <div class="problem-count">${(data.problemi||[]).length} problemi identificati</div>
+      </div>
+      ${problemiHtml}
+    </div>
+    <div class="tab-pane" id="tab-stats">${statsHtml}</div>
+    <div class="tab-pane" id="tab-checklist">${checkHtml}</div>
+    <div class="tab-pane" id="tab-domande">${domandeHtml}</div>
+    <div class="tab-pane" id="tab-extra">${extraHtml}</div>
+  `;
 }
 
 function toggleCard(i) {
   const card = document.getElementById('card-' + i);
   card.classList.toggle('open');
+}
+
+// ── CHECKLIST LOGIC ────────────────────────────────────────────────────────
+let checkState = {};
+function toggleCheck(i) {
+  const item = document.getElementById('chk-' + i);
+  checkState[i] = !checkState[i];
+  item.classList.toggle('checked', checkState[i]);
+  updateCheckProgress();
+}
+function resetChecklist() {
+  checkState = {};
+  document.querySelectorAll('.checklist-item').forEach(el => el.classList.remove('checked'));
+  updateCheckProgress();
+}
+function updateCheckProgress() {
+  const total = document.querySelectorAll('.checklist-item').length;
+  const done  = Object.values(checkState).filter(Boolean).length;
+  const pct   = total ? Math.round(done/total*100) : 0;
+  const el = document.getElementById('check-count');
+  const fill = document.getElementById('check-fill');
+  if (el) el.textContent = `${done}/${total} completati`;
+  if (fill) fill.style.width = pct + '%';
 }
 
 // ═══════════════════════════════════════════
@@ -1552,24 +1862,6 @@ function showError(msg) {
 
 function hideError() {
   document.getElementById('error-box').className = 'error-box';
-}
-
-// ═══════════════════════════════════════════
-// API KEY HELPERS
-// ═══════════════════════════════════════════
-function updateKeyStatus() {
-  const val = document.getElementById('apikey-input').value.trim();
-  const status = document.getElementById('apikey-status');
-  if (val.startsWith('sk-ant-')) {
-    status.textContent = '✓ Pronta';
-    status.className = 'apikey-status ok';
-  } else if (val.length > 0) {
-    status.textContent = '⚠ Formato non valido';
-    status.className = 'apikey-status missing';
-  } else {
-    status.textContent = 'Non inserita';
-    status.className = 'apikey-status missing';
-  }
 }
 
 function toggleKeyVisibility() {
