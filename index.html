@@ -661,19 +661,19 @@
   <!-- FILTER BAR -->
   <div class="filter-bar" id="filter-bar">
     <span class="filter-label">Filtra:</span>
-    <button class="filter-btn active-all" onclick="applyFilter('all')">Tutti</button>
-    <button class="filter-btn" onclick="applyFilter('alta')">🔴 Alta severità</button>
-    <button class="filter-btn" onclick="applyFilter('media')">🟡 Media severità</button>
-    <button class="filter-btn" onclick="applyFilter('bassa')">🟢 Bassa severità</button>
+    <button class="filter-btn active-all" data-sev="all" onclick="applyFilter('all')">Tutti</button>
+    <button class="filter-btn" data-sev="alta" onclick="applyFilter('alta')">🔴 Alta severità</button>
+    <button class="filter-btn" data-sev="media" onclick="applyFilter('media')">🟡 Media severità</button>
+    <button class="filter-btn" data-sev="bassa" onclick="applyFilter('bassa')">🟢 Bassa severità</button>
   </div>
 
   <!-- TABS -->
   <div class="tabs" id="tabs">
-    <button class="tab-btn active" onclick="switchTab('problemi')">⚙ Problemi</button>
-    <button class="tab-btn" onclick="switchTab('stats')">📊 Statistiche</button>
-    <button class="tab-btn" onclick="switchTab('checklist')">✓ Checklist Ispezione</button>
-    <button class="tab-btn" onclick="switchTab('domande')">💬 Domande al Venditore</button>
-    <button class="tab-btn" onclick="switchTab('extra')">ℹ Extra & Recall</button>
+    <button class="tab-btn active" data-tab="problemi" onclick="switchTab('problemi')">⚙ Problemi</button>
+    <button class="tab-btn" data-tab="stats" onclick="switchTab('stats')">📊 Statistiche</button>
+    <button class="tab-btn" data-tab="checklist" onclick="switchTab('checklist')">✓ Checklist Ispezione</button>
+    <button class="tab-btn" data-tab="domande" onclick="switchTab('domande')">💬 Domande al Venditore</button>
+    <button class="tab-btn" data-tab="extra" onclick="switchTab('extra')">ℹ Extra & Recall</button>
   </div>
 
   <!-- LOADING -->
@@ -1506,7 +1506,7 @@ Regole: esattamente 5 problemi reali e documentati; almeno 8 voci in checklist_i
 
   try {
     // ⬇ Sostituisci con l'URL del tuo Cloudflare Worker dopo il deploy
-    const WORKER_URL = autodiagnosi.gabrycois.workers.dev;
+    const WORKER_URL = "https://IL-TUO-WORKER.IL-TUO-ACCOUNT.workers.dev";
 
     const response = await fetch(WORKER_URL, {
       method: "POST",
@@ -1646,7 +1646,7 @@ function switchTab(id) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   const pane = document.getElementById('tab-' + id);
-  const btn  = [...document.querySelectorAll('.tab-btn')].find(b => b.onclick.toString().includes("'" + id + "'"));
+  const btn  = document.querySelector('.tab-btn[data-tab="' + id + '"]');
   if (pane) pane.classList.add('active');
   if (btn)  btn.classList.add('active');
   if (id === 'problemi') document.getElementById('filter-bar').classList.add('visible');
@@ -1661,7 +1661,7 @@ function applyFilter(sev) {
   activeFilter = sev;
   document.querySelectorAll('.filter-btn').forEach(b => {
     b.className = 'filter-btn';
-    if (b.onclick.toString().includes("'" + sev + "'")) b.classList.add('active-' + sev);
+    if (b.dataset.sev === sev) b.classList.add('active-' + sev);
   });
   document.querySelectorAll('.problem-card').forEach(card => {
     if (sev === 'all' || card.dataset.sev === sev) card.classList.remove('hidden-filter');
