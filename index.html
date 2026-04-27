@@ -693,6 +693,17 @@
     </div>
   </header>
 
+  <!-- MAIN NAV -->
+  <div class="main-nav">
+    <button class="nav-btn active" data-view="analisi"   onclick="switchView('analisi')">⚙ Analisi</button>
+    <button class="nav-btn"        data-view="vin"       onclick="switchView('vin')">🔑 Decoder VIN</button>
+    <button class="nav-btn"        data-view="confronto" onclick="switchView('confronto')">⚖ Confronto</button>
+    <button class="nav-btn"        data-view="promemoria" onclick="switchView('promemoria')">📅 Promemoria</button>
+  </div>
+
+  <!-- VIEW: ANALISI -->
+  <div class="view active" id="view-analisi">
+
   <!-- SELECTOR PANEL -->
 <div class="selector-panel">
     <div class="panel-label">// Seleziona il veicolo</div>
@@ -774,6 +785,89 @@
 
   <!-- RESULTS -->
   <div id="results"></div>
+
+  </div><!-- /view-analisi -->
+
+  <!-- VIEW: VIN DECODER -->
+  <div class="view" id="view-vin">
+    <div class="vin-panel">
+      <div class="panel-label">// Decodifica numero di telaio (VIN)</div>
+      <p style="font-size:0.83rem;color:var(--muted);margin-bottom:20px;line-height:1.6">
+        Il VIN è un codice di 17 caratteri che identifica univocamente il veicolo.
+        Lo trovi sul parabrezza (angolo inferiore sinistro), sul libretto di circolazione o sul montante porta.
+      </p>
+      <div class="vin-input-row">
+        <input class="vin-input" id="vin-input" maxlength="17" placeholder="Es: WBA3A5109DF123456"
+          oninput="this.value=this.value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g,'')"
+          onkeydown="if(event.key==='Enter')decodeVIN()">
+        <button class="btn-vin" onclick="decodeVIN()">🔍 DECODIFICA</button>
+      </div>
+      <div class="vin-error" id="vin-error">VIN non valido — 17 caratteri alfanumerici (no I, O, Q)</div>
+      <div class="vin-result" id="vin-result">
+        <div class="vin-chars" id="vin-chars"></div>
+        <div class="vin-grid" id="vin-grid"></div>
+        <button class="vin-btn-goto" onclick="gotoAnalisiFromVIN()">⚙ Apri Analisi per questo veicolo</button>
+      </div>
+    </div>
+  </div><!-- /view-vin -->
+
+  <!-- VIEW: CONFRONTO -->
+  <div class="view" id="view-confronto">
+    <div class="compare-grid">
+      <div class="compare-panel left">
+        <div class="compare-label">// Veicolo A</div>
+        <div class="compare-selectors" id="compare-selectors-a"></div>
+      </div>
+      <div class="compare-panel right">
+        <div class="compare-label" style="color:#3498db">// Veicolo B</div>
+        <div class="compare-selectors" id="compare-selectors-b"></div>
+      </div>
+    </div>
+    <button class="btn-compare" onclick="avviaConfronto()">⚖ CONFRONTA VEICOLI</button>
+    <div class="compare-results" id="compare-results"></div>
+  </div><!-- /view-confronto -->
+
+  <!-- VIEW: PROMEMORIA -->
+  <div class="view" id="view-promemoria">
+    <div class="reminder-setup">
+      <div class="panel-label">// Promemoria manutenzione</div>
+      <p style="font-size:0.83rem;color:var(--muted);margin-bottom:20px;line-height:1.6">
+        Seleziona il veicolo e inserisci il chilometraggio attuale.
+        L'app calcola quando è prevista ogni operazione di manutenzione.
+        I dati vengono salvati nel browser.
+      </p>
+      <div class="reminder-form">
+        <div class="field-group">
+          <label>Marca</label>
+          <div class="search-wrap" id="wrap-rem-marca">
+            <span class="search-icon">⌕</span>
+            <input class="search-input" id="search-rem-marca" placeholder="Cerca marca..."
+              autocomplete="off" oninput="filterSearchRem('marca')"
+              onfocus="openDropdownRem()" onblur="closeDropdownRem()">
+            <div class="search-dropdown" id="drop-rem-marca"></div>
+          </div>
+          <input type="hidden" id="sel-rem-marca">
+        </div>
+        <div class="field-group">
+          <label>Modello · Anno · Motore</label>
+          <select id="sel-rem-combo"
+            style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:0.88rem;">
+            <option value="">— Seleziona prima la marca —</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Km attuali</label>
+          <input class="km-input" id="km-input" type="number" min="0" max="999999"
+            placeholder="Es: 85000" step="1000">
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <button class="btn-reminder" onclick="calcolaPromemoria()">📅 CALCOLA SCADENZE</button>
+      </div>
+    </div>
+    <div class="reminder-saved" id="reminder-saved">✓ Dati salvati nel browser</div>
+    <div class="reminder-cards" id="reminder-cards"></div>
+  </div><!-- /view-promemoria -->
 
   <div class="disclaimer">
     <strong>NOTA:</strong> Le informazioni fornite sono generate da intelligenza artificiale a scopo informativo.
@@ -1681,11 +1775,25 @@ function filterSearch(type) {
 
 function renderDropdown(type, items, q) {
   const drop = document.getElementById('drop-' + type);
-  if (!items.length) { drop.innerHTML = '<div class="search-option" style="color:var(--muted)">Nessun risultato</div>'; return; }
-  drop.innerHTML = items.map(item => {
-    const hi = q ? item.replace(new RegExp(`(${q})`, 'gi'), '<mark>$1</mark>') : item;
-    return `<div class="search-option" onmousedown="selectOption('${type}','${item.replace(/'/g,"\\'")}')">` + hi + `</div>`;
+  if (!items.length) {
+    drop.innerHTML = '<div class="search-option" style="color:var(--muted)">Nessun risultato</div>';
+    return;
+  }
+  drop.innerHTML = items.map(function(item) {
+    const safeQ = q ? q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') : '';
+    const hi = safeQ ? item.replace(new RegExp('(' + safeQ + ')','gi'),'<mark>$1</mark>') : item;
+    const d = document.createElement('div');
+    d.className = 'search-option';
+    d.dataset.dropType = type;
+    d.dataset.dropValue = item;
+    d.innerHTML = hi;
+    return d.outerHTML;
   }).join('');
+  drop.querySelectorAll('.search-option').forEach(function(el) {
+    el.addEventListener('mousedown', function() {
+      selectOption(this.dataset.dropType, this.dataset.dropValue);
+    });
+  });
 }
 
 function selectOption(type, value) {
@@ -2073,7 +2181,7 @@ function renderResults(data) {
       <div class="obd-count" id="obd-count">${Object.keys(allCodes).length} codici nel database</div>
       <ul class="obd-list" id="obd-list">${obdListHtml}</ul>
     </div>
-  \`;
+  `;
 }
 
 function toggleCard(i) {
@@ -2329,8 +2437,492 @@ function showSourceBadge(source) {
   bar.appendChild(badge);
 }
 
+
+// ═══════════════════════════════════════════
+// MAIN NAV
+// ═══════════════════════════════════════════
+function switchView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  document.querySelector('.nav-btn[data-view="' + id + '"]').classList.add('active');
+  // Reset results when switching away from analisi
+  if (id !== 'analisi') {
+    document.getElementById('tabs').className = 'tabs';
+    document.getElementById('filter-bar').className = 'filter-bar';
+    document.getElementById('vehicle-bar').className = 'vehicle-bar';
+  }
+}
+
+// ═══════════════════════════════════════════
+// VIN DECODER
+// ═══════════════════════════════════════════
+// WMI database (World Manufacturer Identifier — public standard ISO 3779)
+const WMI_DB = {
+  'WAU':'Audi','WBA':'BMW','WBS':'BMW M','WBY':'BMW','WDD':'Mercedes-Benz',
+  'WDC':'Mercedes-Benz','WDB':'Mercedes-Benz','WEB':'Mercedes-Benz',
+  'WF0':'Ford Europa','WFO':'Ford','WJM':'Volvo','YV1':'Volvo','YV2':'Volvo',
+  'VF1':'Renault','VF3':'Peugeot','VF7':'Citroën','VF6':'Citroën',
+  'VS6':'Ford Spagna','VSS':'SEAT','VNK':'Toyota','VS7':'Citroën',
+  'ZAR':'Alfa Romeo','ZFA':'Fiat','ZFF':'Ferrari','ZHW':'Lamborghini',
+  'ZAM':'Maserati','ZLA':'Lancia','ZCF':'Iveco',
+  'TMA':'Hyundai','TMB':'Skoda','TMAJ':'Kia',
+  'VF8':'Matra','SAJ':'Jaguar','SAL':'Land Rover','SAR':'Rover',
+  'SAX':'Land Rover','SCF':'Aston Martin',
+  'W0L':'Opel','W0V':'Opel','WOL':'Opel',
+  'SUF':'Subaru','JF1':'Subaru','JF2':'Subaru',
+  'JHM':'Honda','JH4':'Honda','JH2':'Honda',
+  'JN1':'Nissan','JN6':'Nissan','JN8':'Nissan',
+  '1HG':'Honda USA','2HG':'Honda Canada',
+  'JTD':'Toyota','JTE':'Toyota','JTH':'Lexus',
+  'KNA':'Kia','KNC':'Kia','KND':'Kia','KNM':'Renault Samsung',
+  'MAT':'Tata','MAJ':'Ford India',
+  'SHH':'Honda UK','SCC':'Lotus',
+  'TRU':'Audi Ungheria','WAUZZZF2':'Audi A6','WAP':'Porsche',
+  'WP0':'Porsche','WP1':'Porsche',
+  'VSK':'Nissan Spagna','VNE':'Nissan',
+  'XTA':'Lada','XUF':'GM Uzbekistan',
+  'UU1':'Dacia','UU6':'Renault Romania',
+  'NM0':'Mazda','JM1':'Mazda','JM3':'Mazda',
+  'TMK':'Volkswagen SK','WVW':'Volkswagen','WVG':'Volkswagen',
+  'WV1':'Volkswagen','WV2':'Volkswagen','WV3':'Volkswagen',
+  '1VW':'Volkswagen USA','3VW':'Volkswagen Mexico',
+  'SBM':'McLaren','SBD':'Aston Martin',
+  'ADV':'Volkswagen Austria','TMAM':'Skoda',
+};
+
+// Model year codes (position 10, public standard)
+const YEAR_CODES = {
+  'A':1980,'B':1981,'C':1982,'D':1983,'E':1984,'F':1985,'G':1986,'H':1987,
+  'J':1988,'K':1989,'L':1990,'M':1991,'N':1992,'P':1993,'R':1994,'S':1995,
+  'T':1996,'V':1997,'W':1998,'X':1999,'Y':2000,'1':2001,'2':2002,'3':2003,
+  '4':2004,'5':2005,'6':2006,'7':2007,'8':2008,'9':2009,'A':2010,'B':2011,
+  'C':2012,'D':2013,'E':2014,'F':2015,'G':2016,'H':2017,'J':2018,'K':2019,
+  'L':2020,'M':2021,'N':2022,'P':2023,'R':2024,'S':2025,'T':2026,
+};
+
+// Position descriptions
+const VIN_POS = [
+  'Paese','Costruttore','Tipo','','','','','','Controllo',
+  'Anno','Stabilimento','','','','','','N. Seriale'
+];
+
+function decodeVIN() {
+  const vin = document.getElementById('vin-input').value.trim().toUpperCase();
+  const errEl = document.getElementById('vin-error');
+  const resEl = document.getElementById('vin-result');
+
+  if (vin.length !== 17 || /[IOQ]/.test(vin)) {
+    errEl.classList.add('visible');
+    resEl.classList.remove('visible');
+    return;
+  }
+  errEl.classList.remove('visible');
+
+  // Decode
+  const wmi3 = vin.slice(0,3);
+  const wmi2 = vin.slice(0,2);
+  const marca = WMI_DB[wmi3] || WMI_DB[wmi2] || 'Sconosciuto';
+
+  const paesi = {
+    'A':'Sudafrica','J':'Giappone','K':'Corea del Sud','L':'Cina',
+    'S':'Gran Bretagna','T':'Cecoslovacchia/Rep.Ceca','U':'Romania',
+    'V':'Francia/Spagna','W':'Germania','X':'Russia','Y':'Finlandia/Svezia',
+    'Z':'Italia','1':'USA','2':'Canada','3':'Messico','4':'USA','5':'USA',
+    '6':'Australia','9':'Brasile',
+  };
+  const paese = paesi[vin[0]] || 'Sconosciuto';
+
+  const yearChar = vin[9];
+  // Year code repeats every 30 years — pick most recent plausible
+  let anno = YEAR_CODES[yearChar];
+  if (anno && anno < 2000) anno += 30; // 1980→2010, 1981→2011, etc for modern cars
+  // For letters A-T that map to both 1980-1999 and 2010-2026
+  const yearMap2 = {'A':2010,'B':2011,'C':2012,'D':2013,'E':2014,'F':2015,
+    'G':2016,'H':2017,'J':2018,'K':2019,'L':2020,'M':2021,'N':2022,
+    'P':2023,'R':2024,'S':2025,'T':2026};
+  const yearMap1 = {'1':2001,'2':2002,'3':2003,'4':2004,'5':2005,'6':2006,
+    '7':2007,'8':2008,'9':2009};
+  anno = yearMap2[yearChar] || yearMap1[yearChar] || anno || '?';
+
+  const seriale = vin.slice(11);
+  const vds = vin.slice(3,9);
+
+  // Render chars
+  const charsEl = document.getElementById('vin-chars');
+  charsEl.innerHTML = vin.split('').map((ch,i) => {
+    const labels = ['Pa','Cos','Ti','','','','','','Ck','An','St','','','','','','Se'];
+    const hi = [0,1,2,9,10].includes(i);
+    return '<div class="vin-char' + (hi?' highlight':'') + '"><span>' + ch + '</span><span>' + (labels[i]||String(i+1)) + '</span></div>';
+  }).join('');
+
+  // Render grid
+  const gridEl = document.getElementById('vin-grid');
+  const fields = [
+    {label:'Costruttore / Marca', value: marca, icon:'🏭'},
+    {label:'Paese di produzione', value: paese, icon:'🌍'},
+    {label:'Anno modello', value: anno, icon:'📅'},
+    {label:'WMI (3 cifre)', value: wmi3, icon:'🔑'},
+    {label:'VDS (descrittore)', value: vds, icon:'⚙'},
+    {label:'N° seriale', value: seriale, icon:'#'},
+  ];
+  gridEl.innerHTML = fields.map(f =>
+    '<div class="vin-field"><div class="vin-field-label">' + f.icon + ' ' + f.label + '</div>' +
+    '<div class="vin-field-value">' + f.value + '</div></div>'
+  ).join('');
+
+  // Store for goto
+  window._vinDecoded = { marca, anno: String(anno) };
+
+  resEl.classList.add('visible');
+}
+
+function gotoAnalisiFromVIN() {
+  if (!window._vinDecoded) return;
+  const { marca } = window._vinDecoded;
+  switchView('analisi');
+  // Pre-select marca
+  if (SCEGLIAUTO_SLUGS[marca]) {
+    selectOption('marca', marca);
+  }
+}
+
+// ═══════════════════════════════════════════
+// CONFRONTO — selectors setup
+// ═══════════════════════════════════════════
+function buildCompareSelectors(side) {
+  const wrap = document.getElementById('compare-selectors-' + side);
+  wrap.innerHTML = `
+    <div class="field-group">
+      <label>Marca</label>
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input class="search-input" id="search-cmp-marca-${side}" placeholder="Cerca marca..."
+          autocomplete="off"
+          oninput="filterSearchCmp('${side}','marca')"
+          onfocus="openDropdownCmp('${side}','marca')"
+          onblur="closeDropdownCmp('${side}','marca')">
+        <div class="search-dropdown" id="drop-cmp-marca-${side}"></div>
+      </div>
+      <input type="hidden" id="sel-cmp-marca-${side}">
+    </div>
+    <div class="field-group">
+      <label>Modello · Anno · Motore</label>
+      <select id="sel-cmp-combo-${side}"
+        style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:0.88rem;">
+        <option value="">— Seleziona prima la marca —</option>
+      </select>
+    </div>`;
+}
+
+let cmpCloseTimer = {};
+function filterSearchCmp(side, type) {
+  const q = document.getElementById('search-cmp-marca-' + side).value.toLowerCase();
+  const items = Object.keys(VEHICLES).sort().filter(function(x){ return x.toLowerCase().includes(q); });
+  const drop = document.getElementById('drop-cmp-marca-' + side);
+  if (!items.length) {
+    drop.innerHTML = '<div class="search-option" style="color:var(--muted)">Nessun risultato</div>';
+  } else {
+    drop.innerHTML = items.map(function(item) {
+      const hi = q ? item.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')','gi'),'<mark>$1</mark>') : item;
+      const el = document.createElement('div');
+      el.className = 'search-option';
+      el.dataset.side = side;
+      el.dataset.value = item;
+      el.innerHTML = hi;
+      el.addEventListener('mousedown', function(){ selectCmpMarca(this.dataset.side, this.dataset.value); });
+      return el.outerHTML;
+    }).join('');
+    // Re-attach after innerHTML (use event delegation on drop)
+    drop.querySelectorAll('.search-option[data-value]').forEach(function(el){
+      el.addEventListener('mousedown', function(){ selectCmpMarca(this.dataset.side, this.dataset.value); });
+    });
+  }
+  drop.classList.add('open');
+}
+function openDropdownCmp(side) {
+  clearTimeout(cmpCloseTimer[side]);
+  filterSearchCmp(side, 'marca');
+}
+function closeDropdownCmp(side) {
+  cmpCloseTimer[side] = setTimeout(() => {
+    const drop = document.getElementById('drop-cmp-marca-' + side);
+    if (drop) drop.classList.remove('open');
+  }, 200);
+}
+function selectCmpMarca(side, marca) {
+  document.getElementById('search-cmp-marca-' + side).value = marca;
+  document.getElementById('sel-cmp-marca-' + side).value = marca;
+  document.getElementById('drop-cmp-marca-' + side).classList.remove('open');
+  // Populate combo
+  const combo = document.getElementById('sel-cmp-combo-' + side);
+  combo.innerHTML = '<option value="">— Seleziona modello / anno / motore —</option>';
+  if (VEHICLES[marca]) {
+    for (const [modello, anni] of Object.entries(VEHICLES[marca])) {
+      for (const [anno, motori] of Object.entries(anni)) {
+        for (const motore of motori) {
+          const key = marca + '||' + modello + '||' + anno + '||' + motore;
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = modello + ' · ' + anno + ' · ' + motore;
+          combo.appendChild(opt);
+        }
+      }
+    }
+  }
+}
+
+function avviaConfronto() {
+  const keyA = document.getElementById('sel-cmp-combo-a').value;
+  const keyB = document.getElementById('sel-cmp-combo-b').value;
+  if (!keyA || !keyB) { alert('Seleziona entrambi i veicoli prima di confrontare.'); return; }
+  if (keyA === keyB) { alert('Seleziona due veicoli diversi.'); return; }
+
+  const db = window._vehicleDB || {};
+  const dA = db.vehicles && db.vehicles[keyA];
+  const dB = db.vehicles && db.vehicles[keyB];
+  const mA = db.maintenance && db.maintenance[keyA];
+  const mB = db.maintenance && db.maintenance[keyB];
+
+  const [mA1,,annA,motA] = keyA.split('||');
+  const [mB1,,annB,motB] = keyB.split('||');
+  const lblA = mA1 + ' ' + keyA.split('||')[1];
+  const lblB = mB1 + ' ' + keyB.split('||')[1];
+
+  function row(label, vA, vB, higherIsBetter) {
+    let winA = false, winB = false;
+    if (vA && vB && vA !== vB) {
+      const nA = parseFloat(String(vA).replace(/[^0-9.]/g,''));
+      const nB = parseFloat(String(vB).replace(/[^0-9.]/g,''));
+      if (!isNaN(nA) && !isNaN(nB)) {
+        winA = higherIsBetter ? nA > nB : nA < nB;
+        winB = higherIsBetter ? nB > nA : nB < nA;
+      }
+    }
+    return '<div class="compare-row">' +
+      '<div class="compare-row-label">' + label + '</div>' +
+      '<div class="compare-cell left-col' + (winA?' win':'') + '">' + (vA||'—') + '</div>' +
+      '<div class="compare-cell' + (winB?' win':'') + '">' + (vB||'—') + '</div>' +
+      '</div>';
+  }
+  function section(label) {
+    return '<div class="compare-row"><div class="compare-section-header">' + label + '</div></div>';
+  }
+
+  const affMap = {alta:3,media:2,bassa:1};
+  const aff = (d) => d ? (d.affidabilita||'—') : '—';
+  const affScore = (d) => d ? (affMap[d.affidabilita]||0) : 0;
+
+  const headerStyle = 'padding:0 16px;font-family:DM Mono,monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;';
+  let html = '<div style="display:grid;grid-template-columns:140px 1fr 1fr;gap:0;margin-bottom:8px;padding:10px 0;">'
+    + '<div></div>'
+    + '<div style="' + headerStyle + 'color:var(--accent)">' + lblA + '</div>'
+    + '<div style="' + headerStyle + 'color:#3498db">' + lblB + '</div>'
+    + '</div>';
+
+  html += section('🔍 Affidabilità generale');
+  html += row('Affidabilità', aff(dA), aff(dB), false);
+  // Highlight winner
+  const winA = affScore(dA) > affScore(dB), winB = affScore(dB) > affScore(dA);
+  html += '<div class="compare-row">' +
+    '<div class="compare-row-label">Sommario</div>' +
+    '<div class="compare-cell left-col" style="font-size:0.78rem;color:var(--muted)">' + (dA?dA.sommario:'Dati non disponibili') + '</div>' +
+    '<div class="compare-cell" style="font-size:0.78rem;color:var(--muted)">' + (dB?dB.sommario:'Dati non disponibili') + '</div>' +
+    '</div>';
+
+  html += section('💰 Costi');
+  const costA = dA ? '€' + (dA.costo_totale_min||0).toLocaleString() + '–' + (dA.costo_totale_max||0).toLocaleString() : '—';
+  const costB = dB ? '€' + (dB.costo_totale_min||0).toLocaleString() + '–' + (dB.costo_totale_max||0).toLocaleString() : '—';
+  html += row('Budget manutenzione', costA, costB, false);
+  html += row('RC Auto indicativa', dA?dA.assicurazione_fascia:'—', dB?dB.assicurazione_fascia:'—', false);
+
+  html += section('⛽ Consumi');
+  html += row('Dichiarati', dA?dA.consumo_dichiarato:'—', dB?dB.consumo_dichiarato:'—', false);
+  html += row('Reali stimati', dA?dA.consumo_reale:'—', dB?dB.consumo_reale:'—', false);
+
+  html += section('🔧 Manutenzione');
+  html += row('Olio motore', mA?mA.olio.viscosita:'—', mB?mB.olio.viscosita:'—', false);
+  html += row('Intervallo olio', mA?(mA.olio.intervallo_km||'?').toLocaleString()+' km':'—', mB?(mB.olio.intervallo_km||'?').toLocaleString()+' km':'—', true);
+  const distA = mA&&mA.distribuzione ? mA.distribuzione.tipo + (mA.distribuzione.intervallo_km ? ' · ' + mA.distribuzione.intervallo_km.toLocaleString() + ' km' : ' (no scadenza)') : '—';
+  const distB = mB&&mB.distribuzione ? mB.distribuzione.tipo + (mB.distribuzione.intervallo_km ? ' · ' + mB.distribuzione.intervallo_km.toLocaleString() + ' km' : ' (no scadenza)') : '—';
+  html += row('Distribuzione', distA, distB, false);
+
+  html += section('⚠ Problemi noti');
+  const sevCount = (d, sev) => d ? (d.problemi||[]).filter(p=>p.severita===sev).length : 0;
+  html += row('Problemi alta severità', sevCount(dA,'alta'), sevCount(dB,'alta'), false);
+  html += row('Problemi media severità', sevCount(dA,'media'), sevCount(dB,'media'), false);
+  html += row('Problemi bassa severità', sevCount(dA,'bassa'), sevCount(dB,'bassa'), false);
+
+  // Verdict
+  const scoreA = (affScore(dA)*3) - sevCount(dA,'alta')*2 - sevCount(dA,'media') + ((dA&&dA.costo_totale_max||9999)<1500?1:0);
+  const scoreB = (affScore(dB)*3) - sevCount(dB,'alta')*2 - sevCount(dB,'media') + ((dB&&dB.costo_totale_max||9999)<1500?1:0);
+  const verdict = scoreA > scoreB ? '✅ <strong>' + lblA + '</strong> risulta complessivamente più affidabile e conveniente.' :
+                  scoreB > scoreA ? '✅ <strong>' + lblB + '</strong> risulta complessivamente più affidabile e conveniente.' :
+                  '🤝 I due veicoli sono sostanzialmente equivalenti su questo profilo.';
+  html += '<div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent2);padding:16px 20px;margin-top:16px;font-size:0.88rem;color:#b8b7c8;line-height:1.7">' + verdict + '</div>';
+
+  const resEl = document.getElementById('compare-results');
+  resEl.innerHTML = html;
+  resEl.classList.add('visible');
+  resEl.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ═══════════════════════════════════════════
+// PROMEMORIA — search for reminder
+// ═══════════════════════════════════════════
+let remCloseTimer = {};
+function filterSearchRem(type) {
+  const q = document.getElementById('search-rem-marca').value.toLowerCase();
+  const items = Object.keys(VEHICLES).sort().filter(function(x){ return x.toLowerCase().includes(q); });
+  const drop = document.getElementById('drop-rem-marca');
+  if (!items.length) {
+    drop.innerHTML = '<div class="search-option" style="color:var(--muted)">Nessun risultato</div>';
+  } else {
+    drop.innerHTML = items.map(function(item) {
+      const hi = q ? item.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')','gi'),'<mark>$1</mark>') : item;
+      const d = document.createElement('div');
+      d.className = 'search-option';
+      d.dataset.value = item;
+      d.innerHTML = hi;
+      return d.outerHTML;
+    }).join('');
+    drop.querySelectorAll('.search-option[data-value]').forEach(function(el){
+      el.addEventListener('mousedown', function(){ selectRemMarca(this.dataset.value); });
+    });
+  }
+  drop.classList.add('open');
+}
+function openDropdownRem() { clearTimeout(remCloseTimer.r); filterSearchRem('marca'); }
+function closeDropdownRem() {
+  remCloseTimer.r = setTimeout(() => {
+    document.getElementById('drop-rem-marca').classList.remove('open');
+  }, 200);
+}
+function selectRemMarca(marca) {
+  document.getElementById('search-rem-marca').value = marca;
+  document.getElementById('sel-rem-marca').value = marca;
+  document.getElementById('drop-rem-marca').classList.remove('open');
+  const combo = document.getElementById('sel-rem-combo');
+  combo.innerHTML = '<option value="">— Seleziona modello / anno / motore —</option>';
+  if (VEHICLES[marca]) {
+    for (const [modello, anni] of Object.entries(VEHICLES[marca])) {
+      for (const [anno, motori] of Object.entries(anni)) {
+        for (const motore of motori) {
+          const key = marca + '||' + modello + '||' + anno + '||' + motore;
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = modello + ' · ' + anno + ' · ' + motore;
+          combo.appendChild(opt);
+        }
+      }
+    }
+  }
+  // Restore saved km if any
+  const saved = JSON.parse(localStorage.getItem('autodiagnosi_reminders') || '{}');
+  // pre-fill km from last save for this marca
+}
+
+function calcolaPromemoria() {
+  const key = document.getElementById('sel-rem-combo').value;
+  const kmStr = document.getElementById('km-input').value;
+  if (!key) { alert('Seleziona un veicolo.'); return; }
+  if (!kmStr || isNaN(parseInt(kmStr))) { alert('Inserisci il chilometraggio attuale.'); return; }
+  const kmAttuali = parseInt(kmStr);
+
+  const db = window._vehicleDB || {};
+  const maint = db.maintenance && db.maintenance[key];
+  if (!maint) { alert('Dati manutenzione non disponibili per questo veicolo.'); return; }
+
+  // Save to localStorage
+  const saved = JSON.parse(localStorage.getItem('autodiagnosi_reminders') || '{}');
+  saved[key] = { km: kmAttuali, savedAt: new Date().toISOString() };
+  localStorage.setItem('autodiagnosi_reminders', JSON.stringify(saved));
+  document.getElementById('reminder-saved').classList.add('visible');
+  setTimeout(() => document.getElementById('reminder-saved').classList.remove('visible'), 3000);
+
+  // Build reminder cards from schedule
+  const schedule = maint.schedule || [];
+  const cards = document.getElementById('reminder-cards');
+
+  // Parse interval km from schedule string
+  function parseKm(str) {
+    const m = str.match(/[\d.,]+\s*km/i);
+    if (!m) return null;
+    return parseInt(m[0].replace(/[.,\s]/g,'').replace('km',''));
+  }
+  function parseMonths(str) {
+    const m = str.match(/(\d+)\s*(mesi|mese|anni|anno)/i);
+    if (!m) return null;
+    const n = parseInt(m[1]);
+    return m[2].includes('ann') ? n * 12 : n;
+  }
+
+  cards.innerHTML = schedule.map(item => {
+    const intKm = parseKm(item.intervallo);
+    const intMo = parseMonths(item.intervallo);
+
+    let dueKm = null, delta = null, status = 'ok', pct = 0;
+    if (intKm) {
+      // Find last multiple of intKm before kmAttuali
+      const lastDone = Math.floor(kmAttuali / intKm) * intKm;
+      dueKm = lastDone + intKm;
+      delta = dueKm - kmAttuali;
+      pct = Math.min(100, Math.round((kmAttuali - lastDone) / intKm * 100));
+      if (delta < 0) status = 'overdue';
+      else if (delta < intKm * 0.15) status = 'soon';
+      else status = 'ok';
+    } else if (intMo) {
+      const saved2 = JSON.parse(localStorage.getItem('autodiagnosi_reminders') || '{}');
+      const savedKm = saved2[key]?.km || kmAttuali;
+      // Stima km/anno = 15000
+      const kmPerMonth = 15000 / 12;
+      const kmInterval = intMo * kmPerMonth;
+      dueKm = kmAttuali + kmInterval * 0.5; // rough estimate
+      delta = Math.round(dueKm - kmAttuali);
+      pct = 50;
+      status = 'ok';
+    }
+
+    const deltaStr = dueKm
+      ? (delta < 0 ? '⚠ Scaduto di ' + Math.abs(delta).toLocaleString() + ' km'
+         : 'Tra ' + delta.toLocaleString() + ' km')
+      : item.intervallo;
+
+    const barColor = status === 'ok' ? 'var(--success)' : status === 'soon' ? 'var(--warning)' : 'var(--danger)';
+
+    return '<div class="reminder-card ' + status + '">' +
+      '<div class="reminder-op">' + item.operazione + '</div>' +
+      '<div class="reminder-km-row">' +
+        '<span class="reminder-due">' + (dueKm ? 'Scadenza: ' + Math.round(dueKm).toLocaleString() + ' km' : item.intervallo) + '</span>' +
+        '<span class="reminder-delta ' + status + '">' + deltaStr + '</span>' +
+      '</div>' +
+      '<div class="reminder-bar"><div class="reminder-bar-fill" style="width:' + pct + '%;background:' + barColor + '"></div></div>' +
+    '</div>';
+  }).join('');
+
+  cards.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// Restore last reminder on page load
+function restoreReminder() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('autodiagnosi_reminders') || '{}');
+    const lastKey = Object.keys(saved).pop();
+    if (!lastKey) return;
+    const [marca] = lastKey.split('||');
+    selectRemMarca(marca);
+    setTimeout(() => {
+      document.getElementById('sel-rem-combo').value = lastKey;
+      document.getElementById('km-input').value = saved[lastKey].km;
+    }, 100);
+  } catch(e) {}
+}
+
 // INIT
 populateMarca();
+buildCompareSelectors("a");
+buildCompareSelectors("b");
+restoreReminder();
 </script>
 </body>
 </html>
