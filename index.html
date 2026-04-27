@@ -3,521 +3,600 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutoDiagnosi — Problemi Noti</title>
+<title>AutoDiagnosi</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ─── TOKENS ──────────────────────────────────────────────── */
+/* ── TOKENS ─────────────────────────────────────────────────────── */
 :root{
-  --bg:#0c0c0e; --surface:#141418; --card:#1a1a20;
-  --border:#2a2a35; --border2:#333340;
-  --accent:#e03c34; --accent-h:#c83028;
-  --gold:#f0a500; --blue:#3b82f6; --green:#22c55e;
-  --warning:#f59e0b; --danger:#ef4444;
-  --text:#f0eff4; --text2:#9998aa; --text3:#6b6a7a;
-  --radius:4px;
-  --font-mono:'DM Mono',monospace;
-  --font-head:'Bebas Neue',sans-serif;
-  --font-body:'DM Sans',sans-serif;
+  --bg:#0b0b0d;--surf:#13131a;--card:#18181f;--card2:#1e1e27;
+  --b1:#252530;--b2:#303040;
+  --red:#e03c34;--red2:#c83028;
+  --gold:#f0a500;--blue:#3b82f6;--grn:#22c55e;
+  --warn:#f59e0b;--err:#ef4444;
+  --t1:#eeedf6;--t2:#9998aa;--t3:#5e5d70;
+  --mono:'DM Mono',monospace;
+  --head:'Bebas Neue',sans-serif;
+  --body:'DM Sans',sans-serif;
 }
-/* ─── RESET ────────────────────────────────────────────────── */
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(224,60,52,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(224,60,52,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--body);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(224,60,52,.02) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(224,60,52,.02) 1px,transparent 1px);
+  background-size:52px 52px;pointer-events:none;z-index:0}
 
-/* ─── LAYOUT ───────────────────────────────────────────────── */
-.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 20px 80px}
+/* ── LAYOUT ─────────────────────────────────────────────────────── */
+.wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 20px 80px}
 
-/* ─── HEADER ───────────────────────────────────────────────── */
-.site-header{display:flex;align-items:center;gap:18px;padding:36px 0 28px;border-bottom:1px solid var(--border);margin-bottom:0}
-.logo{width:44px;height:44px;background:var(--accent);display:flex;align-items:center;justify-content:center;clip-path:polygon(0 0,85% 0,100% 15%,100% 100%,15% 100%,0 85%);flex-shrink:0}
-.logo svg{width:24px;height:24px;fill:#fff}
-.site-header h1{font-family:var(--font-head);font-size:clamp(2rem,5vw,3rem);letter-spacing:.06em;line-height:1}
-.site-header p{font-family:var(--font-mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.14em;color:var(--text3);margin-top:3px}
+/* ── HEADER ─────────────────────────────────────────────────────── */
+header{display:flex;align-items:center;gap:16px;padding:32px 0 24px;
+  border-bottom:1px solid var(--b1);margin-bottom:0}
+.logo{width:42px;height:42px;background:var(--red);flex-shrink:0;display:flex;
+  align-items:center;justify-content:center;
+  clip-path:polygon(0 0,85% 0,100% 15%,100% 100%,15% 100%,0 85%)}
+.logo svg{width:22px;height:22px;fill:#fff}
+header h1{font-family:var(--head);font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:.06em;line-height:1}
+header p{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--t3);margin-top:2px}
 
-/* ─── MAIN NAV ─────────────────────────────────────────────── */
-.main-nav{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:28px}
-.nav-btn{background:none;border:none;border-bottom:2px solid transparent;color:var(--text3);padding:14px 20px;font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;cursor:pointer;margin-bottom:-1px;transition:color .2s,border-color .2s;white-space:nowrap}
-.nav-btn:hover{color:var(--text)}
-.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+/* ── MAIN NAV ───────────────────────────────────────────────────── */
+nav.top{display:flex;border-bottom:1px solid var(--b1);margin-bottom:24px}
+.nav-btn{background:none;border:none;border-bottom:2px solid transparent;
+  color:var(--t3);padding:13px 18px;font-family:var(--mono);font-size:.6rem;
+  text-transform:uppercase;letter-spacing:.12em;cursor:pointer;
+  margin-bottom:-1px;transition:color .2s,border-color .2s;white-space:nowrap}
+.nav-btn:hover{color:var(--t1)}
+.nav-btn.active{color:var(--red);border-bottom-color:var(--red)}
 
-/* ─── VIEWS ────────────────────────────────────────────────── */
+/* ── VIEWS ──────────────────────────────────────────────────────── */
 .view{display:none}
-.view.active{display:block;animation:fadeUp .25s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.view.active{display:block;animation:up .22s ease}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ─── PANEL (generic card) ─────────────────────────────────── */
-.panel{background:var(--card);border:1px solid var(--border);padding:24px 28px;position:relative;margin-bottom:20px}
-.panel-accent::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--gold))}
-.panel-blue::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),#8b5cf6)}
-.panel-green::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--blue))}
-.panel-label{font-family:var(--font-mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:18px}
+/* ── PANEL ──────────────────────────────────────────────────────── */
+.panel{background:var(--card);border:1px solid var(--b1);padding:22px 26px;
+  position:relative;margin-bottom:18px;overflow:hidden}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.p-red::before{background:linear-gradient(90deg,var(--red),var(--gold))}
+.p-blue::before{background:linear-gradient(90deg,var(--blue),#7c3aed)}
+.p-grn::before{background:linear-gradient(90deg,var(--grn),var(--blue))}
+.plabel{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--red);margin-bottom:16px}
+.plabel-blue{color:var(--blue)}
+.plabel-grn{color:var(--grn)}
+.hint{font-size:.82rem;color:var(--t2);line-height:1.65;margin-bottom:16px}
 
-/* ─── SELECTORS ────────────────────────────────────────────── */
-.sel-grid{display:grid;grid-template-columns:1fr 1fr 180px 1fr;gap:14px;margin-bottom:20px}
-@media(max-width:700px){.sel-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:420px){.sel-grid{grid-template-columns:1fr}}
-.field-group{display:flex;flex-direction:column;gap:6px}
-.field-group label{font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text3)}
+/* ── FORM CONTROLS ──────────────────────────────────────────────── */
+.grid4{display:grid;grid-template-columns:1fr 1fr 170px 1fr;gap:12px;margin-bottom:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 140px;gap:12px;align-items:end;margin-bottom:16px}
+@media(max-width:680px){.grid4,.grid2{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.grid4,.grid2,.grid3{grid-template-columns:1fr}}
 
-/* search input */
-.search-wrap{position:relative}
-.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:.8rem;pointer-events:none}
-.search-input{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 12px 10px 30px;font-family:var(--font-body);font-size:.88rem;font-weight:500;transition:border-color .2s;appearance:none}
-.search-input:focus{outline:none;border-color:var(--accent)}
-.search-input::placeholder{color:var(--text3)}
-.search-input:disabled{opacity:.4;cursor:not-allowed}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--t3)}
 
-/* dropdown */
-.search-dropdown{display:none;position:absolute;top:calc(100% + 2px);left:0;right:0;background:#1e1e28;border:1px solid var(--border);max-height:200px;overflow-y:auto;z-index:200}
-.search-dropdown.open{display:block}
-.search-option{padding:9px 12px;font-size:.85rem;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.03);transition:background .12s}
-.search-option:hover,.search-option.highlighted{background:rgba(224,60,52,.12);color:var(--accent)}
-.search-option mark{background:none;color:var(--accent);font-weight:700}
-
-/* native select */
-select{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 32px 10px 12px;font-family:var(--font-body);font-size:.88rem;font-weight:500;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6a7a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;transition:border-color .2s}
-select:hover{border-color:var(--accent)}
-select:focus{outline:none;border-color:var(--accent)}
+/* search */
+.sw{position:relative}
+.si{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--t3);
+  font-size:.75rem;pointer-events:none}
+.si2{left:9px!important}
+input.si-input,select{
+  width:100%;background:var(--surf);border:1px solid var(--b1);color:var(--t1);
+  padding:9px 10px 9px 28px;font-family:var(--body);font-size:.86rem;
+  font-weight:500;transition:border-color .18s}
+select{padding-left:10px;padding-right:30px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%235e5d70' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center}
+input.si-input:focus,select:focus{outline:none;border-color:var(--red)}
+input.si-input::placeholder{color:var(--t3);font-size:.82rem}
+input.si-input:disabled{opacity:.38;cursor:not-allowed}
 select option{background:#1e1e28}
 
-/* ─── BUTTONS ──────────────────────────────────────────────── */
-.btn{border:none;cursor:pointer;font-family:var(--font-head);letter-spacing:.1em;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-.btn-primary{background:var(--accent);color:#fff;padding:14px 20px;font-size:1.15rem;width:100%;position:relative;overflow:hidden}
-.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);transform:translateX(-100%);transition:transform .5s}
-.btn-primary:hover{background:var(--accent-h)}
-.btn-primary:hover::after{transform:translateX(100%)}
-.btn-primary:disabled{background:#2a2a35;color:var(--text3);cursor:not-allowed}
-.btn-primary:disabled::after{display:none}
-.btn-blue{background:var(--blue);color:#fff;padding:11px 20px;font-size:1rem}
+/* dropdown */
+.sd{display:none;position:absolute;top:calc(100% + 2px);left:0;right:0;
+  background:#1c1c25;border:1px solid var(--b1);max-height:190px;
+  overflow-y:auto;z-index:300}
+.sd.open{display:block}
+.sdo{padding:8px 11px;font-size:.83rem;cursor:pointer;
+  border-bottom:1px solid rgba(255,255,255,.03);transition:background .1s}
+.sdo:hover{background:rgba(224,60,52,.1);color:var(--red)}
+.sdo mark{background:none;color:var(--red);font-weight:700}
+
+/* ── BUTTONS ────────────────────────────────────────────────────── */
+.btn{border:none;cursor:pointer;font-family:var(--head);letter-spacing:.1em;
+  transition:all .18s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-red{background:var(--red);color:#fff;padding:13px 18px;font-size:1.1rem;
+  width:100%;position:relative;overflow:hidden}
+.btn-red::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
+  transform:translateX(-100%);transition:transform .45s}
+.btn-red:hover{background:var(--red2)}
+.btn-red:hover::after{transform:translateX(100%)}
+.btn-red:disabled{background:var(--b1);color:var(--t3);cursor:not-allowed}
+.btn-red:disabled::after{display:none}
+.btn-blue{background:var(--blue);color:#fff;padding:10px 18px;font-size:.95rem}
 .btn-blue:hover{background:#2563eb}
-.btn-green{background:var(--green);color:#fff;padding:11px 20px;font-size:1rem}
-.btn-green:hover{background:#16a34a}
-.btn-gradient{background:linear-gradient(90deg,var(--accent),var(--blue));color:#fff;padding:14px 20px;font-size:1.1rem;width:100%}
-.btn-gradient:hover{opacity:.9}
-.btn-outline{background:none;border:1px solid var(--border);color:var(--text2);padding:8px 14px;font-size:.75rem;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.1em;cursor:pointer;transition:all .2s}
-.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-grn{background:var(--grn);color:#fff;padding:10px 18px;font-size:.95rem}
+.btn-grn:hover{background:#16a34a}
+.btn-grad{background:linear-gradient(90deg,var(--red),var(--blue));
+  color:#fff;padding:13px 18px;font-size:1.05rem;width:100%}
+.btn-grad:hover{opacity:.88}
+.btn-outline{background:none;border:1px solid var(--b2);color:var(--t2);
+  padding:6px 12px;font-size:.68rem;font-family:var(--mono);text-transform:uppercase;
+  letter-spacing:.08em;cursor:pointer;transition:all .18s}
+.btn-outline:hover{border-color:var(--red);color:var(--red)}
+.btn-link{background:none;border:1px solid;padding:8px 14px;font-family:var(--mono);
+  font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;transition:background .2s}
+.btn-link-blue{color:var(--blue);border-color:rgba(59,130,246,.35)}
+.btn-link-blue:hover{background:rgba(59,130,246,.12)}
+.btn-link-grn{color:var(--grn);border-color:rgba(34,197,94,.35)}
+.btn-link-grn:hover{background:rgba(34,197,94,.12)}
 
-/* ─── VEHICLE BAR ──────────────────────────────────────────── */
-.vehicle-bar{display:none;background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--gold);padding:12px 18px;margin-bottom:16px;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--font-mono);font-size:.68rem}
-.vehicle-bar.visible{display:flex}
-.vehicle-bar .tag{background:rgba(240,165,0,.08);border:1px solid rgba(240,165,0,.25);color:var(--gold);padding:3px 10px;font-size:.65rem;letter-spacing:.06em}
+/* ── VEHICLE BAR ────────────────────────────────────────────────── */
+#vehicle-bar{display:none;background:var(--surf);border:1px solid var(--b1);
+  border-left:2px solid var(--gold);padding:10px 16px;margin-bottom:14px;
+  align-items:center;gap:8px;flex-wrap:wrap;font-family:var(--mono);font-size:.65rem}
+#vehicle-bar.visible{display:flex}
+.vtag{background:rgba(240,165,0,.07);border:1px solid rgba(240,165,0,.22);
+  color:var(--gold);padding:3px 9px;font-size:.62rem;letter-spacing:.05em}
 
-/* ─── FILTER BAR ───────────────────────────────────────────── */
-.filter-bar{display:none;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
-.filter-bar.visible{display:flex}
-.filter-label{font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3)}
-.filter-btn{background:var(--surface);border:1px solid var(--border);color:var(--text3);padding:5px 12px;font-family:var(--font-mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;transition:all .15s}
-.filter-btn:hover{border-color:var(--accent);color:var(--text)}
-.filter-btn.active-all{border-color:var(--accent);color:var(--accent);background:rgba(224,60,52,.08)}
-.filter-btn.active-alta{border-color:var(--danger);color:var(--danger);background:rgba(239,68,68,.08)}
-.filter-btn.active-media{border-color:var(--warning);color:var(--warning);background:rgba(245,158,11,.08)}
-.filter-btn.active-bassa{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.08)}
-.problem-card.hidden-filter{display:none}
+/* ── FILTER BAR ─────────────────────────────────────────────────── */
+#filter-bar{display:none;gap:7px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+#filter-bar.visible{display:flex}
+.flabel{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--t3)}
+.fbtn{background:var(--surf);border:1px solid var(--b1);color:var(--t3);
+  padding:4px 11px;font-family:var(--mono);font-size:.6rem;text-transform:uppercase;
+  letter-spacing:.08em;cursor:pointer;transition:all .14s}
+.fbtn:hover{border-color:var(--red);color:var(--t1)}
+.fbtn.fa{border-color:var(--red);color:var(--red);background:rgba(224,60,52,.08)}
+.fbtn.falta{border-color:var(--err);color:var(--err);background:rgba(239,68,68,.08)}
+.fbtn.fmedia{border-color:var(--warn);color:var(--warn);background:rgba(245,158,11,.08)}
+.fbtn.fbassa{border-color:var(--grn);color:var(--grn);background:rgba(34,197,94,.08)}
+.problem-card.hf{display:none}
 
-/* ─── RESULT TABS ──────────────────────────────────────────── */
-.tabs{display:none;flex-wrap:wrap;border-bottom:1px solid var(--border);margin-bottom:20px}
-.tabs.visible{display:flex}
-.tab-btn{background:none;border:none;border-bottom:2px solid transparent;color:var(--text3);padding:10px 16px;font-family:var(--font-mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;margin-bottom:-1px;transition:all .2s;white-space:nowrap}
-.tab-btn:hover{color:var(--text)}
-.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab-pane{display:none}
-.tab-pane.active{display:block;animation:fadeUp .25s ease}
+/* ── RESULT TABS ────────────────────────────────────────────────── */
+#tabs{display:none;flex-wrap:wrap;border-bottom:1px solid var(--b1);margin-bottom:18px;gap:0}
+#tabs.visible{display:flex}
+.tab-btn{background:none;border:none;border-bottom:2px solid transparent;
+  color:var(--t3);padding:9px 14px;font-family:var(--mono);font-size:.58rem;
+  text-transform:uppercase;letter-spacing:.1em;cursor:pointer;
+  margin-bottom:-1px;transition:all .18s;white-space:nowrap}
+.tab-btn:hover{color:var(--t1)}
+.tab-btn.active{color:var(--red);border-bottom-color:var(--red)}
+.tab-pane{display:none}.tab-pane.active{display:block;animation:up .22s ease}
 
-/* ─── PROBLEM CARDS ────────────────────────────────────────── */
-.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-.results-title{font-family:var(--font-head);font-size:1.6rem;letter-spacing:.05em}
-.problem-count{font-family:var(--font-mono);font-size:.65rem;color:var(--text3);background:var(--surface);border:1px solid var(--border);padding:5px 12px}
-.problem-card{background:var(--card);border:1px solid var(--border);margin-bottom:10px;transition:border-color .2s}
-.problem-card:hover{border-color:var(--border2)}
-.problem-card-header{display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer;user-select:none}
-.sev-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor}
-.sev-alta{background:var(--danger);color:var(--danger)}
-.sev-media{background:var(--warning);color:var(--warning)}
-.sev-bassa{background:var(--green);color:var(--green)}
-.problem-title{font-weight:600;font-size:.9rem;flex:1;color:var(--text)}
-.sev-label{font-family:var(--font-mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;border:1px solid}
-.label-alta{color:var(--danger);border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.07)}
-.label-media{color:var(--warning);border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.07)}
-.label-bassa{color:var(--green);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.07)}
-.chevron{color:var(--text3);font-size:.75rem;transition:transform .2s;flex-shrink:0}
-.problem-card.open .chevron{transform:rotate(180deg)}
-.problem-body{display:none;padding:0 18px 18px 37px;border-top:1px solid var(--border)}
-.problem-card.open .problem-body{display:block}
-.problem-section{margin-top:14px}
-.problem-section-title{font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:6px}
-.problem-body p,.problem-body li{font-size:.85rem;color:var(--text2);line-height:1.7}
-.problem-body ul{padding-left:14px}
-.problem-body li{margin-bottom:3px}
-.cost-badge{display:inline-block;margin-top:10px;font-family:var(--font-mono);font-size:.72rem;color:var(--gold);background:rgba(240,165,0,.07);border:1px solid rgba(240,165,0,.25);padding:5px 12px}
+/* ── SECTION HD ─────────────────────────────────────────────────── */
+.shd{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--red);margin-bottom:12px;
+  padding-bottom:6px;border-bottom:1px solid var(--b1)}
 
-/* ─── STAT CARDS ───────────────────────────────────────────── */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:24px}
-.stat-card{background:var(--card);border:1px solid var(--border);padding:16px 18px;position:relative;overflow:hidden}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.stat-card.red::before{background:var(--danger)}
-.stat-card.orange::before{background:var(--gold)}
-.stat-card.green::before{background:var(--green)}
-.stat-card.blue::before{background:var(--blue)}
-.stat-label{font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:6px}
-.stat-value{font-family:var(--font-head);font-size:1.6rem;letter-spacing:.04em;line-height:1}
-.stat-sub{font-size:.72rem;color:var(--text3);margin-top:3px}
+/* ── SUMMARY BOX ────────────────────────────────────────────────── */
+.summary-box{padding:14px 18px;margin-bottom:16px;border-left:2px solid;
+  background:var(--card2);border-color:var(--b2)}
+.summary-box.aff-alta{border-color:var(--grn)}
+.summary-box.aff-media{border-color:var(--warn)}
+.summary-box.aff-bassa{border-color:var(--err)}
+.aff-label{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;
+  letter-spacing:.1em;margin-bottom:5px}
+.summary-box.aff-alta .aff-label{color:var(--grn)}
+.summary-box.aff-media .aff-label{color:var(--warn)}
+.summary-box.aff-bassa .aff-label{color:var(--err)}
+.summary-text{font-size:.84rem;color:var(--t2);line-height:1.65}
 
-/* ─── RED FLAGS ────────────────────────────────────────────── */
-.redflag-list{list-style:none}
-.redflag-item{display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
-.redflag-item:last-child{border-bottom:none}
-.redflag-km{font-family:var(--font-head);font-size:1.2rem;color:var(--gold);min-width:80px;line-height:1}
-.redflag-km span{display:block;font-family:var(--font-mono);font-size:.55rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
-.redflag-desc{font-size:.85rem;color:var(--text2);line-height:1.6}
+/* ── RESULTS HEADER ─────────────────────────────────────────────── */
+.rh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.rt{font-family:var(--head);font-size:1.5rem;letter-spacing:.05em}
+.rc{font-family:var(--mono);font-size:.62rem;color:var(--t3);
+  background:var(--surf);border:1px solid var(--b1);padding:4px 11px}
 
-/* ─── CHECKLIST ────────────────────────────────────────────── */
-.checklist{list-style:none}
-.checklist-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
-.checklist-item:last-child{border-bottom:none}
-.check-box{width:16px;height:16px;border:1.5px solid var(--border2);flex-shrink:0;margin-top:3px;transition:all .15s;display:flex;align-items:center;justify-content:center;border-radius:2px}
-.checklist-item.checked .check-box{background:var(--green);border-color:var(--green)}
-.checklist-item.checked .check-box::after{content:'✓';color:#fff;font-size:.65rem;font-weight:700}
-.checklist-item.checked .check-text{text-decoration:line-through;color:var(--text3)}
-.check-text{font-size:.85rem;color:var(--text2);line-height:1.6}
-.checklist-progress{display:flex;align-items:center;gap:10px;margin-bottom:16px;font-family:var(--font-mono);font-size:.65rem;color:var(--text3)}
-.progress-bar{flex:1;height:2px;background:var(--border)}
-.progress-fill{height:100%;background:var(--green);transition:width .3s}
+/* ── PROBLEM CARD ───────────────────────────────────────────────── */
+.problem-card{background:var(--card);border:1px solid var(--b1);
+  margin-bottom:8px;transition:border-color .18s}
+.problem-card:hover{border-color:var(--b2)}
+.pch{display:flex;align-items:center;gap:11px;padding:13px 16px;cursor:pointer;user-select:none}
+.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor}
+.sa{background:var(--err);color:var(--err)}
+.sm{background:var(--warn);color:var(--warn)}
+.sb{background:var(--grn);color:var(--grn)}
+.ptitle{font-weight:600;font-size:.88rem;flex:1;color:var(--t1)}
+.slbl{font-family:var(--mono);font-size:.56rem;text-transform:uppercase;
+  letter-spacing:.1em;padding:2px 7px;border:1px solid;flex-shrink:0}
+.la{color:var(--err);border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.07)}
+.lm{color:var(--warn);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.07)}
+.lb{color:var(--grn);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.07)}
+.chev{color:var(--t3);font-size:.7rem;transition:transform .18s;flex-shrink:0}
+.problem-card.open .chev{transform:rotate(180deg)}
+.pcb{display:none;padding:0 16px 16px 34px;border-top:1px solid var(--b1)}
+.problem-card.open .pcb{display:block}
+.psec{margin-top:12px}
+.pst{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--red);margin-bottom:5px}
+.pcb p,.pcb li{font-size:.83rem;color:var(--t2);line-height:1.65}
+.pcb ul{padding-left:14px}
+.pcb li{margin-bottom:3px}
+.cbadge{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:.7rem;
+  color:var(--gold);background:rgba(240,165,0,.07);
+  border:1px solid rgba(240,165,0,.22);padding:4px 11px}
 
-/* ─── QUESTIONS ────────────────────────────────────────────── */
-.question-item{background:var(--card);border:1px solid var(--border);border-left:2px solid var(--gold);padding:12px 16px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;font-size:.85rem;color:var(--text2);line-height:1.6}
-.question-num{font-family:var(--font-head);font-size:1rem;color:var(--gold);min-width:20px;line-height:1.3}
+/* ── STAT CARDS ─────────────────────────────────────────────────── */
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:22px}
+.sc{background:var(--card);border:1px solid var(--b1);padding:14px 16px;position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.sc.sr::before{background:var(--err)}.sc.so::before{background:var(--gold)}
+.sc.sg2::before{background:var(--grn)}.sc.sb2::before{background:var(--blue)}
+.slb{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--t3);margin-bottom:5px}
+.sv{font-family:var(--head);font-size:1.5rem;letter-spacing:.04em;line-height:1}
+.ss{font-size:.7rem;color:var(--t3);margin-top:2px}
 
-/* ─── RECALL / EXTRA ───────────────────────────────────────── */
-.recall-box{background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.25);padding:16px 18px;margin-bottom:12px}
-.recall-title{font-family:var(--font-mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.12em;color:var(--blue);margin-bottom:8px}
-.recall-box p{font-size:.83rem;color:var(--text2);line-height:1.7}
-.recall-box a{color:var(--blue);text-decoration:none}
-.recall-box a:hover{text-decoration:underline}
+/* ── RED FLAGS ──────────────────────────────────────────────────── */
+.rfl{list-style:none}
+.rfi{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--b1)}
+.rfi:last-child{border-bottom:none}
+.rfk{font-family:var(--head);font-size:1.1rem;color:var(--gold);min-width:72px;line-height:1}
+.rfk span{display:block;font-family:var(--mono);font-size:.5rem;color:var(--t3);text-transform:uppercase}
+.rfd{font-size:.83rem;color:var(--t2);line-height:1.6}
 
-/* ─── SECTION HEADER ───────────────────────────────────────── */
-.section-hd{font-family:var(--font-mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+/* ── CHECKLIST ──────────────────────────────────────────────────── */
+.cl{list-style:none}
+.cli{display:flex;align-items:flex-start;gap:9px;padding:9px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;user-select:none}
+.cli:last-child{border-bottom:none}
+.cb{width:15px;height:15px;border:1.5px solid var(--b2);flex-shrink:0;margin-top:3px;
+  transition:all .15s;display:flex;align-items:center;justify-content:center;border-radius:2px}
+.cli.chk .cb{background:var(--grn);border-color:var(--grn)}
+.cli.chk .cb::after{content:'✓';color:#fff;font-size:.6rem;font-weight:700}
+.cli.chk .ct{text-decoration:line-through;color:var(--t3)}
+.ct{font-size:.83rem;color:var(--t2);line-height:1.6}
+.cprog{display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  font-family:var(--mono);font-size:.62rem;color:var(--t3)}
+.cpb{flex:1;height:2px;background:var(--b1)}
+.cpf{height:100%;background:var(--grn);transition:width .3s}
 
-/* ─── MAINTENANCE ──────────────────────────────────────────── */
-.maint-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-bottom:6px}
-.maint-card{background:var(--card);border:1px solid var(--border);padding:14px 16px;position:relative;overflow:hidden}
-.maint-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--accent)}
-.maint-card.green::before{background:var(--green)}
-.maint-card.orange::before{background:var(--gold)}
-.maint-card.blue::before{background:var(--blue)}
-.maint-card.red::before{background:var(--danger)}
-.maint-card-label{font-family:var(--font-mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:5px}
-.maint-card-value{font-size:.88rem;color:var(--text);font-weight:600;margin-bottom:4px}
-.maint-card-sub{font-size:.75rem;color:var(--text2);line-height:1.5}
-.badge-catena{display:inline-block;font-family:var(--font-mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;padding:2px 8px;border:1px solid;margin-top:5px;color:var(--green);border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.07)}
-.badge-cinghia{display:inline-block;font-family:var(--font-mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;padding:2px 8px;border:1px solid;margin-top:5px;color:var(--danger);border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.07)}
-.maint-section{margin-bottom:24px}
-.schedule-list{list-style:none}
-.schedule-item{display:grid;grid-template-columns:170px 1fr 16px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.schedule-item:last-child{border-bottom:none}
-.schedule-interval{font-family:var(--font-mono);font-size:.68rem;color:var(--gold);line-height:1.4}
-.schedule-op{font-size:.84rem;color:var(--text2)}
-.prio-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;justify-self:center}
-.prio-alta{background:var(--danger);box-shadow:0 0 5px var(--danger)}
-.prio-media{background:var(--warning);box-shadow:0 0 5px var(--warning)}
-.prio-bassa{background:var(--green);box-shadow:0 0 5px var(--green)}
+/* ── QUESTIONS ──────────────────────────────────────────────────── */
+.qi{background:var(--card);border:1px solid var(--b1);border-left:2px solid var(--gold);
+  padding:11px 14px;margin-bottom:7px;display:flex;align-items:flex-start;
+  gap:9px;font-size:.83rem;color:var(--t2);line-height:1.6}
+.qn{font-family:var(--head);font-size:.95rem;color:var(--gold);min-width:18px;line-height:1.3}
 
-/* ─── TYRE TABLE ───────────────────────────────────────────── */
-.tyre-table,.bulb-table{width:100%;border-collapse:collapse;font-size:.8rem}
-.tyre-table th,.bulb-table th{font-family:var(--font-mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);padding:7px 10px;text-align:left;border-bottom:1px solid var(--border)}
-.tyre-table td,.bulb-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--text2)}
-.tyre-table tr:last-child td,.bulb-table tr:last-child td{border-bottom:none}
-.tyre-table td:nth-child(2),.tyre-table td:nth-child(3){color:var(--gold);font-family:var(--font-mono)}
-.bulb-table td:first-child{color:var(--text3);font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
-.bulb-table td:last-child{color:var(--text);font-weight:500}
+/* ── RECALL ─────────────────────────────────────────────────────── */
+.rb{background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.22);
+  padding:14px 16px;margin-bottom:10px}
+.rbt{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--blue);margin-bottom:7px}
+.rb p{font-size:.82rem;color:var(--t2);line-height:1.7}
+.rb a{color:var(--blue);text-decoration:none}
+.rb a:hover{text-decoration:underline}
 
-/* ─── OBD ──────────────────────────────────────────────────── */
-.obd-search-wrap{margin-bottom:16px;position:relative}
-.obd-search{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 12px 10px 30px;font-family:var(--font-mono);font-size:.82rem;width:100%;transition:border-color .2s}
-.obd-search:focus{outline:none;border-color:var(--accent)}
-.obd-search::placeholder{color:var(--text3);font-family:var(--font-body);font-size:.85rem}
-.obd-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none}
-.obd-count{font-family:var(--font-mono);font-size:.65rem;color:var(--text3);margin-bottom:12px}
-.obd-list{list-style:none}
-.obd-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.obd-item:last-child{border-bottom:none}
-.obd-code{font-family:var(--font-mono);font-size:.75rem;padding:3px 8px;border:1px solid;flex-shrink:0;min-width:52px;text-align:center;line-height:1.5}
-.obd-code.P{color:var(--gold);border-color:rgba(240,165,0,.3);background:rgba(240,165,0,.07)}
-.obd-code.C{color:var(--blue);border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.07)}
-.obd-code.B{color:#a78bfa;border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.07)}
-.obd-desc{font-size:.83rem;color:var(--text2);line-height:1.5}
+/* ── MAINTENANCE ────────────────────────────────────────────────── */
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px;margin-bottom:5px}
+.mc{background:var(--card);border:1px solid var(--b1);padding:13px 15px;
+  position:relative;overflow:hidden}
+.mc::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:var(--red)}
+.mc.cg::before{background:var(--grn)}.mc.co::before{background:var(--gold)}
+.mc.cb2::before{background:var(--blue)}.mc.cr::before{background:var(--err)}
+.mclb{font-family:var(--mono);font-size:.56rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:4px}
+.mcv{font-size:.86rem;color:var(--t1);font-weight:600;margin-bottom:3px}
+.mcs{font-size:.73rem;color:var(--t2);line-height:1.5}
+.bcat{display:inline-block;font-family:var(--mono);font-size:.56rem;text-transform:uppercase;
+  letter-spacing:.08em;padding:2px 7px;border:1px solid;margin-top:4px}
+.bc-grn{color:var(--grn);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.07)}
+.bc-red{color:var(--err);border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.07)}
+.ms{margin-bottom:22px}
+.scl{list-style:none}
+.sci{display:grid;grid-template-columns:160px 1fr 14px;align-items:center;
+  gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.sci:last-child{border-bottom:none}
+.sin{font-family:var(--mono);font-size:.65rem;color:var(--gold);line-height:1.4}
+.sop{font-size:.82rem;color:var(--t2)}
+.pd{width:7px;height:7px;border-radius:50%;flex-shrink:0;justify-self:center}
+.pd-a{background:var(--err);box-shadow:0 0 5px var(--err)}
+.pd-m{background:var(--warn);box-shadow:0 0 5px var(--warn)}
+.pd-b{background:var(--grn);box-shadow:0 0 5px var(--grn)}
 
-/* ─── LOADING ──────────────────────────────────────────────── */
-.loading-state{display:none;flex-direction:column;align-items:center;padding:56px 0;gap:16px}
-.loading-state.visible{display:flex}
-.engine-loader{width:44px;height:44px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+/* ── TABLES ─────────────────────────────────────────────────────── */
+.ttb,.btb{width:100%;border-collapse:collapse;font-size:.79rem}
+.ttb th,.btb th{font-family:var(--mono);font-size:.56rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--t3);padding:7px 9px;text-align:left;border-bottom:1px solid var(--b1)}
+.ttb td,.btb td{padding:8px 9px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--t2)}
+.ttb tr:last-child td,.btb tr:last-child td{border-bottom:none}
+.ttb td:nth-child(2),.ttb td:nth-child(3){color:var(--gold);font-family:var(--mono)}
+.btb td:first-child{color:var(--t3);font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.06em}
+.btb td:last-child{color:var(--t1);font-weight:500}
+
+/* ── OBD ────────────────────────────────────────────────────────── */
+.obds{margin-bottom:14px;position:relative}
+.obdi{background:var(--surf);border:1px solid var(--b1);color:var(--t1);
+  padding:9px 10px 9px 28px;font-family:var(--mono);font-size:.8rem;width:100%;transition:border-color .18s}
+.obdi:focus{outline:none;border-color:var(--red)}
+.obdi::placeholder{color:var(--t3);font-family:var(--body);font-size:.82rem}
+.obds .si{left:9px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none}
+.obdct{font-family:var(--mono);font-size:.62rem;color:var(--t3);margin-bottom:10px}
+.obdl{list-style:none}
+.obdi2{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.obdi2:last-child{border-bottom:none}
+.ocode{font-family:var(--mono);font-size:.72rem;padding:2px 7px;border:1px solid;flex-shrink:0;min-width:50px;text-align:center;line-height:1.5}
+.oP{color:var(--gold);border-color:rgba(240,165,0,.28);background:rgba(240,165,0,.06)}
+.oC{color:var(--blue);border-color:rgba(59,130,246,.28);background:rgba(59,130,246,.06)}
+.oB{color:#a78bfa;border-color:rgba(167,139,250,.28);background:rgba(167,139,250,.06)}
+.odesc{font-size:.81rem;color:var(--t2);line-height:1.5}
+
+/* ── LOADING / ERROR ────────────────────────────────────────────── */
+.loading{display:none;flex-direction:column;align-items:center;padding:52px 0;gap:14px}
+.loading.on{display:flex}
+.spin{width:42px;height:42px;border:2px solid var(--b1);border-top-color:var(--red);
+  border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-state p{font-family:var(--font-mono);font-size:.7rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;animation:blink 1.4s ease infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.loading p{font-family:var(--mono);font-size:.67rem;color:var(--t3);text-transform:uppercase;
+  letter-spacing:.1em;animation:bl 1.4s ease infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
+.ebox{display:none;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.28);
+  padding:12px 16px;color:#fca5a5;font-size:.83rem;gap:9px;align-items:flex-start;margin-bottom:14px}
+.ebox.on{display:flex}
 
-/* ─── ERROR ────────────────────────────────────────────────── */
-.error-box{display:none;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.3);padding:14px 18px;color:#fca5a5;font-size:.85rem;gap:10px;align-items:flex-start;margin-bottom:16px}
-.error-box.visible{display:flex}
+/* ── NOT IN DB ──────────────────────────────────────────────────── */
+.nodb{background:var(--card);border:1px solid var(--b1);border-left:2px solid var(--gold);
+  padding:28px 24px;text-align:center}
+.nodb-icon{font-size:1.8rem;margin-bottom:12px}
+.nodb-title{font-family:var(--head);font-size:1.3rem;letter-spacing:.06em;color:var(--gold);margin-bottom:10px}
+.nodb-text{font-size:.83rem;color:var(--t2);line-height:1.7;margin-bottom:14px}
+.nodb-note{font-family:var(--mono);font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em}
 
-/* ─── VIN ──────────────────────────────────────────────────── */
-.vin-input-row{display:flex;gap:10px;margin-bottom:16px}
-.vin-input{flex:1;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-family:var(--font-mono);font-size:.95rem;letter-spacing:.15em;text-transform:uppercase;transition:border-color .2s}
-.vin-input:focus{outline:none;border-color:var(--blue)}
-.vin-input::placeholder{letter-spacing:.04em;font-size:.8rem;opacity:.45}
-.vin-result{display:none;background:var(--surface);border:1px solid var(--border);padding:18px 20px;margin-top:4px}
-.vin-result.visible{display:block;animation:fadeUp .25s ease}
-.vin-chars{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:18px}
-.vin-char{width:36px;height:42px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border);gap:2px;transition:border-color .2s;border-radius:2px}
-.vin-char.highlight{border-color:var(--blue);background:rgba(59,130,246,.1)}
-.vin-char span:first-child{font-family:var(--font-mono);font-size:.9rem;color:var(--text);font-weight:700}
-.vin-char span:last-child{font-family:var(--font-mono);font-size:.45rem;color:var(--text3)}
-.vin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
-.vin-field-label{font-family:var(--font-mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:3px}
-.vin-field-value{font-size:.88rem;color:var(--text);font-weight:600}
-.vin-error{color:var(--danger);font-family:var(--font-mono);font-size:.72rem;margin-top:6px;display:none}
-.vin-error.visible{display:block}
-.vin-btn-goto{display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.35);color:var(--blue);padding:9px 16px;font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;transition:background .2s}
-.vin-btn-goto:hover{background:rgba(59,130,246,.2)}
+/* ── VIN ─────────────────────────────────────────────────────────── */
+.vin-row{display:flex;gap:9px;margin-bottom:14px}
+.vin-in{flex:1;background:var(--surf);border:1px solid var(--b1);color:var(--t1);
+  padding:11px 13px;font-family:var(--mono);font-size:.9rem;letter-spacing:.16em;
+  text-transform:uppercase;transition:border-color .18s}
+.vin-in:focus{outline:none;border-color:var(--blue)}
+.vin-in::placeholder{letter-spacing:.03em;font-size:.78rem;opacity:.4}
+.vin-err{color:var(--err);font-family:var(--mono);font-size:.7rem;margin-top:5px;display:none}
+.vin-err.on{display:block}
+.vin-res{display:none;background:var(--surf);border:1px solid var(--b1);padding:16px 18px;margin-top:5px}
+.vin-res.on{display:block;animation:up .22s ease}
+.vin-chars{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:16px}
+.vc{width:34px;height:40px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;background:var(--card);border:1px solid var(--b1);
+  gap:2px;border-radius:2px;transition:border-color .18s}
+.vc.hi{border-color:var(--blue);background:rgba(59,130,246,.09)}
+.vc span:first-child{font-family:var(--mono);font-size:.88rem;color:var(--t1);font-weight:700}
+.vc span:last-child{font-family:var(--mono);font-size:.42rem;color:var(--t3)}
+.vin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.vf-lb{font-family:var(--mono);font-size:.56rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:2px}
+.vf-v{font-size:.86rem;color:var(--t1);font-weight:600}
 
-/* ─── COMPARE ──────────────────────────────────────────────── */
-.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-@media(max-width:600px){.compare-grid{grid-template-columns:1fr}}
-.compare-panel{background:var(--card);border:1px solid var(--border);padding:20px}
-.compare-panel.left::before{content:'';display:block;width:100%;height:2px;background:var(--accent);margin-bottom:14px}
-.compare-panel.right::before{content:'';display:block;width:100%;height:2px;background:var(--blue);margin-bottom:14px}
-.compare-label{font-family:var(--font-mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:14px}
-.compare-panel.right .compare-label{color:var(--blue)}
-.compare-selectors{display:flex;flex-direction:column;gap:10px}
-.compare-results{display:none}
-.compare-results.visible{display:block;animation:fadeUp .25s ease}
-.compare-row{display:grid;grid-template-columns:140px 1fr 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.04)}
-.compare-row:first-child{border-top:1px solid var(--border)}
-.compare-row-label{font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:10px 12px;background:rgba(255,255,255,.02);border-right:1px solid var(--border);display:flex;align-items:center}
-.compare-cell{padding:10px 14px;font-size:.83rem;color:var(--text2);line-height:1.4}
-.compare-cell.win{background:rgba(34,197,94,.06);color:var(--green);font-weight:600}
-.compare-cell.left-col{border-right:1px solid var(--border)}
-.compare-section-header{grid-column:1/-1;background:var(--surface);padding:7px 12px;font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);border-bottom:1px solid var(--border)}
+/* ── COMPARE ─────────────────────────────────────────────────────── */
+.cg2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:560px){.cg2{grid-template-columns:1fr}}
+.cp{background:var(--card);border:1px solid var(--b1);padding:18px}
+.cp::before{content:'';display:block;height:2px;margin-bottom:12px}
+.cp.ca::before{background:var(--red)}.cp.cb3::before{background:var(--blue)}
+.cplb{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
+.ca .cplb{color:var(--red)}.cb3 .cplb{color:var(--blue)}
+.cps{display:flex;flex-direction:column;gap:9px}
+.cres{display:none}
+.cres.on{display:block;animation:up .22s ease}
+.cr{display:grid;grid-template-columns:138px 1fr 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.04)}
+.cr:first-child{border-top:1px solid var(--b1)}
+.crl{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--t3);padding:9px 11px;background:rgba(255,255,255,.02);
+  border-right:1px solid var(--b1);display:flex;align-items:center}
+.cc{padding:9px 13px;font-size:.81rem;color:var(--t2);line-height:1.4}
+.cc.win{background:rgba(34,197,94,.06);color:var(--grn);font-weight:600}
+.cc.lc{border-right:1px solid var(--b1)}
+.csh{grid-column:1/-1;background:var(--surf);padding:6px 11px;font-family:var(--mono);
+  font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--red);border-bottom:1px solid var(--b1)}
+.verdict{background:var(--card);border:1px solid var(--b1);border-left:2px solid var(--gold);
+  padding:14px 16px;margin-top:14px;font-size:.84rem;color:var(--t2);line-height:1.7}
 
-/* ─── REMINDERS ────────────────────────────────────────────── */
-.reminder-form{display:grid;grid-template-columns:1fr 1fr 150px;gap:12px;align-items:end;margin-bottom:16px}
-@media(max-width:600px){.reminder-form{grid-template-columns:1fr}}
-.km-input{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 12px;font-family:var(--font-mono);font-size:.95rem;width:100%;transition:border-color .2s}
-.km-input:focus{outline:none;border-color:var(--green)}
-.reminder-saved{display:none}
-.reminder-saved.visible{display:flex;align-items:center;gap:8px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.25);padding:9px 14px;margin-bottom:14px;font-family:var(--font-mono);font-size:.7rem;color:var(--green)}
-.reminder-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
-.reminder-card{background:var(--card);border:1px solid var(--border);padding:15px 17px;position:relative;overflow:hidden}
-.reminder-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px}
-.reminder-card.ok::after{background:var(--green)}
-.reminder-card.soon::after{background:var(--warning)}
-.reminder-card.overdue::after{background:var(--danger)}
-.reminder-op{font-size:.85rem;color:var(--text);font-weight:600;margin-bottom:5px}
-.reminder-km-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.reminder-due{font-family:var(--font-mono);font-size:.68rem;color:var(--text3)}
-.reminder-delta{font-family:var(--font-mono);font-size:.65rem;padding:2px 8px;border:1px solid}
-.reminder-delta.ok{color:var(--green);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.07)}
-.reminder-delta.soon{color:var(--warning);border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.07)}
-.reminder-delta.overdue{color:var(--danger);border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.07)}
-.reminder-bar{height:3px;background:var(--border);margin-top:6px}
-.reminder-bar-fill{height:100%;transition:width .5s}
+/* ── REMINDERS ──────────────────────────────────────────────────── */
+.rem-saved{display:none}
+.rem-saved.on{display:flex;align-items:center;gap:8px;background:rgba(34,197,94,.07);
+  border:1px solid rgba(34,197,94,.22);padding:8px 13px;margin-bottom:13px;
+  font-family:var(--mono);font-size:.68rem;color:var(--grn)}
+.rcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.rcard{background:var(--card);border:1px solid var(--b1);padding:14px 15px;position:relative;overflow:hidden}
+.rcard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px}
+.rcard.ok::after{background:var(--grn)}.rcard.soon::after{background:var(--warn)}.rcard.ov::after{background:var(--err)}
+.rop{font-size:.83rem;color:var(--t1);font-weight:600;margin-bottom:4px}
+.rkr{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.rdue{font-family:var(--mono);font-size:.65rem;color:var(--t3)}
+.rdelta{font-family:var(--mono);font-size:.62rem;padding:2px 7px;border:1px solid}
+.rdelta.ok{color:var(--grn);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.07)}
+.rdelta.soon{color:var(--warn);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.07)}
+.rdelta.ov{color:var(--err);border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.07)}
+.rbar{height:3px;background:var(--b1);margin-top:5px}
+.rbf{height:100%;transition:width .45s}
 
-/* ─── DISCLAIMER ───────────────────────────────────────────── */
-.disclaimer{margin-top:48px;padding:13px 16px;border:1px solid var(--border);font-size:.72rem;color:var(--text3);line-height:1.5;font-family:var(--font-mono)}
-.disclaimer strong{color:var(--text3)}
+/* ── SOURCE BADGE ───────────────────────────────────────────────── */
+.src-badge{margin-left:auto;font-family:var(--mono);font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.08em;padding:3px 9px;border:1px solid}
 
-/* ─── SOURCE BADGE ─────────────────────────────────────────── */
-.source-badge{margin-left:auto;font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border:1px solid}
+/* ── DISCLAIMER ─────────────────────────────────────────────────── */
+.disc{margin-top:44px;padding:12px 15px;border:1px solid var(--b1);font-size:.7rem;
+  color:var(--t3);line-height:1.5;font-family:var(--mono)}
 
-/* ─── PRINT ────────────────────────────────────────────────── */
+/* ── PRINT ──────────────────────────────────────────────────────── */
 @media print{
-  .site-header,.main-nav,.panel,.vehicle-bar,.filter-bar,.tabs,
-  .btn-primary,.disclaimer,.tab-btn,body::before{display:none!important}
-  .tab-pane{display:block!important}
+  header,nav.top,.panel,.loading,.ebox,.disc,#filter-bar,#tabs,
+  #vehicle-bar,.btn-red,body::before{display:none!important}
+  .tab-pane,.view{display:block!important}
   .problem-card{break-inside:avoid}
   body{background:#fff;color:#000}
 }
 </style>
-
+</head>
+<body>
 <div class="wrap">
 
-  <header class="site-header">
-    <div class="logo">
-      <svg viewBox="0 0 24 24"><path d="M19 17H5v-1.26A2 2 0 0 1 3 14v-3a9 9 0 0 1 18 0v3a2 2 0 0 1-2 1.74V17zm-2 2H7v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1zM7.5 10a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
-    </div>
-    <div>
-      <h1>AutoDiagnosi</h1>
-      <p>Diagnosi · VIN · Confronto · Promemoria</p>
-    </div>
-  </header>
+<!-- ══ HEADER ══════════════════════════════════════════════════════════════ -->
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 24 24"><path d="M19 17H5v-1.26A2 2 0 0 1 3 14v-3a9 9 0 0 1 18 0v3a2 2 0 0 1-2 1.74V17zm-2 2H7v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1zM7.5 10a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
+  </div>
+  <div>
+    <h1>AutoDiagnosi</h1>
+    <p>Diagnosi · VIN · Confronto · Promemoria</p>
+  </div>
+</header>
 
-  <nav class="main-nav">
-    <button class="nav-btn active" data-view="analisi"    onclick="switchView('analisi')">⚙ Analisi</button>
-    <button class="nav-btn"        data-view="vin"        onclick="switchView('vin')">🔑 Decoder VIN</button>
-    <button class="nav-btn"        data-view="confronto"  onclick="switchView('confronto')">⚖ Confronto</button>
-    <button class="nav-btn"        data-view="promemoria" onclick="switchView('promemoria')">📅 Promemoria</button>
-  </nav>
+<!-- ══ TOP NAV ══════════════════════════════════════════════════════════════ -->
+<nav class="top">
+  <button class="nav-btn active" data-view="analisi"    onclick="switchView('analisi')">⚙ Analisi</button>
+  <button class="nav-btn"        data-view="vin"        onclick="switchView('vin')">🔑 Decoder VIN</button>
+  <button class="nav-btn"        data-view="confronto"  onclick="switchView('confronto')">⚖ Confronto</button>
+  <button class="nav-btn"        data-view="promemoria" onclick="switchView('promemoria')">📅 Promemoria</button>
+</nav>
 
-  <!-- ── VIEW: ANALISI ──────────────────────────────────────────────── -->
-  <div class="view active" id="view-analisi">
+<!-- ══ VIEW: ANALISI ════════════════════════════════════════════════════════ -->
+<div class="view active" id="view-analisi">
 
-    <div class="panel panel-accent">
-      <div class="panel-label">// Seleziona il veicolo</div>
-      <div class="sel-grid">
-        <div class="field-group">
-          <label>Marca</label>
-          <div class="search-wrap" id="wrap-marca">
-            <span class="search-icon">⌕</span>
-            <input class="search-input" id="search-marca" placeholder="Cerca marca…" autocomplete="off"
-              oninput="filterSearch('marca')" onfocus="openDropdown('marca')" onblur="closeDropdown('marca')">
-            <div class="search-dropdown" id="drop-marca"></div>
-          </div>
-          <input type="hidden" id="sel-marca">
+  <div class="panel p-red">
+    <div class="plabel">// Seleziona il veicolo</div>
+    <div class="grid4">
+      <div class="fg">
+        <label>Marca</label>
+        <div class="sw">
+          <span class="si">⌕</span>
+          <input class="si-input" id="search-marca" placeholder="Cerca marca…" autocomplete="off"
+            oninput="filterSearch('marca')" onfocus="openDropdown('marca')" onblur="closeDropdown('marca')">
+          <div class="sd" id="drop-marca"></div>
         </div>
-        <div class="field-group">
-          <label>Modello</label>
-          <div class="search-wrap" id="wrap-modello">
-            <span class="search-icon">⌕</span>
-            <input class="search-input" id="search-modello" placeholder="Seleziona prima la marca" autocomplete="off"
-              oninput="filterSearch('modello')" onfocus="openDropdown('modello')" onblur="closeDropdown('modello')" disabled>
-            <div class="search-dropdown" id="drop-modello"></div>
-          </div>
-          <input type="hidden" id="sel-modello">
-        </div>
-        <div class="field-group">
-          <label>Anno</label>
-          <select id="sel-anno" onchange="updateMotori()">
-            <option value="">— Anno —</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <label>Motorizzazione</label>
-          <select id="sel-motore">
-            <option value="">— Motore —</option>
-          </select>
-        </div>
+        <input type="hidden" id="sel-marca">
       </div>
-      <button class="btn btn-primary" onclick="avviaDiagnosi()">
-        <span>⚙</span> ANALIZZA PROBLEMI NOTI
-      </button>
-    </div>
-
-    <div class="vehicle-bar" id="vehicle-bar"></div>
-
-    <div class="filter-bar" id="filter-bar">
-      <span class="filter-label">Filtra:</span>
-      <button class="filter-btn active-all" data-sev="all"   onclick="applyFilter('all')">Tutti</button>
-      <button class="filter-btn" data-sev="alta"   onclick="applyFilter('alta')">🔴 Alta</button>
-      <button class="filter-btn" data-sev="media"  onclick="applyFilter('media')">🟡 Media</button>
-      <button class="filter-btn" data-sev="bassa"  onclick="applyFilter('bassa')">🟢 Bassa</button>
-    </div>
-
-    <div class="tabs" id="tabs">
-      <button class="tab-btn active" data-tab="problemi"    onclick="switchTab('problemi')">⚙ Problemi</button>
-      <button class="tab-btn"        data-tab="stats"       onclick="switchTab('stats')">📊 Statistiche</button>
-      <button class="tab-btn"        data-tab="manutenzione" onclick="switchTab('manutenzione')">🔧 Manutenzione</button>
-      <button class="tab-btn"        data-tab="checklist"   onclick="switchTab('checklist')">✓ Checklist</button>
-      <button class="tab-btn"        data-tab="domande"     onclick="switchTab('domande')">💬 Domande</button>
-      <button class="tab-btn"        data-tab="tecnico"     onclick="switchTab('tecnico')">📐 Tecnico</button>
-      <button class="tab-btn"        data-tab="obd"         onclick="switchTab('obd')">🔍 Codici OBD</button>
-      <button class="tab-btn"        data-tab="extra"       onclick="switchTab('extra')">ℹ Extra</button>
-    </div>
-
-    <div class="loading-state" id="loading">
-      <div class="engine-loader"></div>
-      <p>Caricamento in corso…</p>
-    </div>
-    <div class="error-box" id="error-box"><span>⚠</span><span id="error-msg">Errore.</span></div>
-    <div id="results"></div>
-
-  </div><!-- /view-analisi -->
-
-  <!-- ── VIEW: VIN ──────────────────────────────────────────────────── -->
-  <div class="view" id="view-vin">
-    <div class="panel panel-blue">
-      <div class="panel-label">// Decodifica numero di telaio (VIN)</div>
-      <p style="font-size:.83rem;color:var(--text2);margin-bottom:18px;line-height:1.65">
-        Il VIN è un codice di 17 caratteri che identifica univocamente il veicolo.
-        Lo trovi sul parabrezza (angolo inferiore sinistro), sul libretto di circolazione o sul montante porta.
-      </p>
-      <div class="vin-input-row">
-        <input class="vin-input" id="vin-input" maxlength="17" placeholder="Es: WBA3A5109DF123456"
-          oninput="this.value=this.value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g,'')"
-          onkeydown="if(event.key==='Enter')decodeVIN()">
-        <button class="btn btn-blue" onclick="decodeVIN()">🔍 DECODIFICA</button>
+      <div class="fg">
+        <label>Modello</label>
+        <div class="sw">
+          <span class="si">⌕</span>
+          <input class="si-input" id="search-modello" placeholder="Prima seleziona marca" autocomplete="off"
+            oninput="filterSearch('modello')" onfocus="openDropdown('modello')" onblur="closeDropdown('modello')" disabled>
+          <div class="sd" id="drop-modello"></div>
+        </div>
+        <input type="hidden" id="sel-modello">
       </div>
-      <div class="vin-error" id="vin-error">VIN non valido — 17 caratteri alfanumerici (no I, O, Q)</div>
-      <div class="vin-result" id="vin-result">
-        <div class="vin-chars" id="vin-chars"></div>
-        <div class="vin-grid" id="vin-grid"></div>
-        <button class="vin-btn-goto" onclick="gotoAnalisiFromVIN()">⚙ Apri Analisi per questo veicolo</button>
+      <div class="fg">
+        <label>Anno</label>
+        <select id="sel-anno" onchange="updateMotori()">
+          <option value="">— Anno —</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Motorizzazione</label>
+        <select id="sel-motore">
+          <option value="">— Motore —</option>
+        </select>
       </div>
     </div>
+    <button class="btn btn-red" id="btn-analisi" onclick="avviaDiagnosi()">⚙ ANALIZZA PROBLEMI NOTI</button>
   </div>
 
-  <!-- ── VIEW: CONFRONTO ────────────────────────────────────────────── -->
-  <div class="view" id="view-confronto">
-    <div class="compare-grid">
-      <div class="compare-panel left">
-        <div class="compare-label">// Veicolo A</div>
-        <div class="compare-selectors" id="compare-selectors-a"></div>
-      </div>
-      <div class="compare-panel right">
-        <div class="compare-label">// Veicolo B</div>
-        <div class="compare-selectors" id="compare-selectors-b"></div>
-      </div>
+  <div id="vehicle-bar"></div>
+
+  <div id="filter-bar">
+    <span class="flabel">Filtra:</span>
+    <button class="fbtn fa" data-sev="all"   onclick="applyFilter('all')">Tutti</button>
+    <button class="fbtn"    data-sev="alta"   onclick="applyFilter('alta')">🔴 Alta</button>
+    <button class="fbtn"    data-sev="media"  onclick="applyFilter('media')">🟡 Media</button>
+    <button class="fbtn"    data-sev="bassa"  onclick="applyFilter('bassa')">🟢 Bassa</button>
+  </div>
+
+  <div id="tabs">
+    <button class="tab-btn active" data-tab="problemi"     onclick="switchTab('problemi')">⚙ Problemi</button>
+    <button class="tab-btn"        data-tab="stats"        onclick="switchTab('stats')">📊 Statistiche</button>
+    <button class="tab-btn"        data-tab="manutenzione" onclick="switchTab('manutenzione')">🔧 Manutenzione</button>
+    <button class="tab-btn"        data-tab="checklist"    onclick="switchTab('checklist')">✓ Checklist</button>
+    <button class="tab-btn"        data-tab="domande"      onclick="switchTab('domande')">💬 Domande</button>
+    <button class="tab-btn"        data-tab="tecnico"      onclick="switchTab('tecnico')">📐 Tecnico</button>
+    <button class="tab-btn"        data-tab="obd"          onclick="switchTab('obd')">🔍 OBD</button>
+    <button class="tab-btn"        data-tab="extra"        onclick="switchTab('extra')">ℹ Extra</button>
+  </div>
+
+  <div class="loading" id="loading"><div class="spin"></div><p id="load-msg">Caricamento…</p></div>
+  <div class="ebox" id="error-box"><span>⚠</span><span id="error-msg">Errore.</span></div>
+  <div id="results"></div>
+
+</div><!-- /view-analisi -->
+
+<!-- ══ VIEW: VIN ════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-vin">
+  <div class="panel p-blue">
+    <div class="plabel plabel-blue">// Decodifica numero di telaio (VIN)</div>
+    <p class="hint">Il VIN è un codice di 17 caratteri che identifica univocamente il veicolo. Lo trovi sul parabrezza (angolo inferiore sinistro), sul libretto di circolazione o sul montante porta.</p>
+    <div class="vin-row">
+      <input class="vin-in" id="vin-input" maxlength="17" placeholder="Es: WBA3A5109DF123456"
+        oninput="this.value=this.value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g,'')"
+        onkeydown="if(event.key==='Enter')decodeVIN()">
+      <button class="btn btn-blue" onclick="decodeVIN()">🔍 DECODIFICA</button>
     </div>
-    <button class="btn btn-gradient" style="margin-bottom:20px" onclick="avviaConfronto()">⚖ CONFRONTA VEICOLI</button>
-    <div class="compare-results" id="compare-results"></div>
-  </div>
-
-  <!-- ── VIEW: PROMEMORIA ───────────────────────────────────────────── -->
-  <div class="view" id="view-promemoria">
-    <div class="panel panel-green">
-      <div class="panel-label">// Promemoria manutenzione</div>
-      <p style="font-size:.83rem;color:var(--text2);margin-bottom:18px;line-height:1.65">
-        Seleziona il veicolo e inserisci il chilometraggio attuale.
-        L'app calcola quando è prevista ogni operazione di manutenzione e salva i dati nel browser.
-      </p>
-      <div class="reminder-form">
-        <div class="field-group">
-          <label>Marca</label>
-          <div class="search-wrap" id="wrap-rem-marca">
-            <span class="search-icon">⌕</span>
-            <input class="search-input" id="search-rem-marca" placeholder="Cerca marca…"
-              autocomplete="off" oninput="filterSearchRem('marca')"
-              onfocus="openDropdownRem()" onblur="closeDropdownRem()">
-            <div class="search-dropdown" id="drop-rem-marca"></div>
-          </div>
-          <input type="hidden" id="sel-rem-marca">
-        </div>
-        <div class="field-group">
-          <label>Modello · Anno · Motore</label>
-          <select id="sel-rem-combo">
-            <option value="">— Seleziona prima la marca —</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <label>Km attuali</label>
-          <input class="km-input" id="km-input" type="number" min="0" max="999999"
-            placeholder="Es: 85000" step="1000">
-        </div>
-      </div>
-      <button class="btn btn-green" onclick="calcolaPromemoria()">📅 CALCOLA SCADENZE</button>
+    <div class="vin-err" id="vin-error">VIN non valido — 17 caratteri alfanumerici (no I, O, Q)</div>
+    <div class="vin-res" id="vin-result">
+      <div class="vin-chars" id="vin-chars"></div>
+      <div class="vin-grid" id="vin-grid"></div>
+      <button class="btn-link btn-link-blue" onclick="gotoAnalisiFromVIN()">⚙ Apri Analisi per questo veicolo</button>
     </div>
-    <div class="reminder-saved" id="reminder-saved">✓ Dati salvati nel browser</div>
-    <div class="reminder-cards" id="reminder-cards"></div>
   </div>
-
-  <div class="disclaimer">
-    <strong>NOTA:</strong> Informazioni generate da AI a scopo informativo.
-    Consultare sempre un meccanico qualificato. I costi indicati sono stime indicative.
-  </div>
-
 </div>
 
+<!-- ══ VIEW: CONFRONTO ══════════════════════════════════════════════════════ -->
+<div class="view" id="view-confronto">
+  <div class="cg2">
+    <div class="cp ca">
+      <div class="cplb">// Veicolo A</div>
+      <div class="cps" id="compare-selectors-a"></div>
+    </div>
+    <div class="cp cb3">
+      <div class="cplb">// Veicolo B</div>
+      <div class="cps" id="compare-selectors-b"></div>
+    </div>
+  </div>
+  <button class="btn btn-grad" style="margin-bottom:18px" onclick="avviaConfronto()">⚖ CONFRONTA VEICOLI</button>
+  <div class="cres" id="compare-results"></div>
+</div>
+
+<!-- ══ VIEW: PROMEMORIA ═════════════════════════════════════════════════════ -->
+<div class="view" id="view-promemoria">
+  <div class="panel p-grn">
+    <div class="plabel plabel-grn">// Promemoria manutenzione</div>
+    <p class="hint">Seleziona il veicolo e inserisci il chilometraggio attuale. L'app calcola quando è prevista ogni operazione e salva i dati nel browser.</p>
+    <div class="grid3">
+      <div class="fg">
+        <label>Marca</label>
+        <div class="sw">
+          <span class="si">⌕</span>
+          <input class="si-input" id="search-rem-marca" placeholder="Cerca marca…" autocomplete="off"
+            oninput="filterSearchRem()" onfocus="openDropdownRem()" onblur="closeDropdownRem()">
+          <div class="sd" id="drop-rem-marca"></div>
+        </div>
+        <input type="hidden" id="sel-rem-marca">
+      </div>
+      <div class="fg">
+        <label>Modello · Anno · Motore</label>
+        <select id="sel-rem-combo"><option value="">— Seleziona prima la marca —</option></select>
+      </div>
+      <div class="fg">
+        <label>Km attuali</label>
+        <input class="si-input" id="km-input" type="number" min="0" max="999999"
+          placeholder="Es: 85000" step="1000" style="padding-left:10px">
+      </div>
+    </div>
+    <button class="btn btn-grn" onclick="calcolaPromemoria()">📅 CALCOLA SCADENZE</button>
+  </div>
+  <div class="rem-saved" id="reminder-saved">✓ Dati salvati nel browser</div>
+  <div class="rcards" id="reminder-cards"></div>
+</div>
+
+<div class="disc"><strong>NOTA:</strong> Informazioni generate da AI a scopo informativo. Consultare sempre un meccanico qualificato per diagnosi e riparazioni. I costi sono stime indicative.</div>
+
+</div><!-- /wrap -->
 <script>
-// ═══════════════════════════════════════════
-// DATABASE VEICOLI
-// ═══════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════════════
 const VEHICLES = {
   "Alfa Romeo": {
     "Giulia": {
@@ -1200,118 +1279,6 @@ const VEHICLES = {
     }
   }
 };
-
-// ═══════════════════════════════════════════
-// POPULATION SELECTS
-// ═══════════════════════════════════════════
-function populateMarca() {
-  buildMarcaList();
-  // Default: Alfa Romeo
-  selectOption('marca', 'Alfa Romeo');
-  selectOption('modello', 'Giulia');
-  updateAnni(true);
-}
-
-function updateModelli(init = false) {
-  // This is now handled by selectOption for search
-}
-
-function updateAnni(init = false) {
-  const marca = document.getElementById('sel-marca').value;
-  const modello = document.getElementById('sel-modello').value;
-  const sel = document.getElementById('sel-anno');
-  sel.innerHTML = '';
-  if (!marca || !modello || !VEHICLES[marca]?.[modello]) {
-    sel.innerHTML = '<option>— Seleziona modello —</option>'; return;
-  }
-  Object.keys(VEHICLES[marca][modello]).forEach(a => {
-    const o = document.createElement('option');
-    o.value = a; o.textContent = a;
-    sel.appendChild(o);
-  });
-  if (init) sel.value = '2016–2019';
-  updateMotori(init);
-}
-
-function updateMotori(init = false) {
-  const marca = document.getElementById('sel-marca').value;
-  const modello = document.getElementById('sel-modello').value;
-  const anno = document.getElementById('sel-anno').value;
-  const sel = document.getElementById('sel-motore');
-  sel.innerHTML = '';
-  if (!marca || !modello || !anno) {
-    sel.innerHTML = '<option>— Seleziona anno —</option>'; return;
-  }
-  const motori = VEHICLES[marca]?.[modello]?.[anno] || [];
-  motori.forEach(m => {
-    const o = document.createElement('option');
-    o.value = m; o.textContent = m;
-    sel.appendChild(o);
-  });
-  if (init && motori.includes('2.0T 200cv')) sel.value = '2.0T 200cv';
-}
-
-// ═══════════════════════════════════════════
-// DIAGNOSI
-// ═══════════════════════════════════════════
-async function avviaDiagnosi() {
-  const marca = document.getElementById('sel-marca').value;
-  const modello = document.getElementById('sel-modello').value;
-  const anno = document.getElementById('sel-anno').value;
-  const motore = document.getElementById('sel-motore').value;
-
-  if (!marca || !modello || !anno || !motore) {
-    showError('Seleziona tutti i campi prima di procedere.');
-    return;
-  }
-
-  setLoading(true);
-  hideError();
-  document.getElementById('results').innerHTML = '';
-
-  // Vehicle bar
-  const bar = document.getElementById('vehicle-bar');
-  bar.className = 'vehicle-bar visible';
-  bar.innerHTML = `<span style="color:var(--muted);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;">Veicolo:</span>
-    <span class="tag">${marca}</span>
-    <span class="tag">${modello}</span>
-    <span class="tag">${anno}</span>
-    <span class="tag">${motore}</span>`;
-
-
-
-  const DB_URL = "./db.json";
-
-  try {
-    const dbKey = marca + "||" + modello + "||" + anno + "||" + motore;
-
-    // Carica db.json (con cache browser)
-    if (!window._vehicleDB) {
-      setLoadingMsg("Carico database...");
-      const dbRes = await fetch(DB_URL, { cache: "default" });
-      if (!dbRes.ok) throw new Error("Database non raggiungibile (HTTP " + dbRes.status + ")");
-      window._vehicleDB = await dbRes.json();
-    }
-
-    const entry = window._vehicleDB?.vehicles?.[dbKey];
-
-    if (!entry) {
-      // Veicolo non presente nel DB → mostra messaggio, nessuna chiamata API
-      setLoading(false);
-      showNotInDB(marca, modello, anno, motore);
-      return;
-    }
-
-    showSourceBadge("database locale");
-    renderResults(entry, marca, modello, anno, motore);
-
-  } catch (err) {
-    showError("Errore durante l'analisi: " + err.message);
-  } finally {
-    setLoading(false);
-  }
-}
-
 const SCEGLIAUTO_SLUGS = {
   "Alfa Romeo":    "alfa-romeo",
   "Audi":          "audi",
@@ -1342,760 +1309,6 @@ const SCEGLIAUTO_SLUGS = {
   "Volkswagen":    "volkswagen",
   "Volvo":         "volvo",
 };
-
-// ═══════════════════════════════════════════
-// JSON EXTRACTION — handles markdown fences & truncation
-// ═══════════════════════════════════════════
-function extractJSON(raw) {
-  // Strip markdown fences
-  let text = raw.replace(/```json\s*/gi, '').replace(/```/g, '').trim();
-
-  // Try direct parse first
-  try { return JSON.parse(text); } catch(e) {}
-
-  // Find first { and last } to extract JSON object
-  const start = text.indexOf('{');
-  if (start === -1) throw new Error('Nessun JSON trovato nella risposta');
-
-  // Walk backwards from end to find valid closing brace
-  let end = text.lastIndexOf('}');
-  while (end > start) {
-    try {
-      return JSON.parse(text.slice(start, end + 1));
-    } catch(e) {
-      end = text.lastIndexOf('}', end - 1);
-    }
-  }
-
-  // Last resort: try to fix truncated JSON by closing open structures
-  let partial = text.slice(start);
-  // Remove last incomplete item if needed
-  const lastComma = partial.lastIndexOf(',');
-  const lastBrace = partial.lastIndexOf('{');
-  if (lastBrace > lastComma) {
-    partial = partial.slice(0, lastComma);
-  }
-  // Count unclosed brackets/braces
-  let opens = 0, openBrackets = 0;
-  for (const ch of partial) {
-    if (ch === '{') opens++;
-    else if (ch === '}') opens--;
-    else if (ch === '[') openBrackets++;
-    else if (ch === ']') openBrackets--;
-  }
-  partial += ']'.repeat(Math.max(0, openBrackets));
-  partial += '}'.repeat(Math.max(0, opens));
-  return JSON.parse(partial);
-}
-
-// ═══════════════════════════════════════════
-// SEARCH HELPERS
-// ═══════════════════════════════════════════
-let searchData = { marca: [], modello: [] };
-let closeTimer = {};
-
-function buildMarcaList() {
-  searchData.marca = Object.keys(VEHICLES).sort();
-}
-
-function buildModelloList(marca) {
-  searchData.modello = marca ? Object.keys(VEHICLES[marca]).sort() : [];
-}
-
-function filterSearch(type) {
-  const input = document.getElementById('search-' + type);
-  const drop  = document.getElementById('drop-' + type);
-  const q     = input.value.toLowerCase();
-  const items = searchData[type].filter(x => x.toLowerCase().includes(q));
-  renderDropdown(type, items, q);
-  drop.classList.add('open');
-}
-
-function renderDropdown(type, items, q) {
-  const drop = document.getElementById('drop-' + type);
-  if (!items.length) {
-    drop.innerHTML = '<div class="search-option" style="color:var(--muted)">Nessun risultato</div>';
-    return;
-  }
-  drop.innerHTML = items.map(function(item) {
-    const safeQ = q ? q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') : '';
-    const hi = safeQ ? item.replace(new RegExp('(' + safeQ + ')','gi'),'<mark>$1</mark>') : item;
-    const d = document.createElement('div');
-    d.className = 'search-option';
-    d.dataset.dropType = type;
-    d.dataset.dropValue = item;
-    d.innerHTML = hi;
-    return d.outerHTML;
-  }).join('');
-  drop.querySelectorAll('.search-option').forEach(function(el) {
-    el.addEventListener('mousedown', function() {
-      selectOption(this.dataset.dropType, this.dataset.dropValue);
-    });
-  });
-}
-
-function selectOption(type, value) {
-  document.getElementById('search-' + type).value = value;
-  document.getElementById('sel-' + type).value = value;
-  document.getElementById('drop-' + type).classList.remove('open');
-  if (type === 'marca') {
-    buildModelloList(value);
-    document.getElementById('search-modello').value = '';
-    document.getElementById('sel-modello').value = '';
-    document.getElementById('search-modello').disabled = false;
-    document.getElementById('search-modello').placeholder = 'Cerca modello...';
-    updateAnni_reset();
-  } else if (type === 'modello') {
-    updateAnni();
-  }
-}
-
-function openDropdown(type) {
-  clearTimeout(closeTimer[type]);
-  filterSearch(type);
-}
-
-function closeDropdown(type) {
-  closeTimer[type] = setTimeout(() => {
-    document.getElementById('drop-' + type).classList.remove('open');
-  }, 200);
-}
-
-function updateAnni_reset() {
-  document.getElementById('sel-anno').innerHTML = '<option value="">— Seleziona modello prima —</option>';
-  document.getElementById('sel-motore').innerHTML = '<option value="">— Seleziona anno —</option>';
-}
-
-// ═══════════════════════════════════════════
-// TAB SYSTEM
-// ═══════════════════════════════════════════
-function switchTab(id) {
-  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  const pane = document.getElementById('tab-' + id);
-  const btn  = document.querySelector('.tab-btn[data-tab="' + id + '"]');
-  if (pane) pane.classList.add('active');
-  if (btn)  btn.classList.add('active');
-  if (id === 'problemi') document.getElementById('filter-bar').classList.add('visible');
-  else document.getElementById('filter-bar').classList.remove('visible');
-}
-
-// ═══════════════════════════════════════════
-// FILTER
-// ═══════════════════════════════════════════
-let activeFilter = 'all';
-function applyFilter(sev) {
-  activeFilter = sev;
-  document.querySelectorAll('.filter-btn').forEach(b => {
-    b.className = 'filter-btn';
-    if (b.dataset.sev === sev) b.classList.add('active-' + sev);
-  });
-  document.querySelectorAll('.problem-card').forEach(card => {
-    if (sev === 'all' || card.dataset.sev === sev) card.classList.remove('hidden-filter');
-    else card.classList.add('hidden-filter');
-  });
-}
-
-// ═══════════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════════
-function renderResults(data, marca, modello, anno, motore) {
-  const affColors = { alta: 'var(--success)', media: 'var(--warning)', bassa: 'var(--danger)' };
-  const affLabels = { alta: '▲ Alta affidabilità', media: '◆ Affidabilità media', bassa: '▼ Bassa affidabilità' };
-
-  document.getElementById('tabs').className = 'tabs visible';
-  document.getElementById('filter-bar').className = 'filter-bar visible';
-  switchTab('problemi');
-
-  // ── STATS TAB ──────────────────────────────────────────────────────────────
-  const statsHtml = `
-    <div class="stats-grid">
-      <div class="stat-card red">
-        <div class="stat-label">Budget manutenzione preventiva</div>
-        <div class="stat-value" style="color:var(--danger)">€${(data.costo_totale_min||0).toLocaleString()}–${(data.costo_totale_max||0).toLocaleString()}</div>
-        <div class="stat-sub">stima totale problemi noti</div>
-      </div>
-      <div class="stat-card orange">
-        <div class="stat-label">RC Auto indicativa</div>
-        <div class="stat-value" style="color:var(--accent2)">${data.assicurazione_fascia || 'N/D'}</div>
-        <div class="stat-sub">fascia mercato Italia</div>
-      </div>
-      <div class="stat-card green">
-        <div class="stat-label">Consumi dichiarati</div>
-        <div class="stat-value" style="color:var(--success)">${data.consumo_dichiarato || 'N/D'}</div>
-        <div class="stat-sub">dato ufficiale WLTP/NEDC</div>
-      </div>
-      <div class="stat-card blue">
-        <div class="stat-label">Consumi reali stimati</div>
-        <div class="stat-value" style="color:#3498db">${data.consumo_reale || 'N/D'}</div>
-        <div class="stat-sub">uso misto reale</div>
-      </div>
-    </div>
-
-    <div class="section-hd">// Red flag per chilometraggio</div>
-    <ul class="redflag-list">
-      ${(data.km_red_flags||[]).map(f => `
-      <li class="redflag-item">
-        <div class="redflag-km">${Number(f.km).toLocaleString()}<span>km</span></div>
-        <div class="redflag-desc">${f.descrizione}</div>
-      </li>`).join('')}
-    </ul>
-  `;
-
-  // ── PROBLEMI TAB ───────────────────────────────────────────────────────────
-  const affidBlock = `
-    <div style="background:var(--card);border:1px solid var(--border);padding:16px 20px;margin-bottom:20px;border-left:3px solid ${affColors[data.affidabilita]||'var(--muted)'}">
-      <div style="font-family:'DM Mono',monospace;font-size:0.72rem;color:${affColors[data.affidabilita]||'var(--muted)'};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">${affLabels[data.affidabilita]||''}</div>
-      <div style="font-size:0.88rem;color:#b8b7c8;line-height:1.6">${data.sommario}</div>
-    </div>`;
-
-  let problemiHtml = affidBlock;
-  (data.problemi||[]).forEach((p, i) => {
-    const sev = p.severita || 'media';
-    const costoStr = (p.costo_min && p.costo_max) ? `€${p.costo_min.toLocaleString()}–${p.costo_max.toLocaleString()}` : (p.costo_stima || '');
-    problemiHtml += `
-    <div class="problem-card" id="card-${i}" data-sev="${sev}">
-      <div class="problem-card-header" onclick="toggleCard(${i})">
-        <span class="severity-badge severity-${sev}"></span>
-        <span class="problem-title">${p.titolo}</span>
-        <span class="severity-label label-${sev}">${sev}</span>
-        <span class="chevron">▼</span>
-      </div>
-      <div class="problem-body">
-        <div class="problem-section">
-          <div class="problem-section-title">// Descrizione</div>
-          <p>${p.descrizione}</p>
-        </div>
-        ${p.sintomi?.length ? `<div class="problem-section">
-          <div class="problem-section-title">// Sintomi</div>
-          <ul>${p.sintomi.map(s=>`<li>${s}</li>`).join('')}</ul>
-        </div>` : ''}
-        ${p.soluzione ? `<div class="problem-section">
-          <div class="problem-section-title">// Soluzione</div>
-          <p>${p.soluzione}</p>
-        </div>` : ''}
-        ${costoStr ? `<div class="cost-badge">💶 Costo stimato: ${costoStr}</div>` : ''}
-      </div>
-    </div>`;
-  });
-
-  // ── CHECKLIST TAB ──────────────────────────────────────────────────────────
-  const checkItems = data.checklist_ispezione || [];
-  const checkHtml = `
-    <div class="checklist-progress">
-      <span id="check-count">0/${checkItems.length} completati</span>
-      <div class="progress-bar"><div class="progress-fill" id="check-fill" style="width:0%"></div></div>
-      <button onclick="resetChecklist()" style="background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;cursor:pointer;font-size:0.7rem;font-family:'DM Mono',monospace">RESET</button>
-      <button onclick="window.print()" style="background:none;border:1px solid var(--border);color:var(--muted);padding:4px 10px;cursor:pointer;font-size:0.7rem;font-family:'DM Mono',monospace">🖨 STAMPA</button>
-    </div>
-    <ul class="checklist" id="checklist-ul">
-      ${checkItems.map((item, i) => `
-      <li class="checklist-item" id="chk-${i}" onclick="toggleCheck(${i})">
-        <div class="check-box"></div>
-        <span class="check-text">${item}</span>
-      </li>`).join('')}
-    </ul>`;
-
-  // ── DOMANDE TAB ────────────────────────────────────────────────────────────
-  const domande = data.domande_venditore || [];
-  const domandeHtml = `
-    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:20px;font-family:'DM Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;">
-      Domande basate sui problemi noti di questo veicolo
-    </p>
-    ${domande.map((d, i) => `
-    <div class="question-item">
-      <span class="question-num">${i+1}</span>
-      <span>${d}</span>
-    </div>`).join('')}`;
-
-  // ── EXTRA TAB ──────────────────────────────────────────────────────────────
-  const scegliautoSlug = (SCEGLIAUTO_SLUGS[marca] || marca.toLowerCase().replace(/\s+/g, '-'));
-  const scegliautoUrl  = 'https://www.scegliauto.com/video/' + scegliautoSlug + '/tutorial/';
-
-  const extraHtml = `
-    <div class="recall-box">
-      <div class="recall-title">📋 Recall e campagne di richiamo</div>
-      <p>${data.recall_note || 'Nessuna nota specifica disponibile.'}</p>
-      <p style="margin-top:12px">Verifica i recall ufficiali su:
-        <a href="https://www.motorizzazione.it/servizi/campagne_di_richiamo/" target="_blank">Ministero Trasporti IT</a> ·
-        <a href="https://www.nhtsa.gov/vehicle/recalls" target="_blank">NHTSA (USA)</a> ·
-        <a href="https://www.autoscout24.it/informazioni/recall-auto/" target="_blank">AutoScout24 Recall</a>
-      </p>
-    </div>
-
-    <div class="recall-box" style="border-color:rgba(46,204,113,0.3);background:rgba(46,204,113,0.04)">
-      <div class="recall-title" style="color:var(--success)">🎬 Video Tutorial Fai da Te — ${marca} ${modello}</div>
-      <p style="margin-bottom:14px">
-        Guarda le video guide di manutenzione e riparazione fai da te per la tua
-        <strong style="color:var(--text)">${marca} ${modello}</strong>:
-        smontaggio componenti, sostituzione parti, reset service e molto altro.
-        Oltre 2.000 video organizzati per marca e modello.
-      </p>
-      <a href="${scegliautoUrl}"
-         target="_blank"
-         rel="noopener"
-         style="display:inline-flex;align-items:center;gap:8px;background:rgba(46,204,113,0.12);
-           border:1px solid rgba(46,204,113,0.4);color:var(--success);padding:10px 18px;
-           font-family:'DM Mono',monospace;font-size:0.75rem;text-transform:uppercase;
-           letter-spacing:0.1em;text-decoration:none;"
-         onmouseover="this.style.background='rgba(46,204,113,0.22)'"
-         onmouseout="this.style.background='rgba(46,204,113,0.12)'">
-        ▶ Apri video tutorial ${marca} su ScegliAuto
-      </a>
-      <p style="margin-top:10px;font-size:0.72rem;color:var(--muted);font-family:'DM Mono',monospace;">
-        Fonte esterna: scegliauto.com — contenuti di terze parti
-      </p>
-    </div>
-
-    <div class="recall-box" style="border-color:rgba(245,166,35,0.3);background:rgba(245,166,35,0.04)">
-      <div class="recall-title" style="color:var(--accent2)">🔗 Risorse utili</div>
-      <p>
-        <a href="https://www.autouncle.it/" target="_blank" style="color:var(--accent2)">AutoUncle</a> — valutazione prezzo di mercato<br>
-        <a href="https://www.automobile.it/" target="_blank" style="color:var(--accent2)">Automobile.it</a> — annunci verificati<br>
-        <a href="https://www.quattroruote.it/" target="_blank" style="color:var(--accent2)">Quattroruote</a> — prove e affidabilità<br>
-        <a href="https://www.motorionline.com/prove/" target="_blank" style="color:var(--accent2)">Motorionline</a> — prove su strada
-      </p>
-    </div>`;
-
-  // ── INJECT ALL ─────────────────────────────────────────────────────────────
-  // Build tecnico tab
-  const marcaKey = marca + "||" + modello;
-  const db = window._vehicleDB || {};
-
-  // Tyre pressures
-  let tyreHtml = '<div style="color:var(--muted);font-size:0.85rem;">Pressioni non disponibili per questo modello nel database.</div>';
-  const tyreData = db.tyre_pressures && db.tyre_pressures[marcaKey];
-  if (tyreData) {
-    const annoKeys = Object.keys(tyreData);
-    // Find best matching anno range
-    const bestRange = annoKeys.find(k => k !== 'default' && anno && k.split('–')[0] <= anno.split('–')[0]) || annoKeys[0];
-    const sizes = tyreData[bestRange] || tyreData[annoKeys[0]];
-    tyreHtml = '<table class="tyre-table"><thead><tr><th>Misura gomma</th><th>Anteriore</th><th>Posteriore</th></tr></thead><tbody>';
-    for (const [size, pres] of Object.entries(sizes)) {
-      if (size === 'default') continue;
-      tyreHtml += '<tr><td>' + size + '</td><td>' + pres[0] + ' bar</td><td>' + pres[1] + ' bar</td></tr>';
-    }
-    tyreHtml += '</tbody></table>';
-    const def = sizes.default;
-    if (def) tyreHtml += '<div style="margin-top:10px;font-size:0.78rem;color:var(--muted);font-family:DM Mono,monospace">Default (se non indicato sul montante porta): ' + def[0] + ' / ' + def[1] + ' bar</div>';
-  }
-
-  // Oil quantity
-  let oilHtml = '<div style="color:var(--muted);font-size:0.85rem;">Quantità olio non disponibile per questo motore specifico.</div>';
-  const oilKey = marca + "||" + modello + "||" + motore;
-  const oilData = db.oil_quantities && db.oil_quantities[oilKey];
-  if (oilData) {
-    oilHtml = '<div class="tech-grid" style="margin-bottom:0"><div class="tech-card"><div class="tech-card-label">Quantità olio</div><div class="tech-card-value">' + oilData.litri + ' litri</div><div class="tech-card-sub">con sostituzione filtro</div></div><div class="tech-card"><div class="tech-card-label">Viscosità consigliata</div><div class="tech-card-value" style="color:var(--accent2)">' + oilData.viscosita + '</div></div><div class="tech-card"><div class="tech-card-label">Norma costruttore</div><div class="tech-card-value">' + oilData.norma + '</div></div></div>';
-  }
-
-  const tecnicoHtml = oilHtml + '<div class="section-hd" style="margin-top:24px">// Pressioni pneumatici</div>' + tyreHtml;
-
-  // OBD codes list (full, filterable)
-  const allCodes = db.obd_codes || {};
-  const obdListHtml = Object.entries(allCodes).map(([code, desc]) => {
-    const type = code[0];
-    return '<li class="obd-item"><span class="obd-code ' + type + '">' + code + '</span><span class="obd-desc">' + desc + '</span></li>';
-  }).join('');
-
-  // ── MANUTENZIONE TAB ─────────────────────────────────────────────────────
-  const maintKey = marca + "||" + modello + "||" + anno + "||" + motore;
-  const maint = db.maintenance && db.maintenance[maintKey];
-
-  let maintHtml = '<div style="color:var(--muted);font-size:0.85rem;padding:20px 0">Dati manutenzione non disponibili per questo veicolo.</div>';
-
-  if (maint) {
-    const o = maint.olio || {};
-    const d = maint.distribuzione;
-    const c = maint.candele;
-    const r = maint.refrigerante || {};
-    const fr = maint.liquido_freni || {};
-    const fi = maint.filtri || {};
-    const lm = maint.lampadine || {};
-    const sc = maint.schedule || [];
-
-    // Distribuzione badge
-    const distBadge = d ? (d.tipo === 'Catena'
-      ? '<span class="maint-card-badge badge-catena">⛓ Catena — no sostituzione programmata</span>'
-      : '<span class="maint-card-badge badge-cinghia">⚠ Cinghia — sostituzione obbligatoria</span>') : '';
-    const distSub = d ? (d.tipo === 'Catena' ? d.note : (d.intervallo_km ? 'Ogni <strong>' + d.intervallo_km.toLocaleString() + ' km</strong> o <strong>' + (d.intervallo_anni||5) + ' anni</strong><br><small>' + d.note + '</small>' : d.note)) : 'N/A';
-
-    maintHtml = `
-      <div class="maint-section">
-        <div class="section-hd">// Fluidi</div>
-        <div class="maint-grid">
-          <div class="maint-card orange">
-            <div class="maint-card-label">Olio motore</div>
-            <div class="maint-card-value">${o.viscosita || 'N/A'}</div>
-            <div class="maint-card-sub">Norma: <strong>${o.norma || 'N/A'}</strong><br>
-              Intervallo: ogni <strong>${o.intervallo_km ? o.intervallo_km.toLocaleString() : '?'} km</strong> o <strong>${o.intervallo_mesi || '?'} mesi</strong>
-            </div>
-          </div>
-          <div class="maint-card blue">
-            <div class="maint-card-label">Liquido raffreddamento</div>
-            <div class="maint-card-value">${r.tipo ? r.tipo.split('/')[0].trim() : 'N/A'}</div>
-            <div class="maint-card-sub">Colore: <strong>${r.colore || '—'}</strong> · Ogni <strong>${r.intervallo_anni || '?'} anni</strong><br><small>${r.note ? r.note.slice(0,80)+'…' : ''}</small></div>
-          </div>
-          <div class="maint-card red">
-            <div class="maint-card-label">Liquido freni</div>
-            <div class="maint-card-value">${fr.tipo || 'DOT 4'}</div>
-            <div class="maint-card-sub">Ogni <strong>${fr.intervallo_anni || 2} anni</strong> indipendentemente dal km<br><small>${fr.note ? fr.note.slice(0,80)+'…' : ''}</small></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="maint-section">
-        <div class="section-hd">// Distribuzione & Accensione</div>
-        <div class="maint-grid">
-          <div class="maint-card ${d && d.tipo === 'Catena' ? 'green' : 'red'}">
-            <div class="maint-card-label">Distribuzione</div>
-            <div class="maint-card-value">${d ? d.tipo : 'N/A'}</div>
-            <div class="maint-card-sub">${distSub}</div>
-            ${distBadge}
-          </div>
-          ${c ? '<div class="maint-card orange"><div class="maint-card-label">Candele</div><div class="maint-card-value">' + c.tipo + '</div><div class="maint-card-sub">Ogni <strong>' + c.km.toLocaleString() + ' km</strong><br><small>' + c.note + '</small></div></div>' : '<div class="maint-card"><div class="maint-card-label">Candele</div><div class="maint-card-value" style="color:var(--muted)">N/A (diesel o BEV)</div></div>'}
-          <div class="maint-card">
-            <div class="maint-card-label">Filtri</div>
-            <div class="maint-card-value" style="font-size:0.82rem;line-height:1.6">
-              Aria motore: ogni <strong>${(fi.aria_km||30000).toLocaleString()} km</strong><br>
-              Abitacolo/Polline: ogni <strong>${(fi.abitacolo_km||20000).toLocaleString()} km</strong> o <strong>${fi.abitacolo_mesi||12} mesi</strong>
-              ${fi.gasolio_km ? '<br>Filtro gasolio: ogni <strong>' + fi.gasolio_km.toLocaleString() + ' km</strong>' : ''}
-              ${fi.dsg_km ? '<br>Olio DSG: ogni <strong>' + fi.dsg_km.toLocaleString() + ' km</strong>' : ''}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="maint-section">
-        <div class="section-hd">// Lampadine</div>
-        <table class="bulb-table">
-          <thead><tr><th>Funzione</th><th>Tipo</th></tr></thead>
-          <tbody>
-            <tr><td>Anabbaglianti</td><td>${lm.anabbaglianti || '—'}</td></tr>
-            <tr><td>Abbaglianti</td><td>${lm.abbaglianti || '—'}</td></tr>
-            <tr><td>Indicatori di direzione</td><td>${lm.indicatori || '—'}</td></tr>
-            <tr><td>Luci di posizione</td><td>${lm.luci_posizione || '—'}</td></tr>
-            <tr><td>Luci stop</td><td>${lm.luci_stop || '—'}</td></tr>
-            <tr><td>Retromarcia</td><td>${lm.retromarcia || '—'}</td></tr>
-            <tr><td>Plafoniera interna</td><td>${lm.plafoniera || '—'}</td></tr>
-          </tbody>
-        </table>
-        ${lm.note ? '<div style="margin-top:10px;font-size:0.75rem;color:var(--muted);font-family:DM Mono,monospace;line-height:1.5">⚠ ' + lm.note + '</div>' : ''}
-      </div>
-
-      <div class="maint-section">
-        <div class="section-hd">// Calendario manutenzione</div>
-        <div style="display:flex;gap:16px;margin-bottom:12px;font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">
-          <span><span class="prio-dot prio-alta" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--danger);margin-right:5px;vertical-align:middle;"></span>Alta priorità</span>
-          <span><span class="prio-dot prio-media" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--warning);margin-right:5px;vertical-align:middle;"></span>Media</span>
-          <span><span class="prio-dot prio-bassa" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success);margin-right:5px;vertical-align:middle;"></span>Bassa</span>
-        </div>
-        <ul class="schedule-list">
-          ${sc.map(s => '<li class="schedule-item"><span class="schedule-interval">' + s.intervallo + '</span><span class="schedule-op">' + s.operazione + '</span><span class="prio-dot prio-' + s.priorita + '"></span></li>').join('')}
-        </ul>
-      </div>
-    `;
-  }
-
-  document.getElementById('results').innerHTML = `
-    <div class="tab-pane active" id="tab-problemi">
-      <div class="results-header">
-        <div class="results-title">Problemi Noti</div>
-        <div class="problem-count">${(data.problemi||[]).length} problemi identificati</div>
-      </div>
-      ${problemiHtml}
-    </div>
-    <div class="tab-pane" id="tab-stats">${statsHtml}</div>
-    <div class="tab-pane" id="tab-checklist">${checkHtml}</div>
-    <div class="tab-pane" id="tab-domande">${domandeHtml}</div>
-    <div class="tab-pane" id="tab-manutenzione">${maintHtml}</div>
-    <div class="tab-pane" id="tab-extra">${extraHtml}</div>
-    <div class="tab-pane" id="tab-tecnico">${tecnicoHtml}</div>
-    <div class="tab-pane" id="tab-obd">
-      <div class="section-hd">// Cerca codice errore OBD / EOBD</div>
-      <div class="obd-search-wrap">
-        <span class="obd-search-icon">🔍</span>
-        <input class="obd-search" id="obd-search-input" placeholder="Es: P0420, DPF, lambda, turbo..." oninput="filterOBD()">
-      </div>
-      <div class="obd-count" id="obd-count">${Object.keys(allCodes).length} codici nel database</div>
-      <ul class="obd-list" id="obd-list">${obdListHtml}</ul>
-    </div>
-  `;
-}
-
-function toggleCard(i) {
-  const card = document.getElementById('card-' + i);
-  card.classList.toggle('open');
-}
-
-// ── OBD SEARCH ────────────────────────────────────────────────────────────
-function filterOBD() {
-  const q = document.getElementById('obd-search-input').value.toLowerCase().trim();
-  const items = document.querySelectorAll('.obd-item');
-  let visible = 0;
-  items.forEach(item => {
-    const text = item.textContent.toLowerCase();
-    const show = !q || text.includes(q);
-    item.style.display = show ? '' : 'none';
-    if (show) visible++;
-  });
-  const cnt = document.getElementById('obd-count');
-  if (cnt) cnt.textContent = (q ? visible + ' risultati' : items.length + ' codici nel database');
-}
-
-// ── CHECKLIST LOGIC ────────────────────────────────────────────────────────
-let checkState = {};
-function toggleCheck(i) {
-  const item = document.getElementById('chk-' + i);
-  checkState[i] = !checkState[i];
-  item.classList.toggle('checked', checkState[i]);
-  updateCheckProgress();
-}
-function resetChecklist() {
-  checkState = {};
-  document.querySelectorAll('.checklist-item').forEach(el => el.classList.remove('checked'));
-  updateCheckProgress();
-}
-function updateCheckProgress() {
-  const total = document.querySelectorAll('.checklist-item').length;
-  const done  = Object.values(checkState).filter(Boolean).length;
-  const pct   = total ? Math.round(done/total*100) : 0;
-  const el = document.getElementById('check-count');
-  const fill = document.getElementById('check-fill');
-  if (el) el.textContent = `${done}/${total} completati`;
-  if (fill) fill.style.width = pct + '%';
-}
-
-// ═══════════════════════════════════════════
-// UTILS
-// ═══════════════════════════════════════════
-function setLoading(v) {
-  document.getElementById('loading').className = v ? 'loading-state visible' : 'loading-state';
-  document.querySelector('.btn-diagnose').disabled = v;
-}
-
-function showError(msg) {
-  const b = document.getElementById('error-box');
-  document.getElementById('error-msg').textContent = msg;
-  b.className = 'error-box visible';
-}
-
-function hideError() {
-  document.getElementById('error-box').className = 'error-box';
-}
-
-function toggleKeyVisibility() {
-  const input = document.getElementById('apikey-input');
-  input.type = input.type === 'password' ? 'text' : 'password';
-}
-
-// ═══════════════════════════════════════════
-// SOURCE & LOADING HELPERS
-// ═══════════════════════════════════════════
-function setLoadingMsg(msg) {
-  const el = document.querySelector('.loading-state p');
-  if (el) el.textContent = msg;
-}
-
-function showNotInDB(marca, modello, anno, motore) {
-  document.getElementById('tabs').className        = 'tabs';
-  document.getElementById('filter-bar').className  = 'filter-bar';
-  // Build tecnico tab
-  const marcaKey = marca + "||" + modello;
-  const db = window._vehicleDB || {};
-
-  // Tyre pressures
-  let tyreHtml = '<div style="color:var(--muted);font-size:0.85rem;">Pressioni non disponibili per questo modello nel database.</div>';
-  const tyreData = db.tyre_pressures && db.tyre_pressures[marcaKey];
-  if (tyreData) {
-    const annoKeys = Object.keys(tyreData);
-    // Find best matching anno range
-    const bestRange = annoKeys.find(k => k !== 'default' && anno && k.split('–')[0] <= anno.split('–')[0]) || annoKeys[0];
-    const sizes = tyreData[bestRange] || tyreData[annoKeys[0]];
-    tyreHtml = '<table class="tyre-table"><thead><tr><th>Misura gomma</th><th>Anteriore</th><th>Posteriore</th></tr></thead><tbody>';
-    for (const [size, pres] of Object.entries(sizes)) {
-      if (size === 'default') continue;
-      tyreHtml += '<tr><td>' + size + '</td><td>' + pres[0] + ' bar</td><td>' + pres[1] + ' bar</td></tr>';
-    }
-    tyreHtml += '</tbody></table>';
-    const def = sizes.default;
-    if (def) tyreHtml += '<div style="margin-top:10px;font-size:0.78rem;color:var(--muted);font-family:DM Mono,monospace">Default (se non indicato sul montante porta): ' + def[0] + ' / ' + def[1] + ' bar</div>';
-  }
-
-  // Oil quantity
-  let oilHtml = '<div style="color:var(--muted);font-size:0.85rem;">Quantità olio non disponibile per questo motore specifico.</div>';
-  const oilKey = marca + "||" + modello + "||" + motore;
-  const oilData = db.oil_quantities && db.oil_quantities[oilKey];
-  if (oilData) {
-    oilHtml = '<div class="tech-grid" style="margin-bottom:0"><div class="tech-card"><div class="tech-card-label">Quantità olio</div><div class="tech-card-value">' + oilData.litri + ' litri</div><div class="tech-card-sub">con sostituzione filtro</div></div><div class="tech-card"><div class="tech-card-label">Viscosità consigliata</div><div class="tech-card-value" style="color:var(--accent2)">' + oilData.viscosita + '</div></div><div class="tech-card"><div class="tech-card-label">Norma costruttore</div><div class="tech-card-value">' + oilData.norma + '</div></div></div>';
-  }
-
-  const tecnicoHtml = oilHtml + '<div class="section-hd" style="margin-top:24px">// Pressioni pneumatici</div>' + tyreHtml;
-
-  // OBD codes list (full, filterable)
-  const allCodes = db.obd_codes || {};
-  const obdListHtml = Object.entries(allCodes).map(([code, desc]) => {
-    const type = code[0];
-    return '<li class="obd-item"><span class="obd-code ' + type + '">' + code + '</span><span class="obd-desc">' + desc + '</span></li>';
-  }).join('');
-
-  // ── MANUTENZIONE TAB ─────────────────────────────────────────────────────
-  const maintKey = marca + "||" + modello + "||" + anno + "||" + motore;
-  const maint = db.maintenance && db.maintenance[maintKey];
-
-  let maintHtml = '<div style="color:var(--muted);font-size:0.85rem;padding:20px 0">Dati manutenzione non disponibili per questo veicolo.</div>';
-
-  if (maint) {
-    const o = maint.olio || {};
-    const d = maint.distribuzione;
-    const c = maint.candele;
-    const r = maint.refrigerante || {};
-    const fr = maint.liquido_freni || {};
-    const fi = maint.filtri || {};
-    const lm = maint.lampadine || {};
-    const sc = maint.schedule || [];
-
-    // Distribuzione badge
-    const distBadge = d ? (d.tipo === 'Catena'
-      ? '<span class="maint-card-badge badge-catena">⛓ Catena — no sostituzione programmata</span>'
-      : '<span class="maint-card-badge badge-cinghia">⚠ Cinghia — sostituzione obbligatoria</span>') : '';
-    const distSub = d ? (d.tipo === 'Catena' ? d.note : (d.intervallo_km ? 'Ogni <strong>' + d.intervallo_km.toLocaleString() + ' km</strong> o <strong>' + (d.intervallo_anni||5) + ' anni</strong><br><small>' + d.note + '</small>' : d.note)) : 'N/A';
-
-    maintHtml = `
-      <div class="maint-section">
-        <div class="section-hd">// Fluidi</div>
-        <div class="maint-grid">
-          <div class="maint-card orange">
-            <div class="maint-card-label">Olio motore</div>
-            <div class="maint-card-value">${o.viscosita || 'N/A'}</div>
-            <div class="maint-card-sub">Norma: <strong>${o.norma || 'N/A'}</strong><br>
-              Intervallo: ogni <strong>${o.intervallo_km ? o.intervallo_km.toLocaleString() : '?'} km</strong> o <strong>${o.intervallo_mesi || '?'} mesi</strong>
-            </div>
-          </div>
-          <div class="maint-card blue">
-            <div class="maint-card-label">Liquido raffreddamento</div>
-            <div class="maint-card-value">${r.tipo ? r.tipo.split('/')[0].trim() : 'N/A'}</div>
-            <div class="maint-card-sub">Colore: <strong>${r.colore || '—'}</strong> · Ogni <strong>${r.intervallo_anni || '?'} anni</strong><br><small>${r.note ? r.note.slice(0,80)+'…' : ''}</small></div>
-          </div>
-          <div class="maint-card red">
-            <div class="maint-card-label">Liquido freni</div>
-            <div class="maint-card-value">${fr.tipo || 'DOT 4'}</div>
-            <div class="maint-card-sub">Ogni <strong>${fr.intervallo_anni || 2} anni</strong> indipendentemente dal km<br><small>${fr.note ? fr.note.slice(0,80)+'…' : ''}</small></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="maint-section">
-        <div class="section-hd">// Distribuzione & Accensione</div>
-        <div class="maint-grid">
-          <div class="maint-card ${d && d.tipo === 'Catena' ? 'green' : 'red'}">
-            <div class="maint-card-label">Distribuzione</div>
-            <div class="maint-card-value">${d ? d.tipo : 'N/A'}</div>
-            <div class="maint-card-sub">${distSub}</div>
-            ${distBadge}
-          </div>
-          ${c ? '<div class="maint-card orange"><div class="maint-card-label">Candele</div><div class="maint-card-value">' + c.tipo + '</div><div class="maint-card-sub">Ogni <strong>' + c.km.toLocaleString() + ' km</strong><br><small>' + c.note + '</small></div></div>' : '<div class="maint-card"><div class="maint-card-label">Candele</div><div class="maint-card-value" style="color:var(--muted)">N/A (diesel o BEV)</div></div>'}
-          <div class="maint-card">
-            <div class="maint-card-label">Filtri</div>
-            <div class="maint-card-value" style="font-size:0.82rem;line-height:1.6">
-              Aria motore: ogni <strong>${(fi.aria_km||30000).toLocaleString()} km</strong><br>
-              Abitacolo/Polline: ogni <strong>${(fi.abitacolo_km||20000).toLocaleString()} km</strong> o <strong>${fi.abitacolo_mesi||12} mesi</strong>
-              ${fi.gasolio_km ? '<br>Filtro gasolio: ogni <strong>' + fi.gasolio_km.toLocaleString() + ' km</strong>' : ''}
-              ${fi.dsg_km ? '<br>Olio DSG: ogni <strong>' + fi.dsg_km.toLocaleString() + ' km</strong>' : ''}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="maint-section">
-        <div class="section-hd">// Lampadine</div>
-        <table class="bulb-table">
-          <thead><tr><th>Funzione</th><th>Tipo</th></tr></thead>
-          <tbody>
-            <tr><td>Anabbaglianti</td><td>${lm.anabbaglianti || '—'}</td></tr>
-            <tr><td>Abbaglianti</td><td>${lm.abbaglianti || '—'}</td></tr>
-            <tr><td>Indicatori di direzione</td><td>${lm.indicatori || '—'}</td></tr>
-            <tr><td>Luci di posizione</td><td>${lm.luci_posizione || '—'}</td></tr>
-            <tr><td>Luci stop</td><td>${lm.luci_stop || '—'}</td></tr>
-            <tr><td>Retromarcia</td><td>${lm.retromarcia || '—'}</td></tr>
-            <tr><td>Plafoniera interna</td><td>${lm.plafoniera || '—'}</td></tr>
-          </tbody>
-        </table>
-        ${lm.note ? '<div style="margin-top:10px;font-size:0.75rem;color:var(--muted);font-family:DM Mono,monospace;line-height:1.5">⚠ ' + lm.note + '</div>' : ''}
-      </div>
-
-      <div class="maint-section">
-        <div class="section-hd">// Calendario manutenzione</div>
-        <div style="display:flex;gap:16px;margin-bottom:12px;font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">
-          <span><span class="prio-dot prio-alta" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--danger);margin-right:5px;vertical-align:middle;"></span>Alta priorità</span>
-          <span><span class="prio-dot prio-media" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--warning);margin-right:5px;vertical-align:middle;"></span>Media</span>
-          <span><span class="prio-dot prio-bassa" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success);margin-right:5px;vertical-align:middle;"></span>Bassa</span>
-        </div>
-        <ul class="schedule-list">
-          ${sc.map(s => '<li class="schedule-item"><span class="schedule-interval">' + s.intervallo + '</span><span class="schedule-op">' + s.operazione + '</span><span class="prio-dot prio-' + s.priorita + '"></span></li>').join('')}
-        </ul>
-      </div>
-    `;
-  }
-
-  document.getElementById('results').innerHTML = `
-    <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent2);
-      padding:32px 28px;text-align:center;">
-      <div style="font-size:2rem;margin-bottom:16px">🔧</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.08em;
-        color:var(--accent2);margin-bottom:12px">Veicolo non ancora nel database</div>
-      <div style="font-size:0.88rem;color:#b8b7c8;line-height:1.7;margin-bottom:20px">
-        <strong style="color:var(--text)">${marca} ${modello} ${anno} — ${motore}</strong><br>
-        Questo veicolo verrà aggiunto al prossimo aggiornamento settimanale (ogni lunedì).<br>
-        Il database copre già <strong style="color:var(--text)">1.544 combinazioni</strong> di veicoli e motori.
-      </div>
-      <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);
-        text-transform:uppercase;letter-spacing:0.1em;">
-        Nessuna chiamata API effettuata · Costo: €0
-      </div>
-    </div>`;
-}
-
-function showSourceBadge(source) {
-  const bar = document.getElementById('vehicle-bar');
-  // Remove old badge
-  const old = bar.querySelector('.source-badge');
-  if (old) old.remove();
-  const badge = document.createElement('span');
-  badge.className = 'source-badge';
-  const colors = {
-    'database locale': 'var(--success)',
-    'cache worker':    'var(--accent2)',
-    'generato ora':    'var(--accent)',
-  };
-  badge.style.cssText = `margin-left:auto;font-family:'DM Mono',monospace;font-size:0.65rem;
-    text-transform:uppercase;letter-spacing:0.08em;padding:4px 10px;border:1px solid;
-    color:${colors[source]||'var(--muted)'};border-color:${colors[source]||'var(--border)'};
-    background:${colors[source]||'transparent'}18;`;
-  badge.textContent = '⚡ ' + source;
-  bar.appendChild(badge);
-}
-
-
-// ═══════════════════════════════════════════
-// MAIN NAV
-// ═══════════════════════════════════════════
-function switchView(id) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('view-' + id).classList.add('active');
-  document.querySelector('.nav-btn[data-view="' + id + '"]').classList.add('active');
-  // Reset results when switching away from analisi
-  if (id !== 'analisi') {
-    document.getElementById('tabs').className = 'tabs';
-    document.getElementById('filter-bar').className = 'filter-bar';
-    document.getElementById('vehicle-bar').className = 'vehicle-bar';
-  }
-}
-
-// ═══════════════════════════════════════════
-// VIN DECODER
-// ═══════════════════════════════════════════
-// WMI database (World Manufacturer Identifier — public standard ISO 3779)
 const WMI_DB = {
   'WAU':'Audi','WBA':'BMW','WBS':'BMW M','WBY':'BMW','WDD':'Mercedes-Benz',
   'WDC':'Mercedes-Benz','WDB':'Mercedes-Benz','WEB':'Mercedes-Benz',
@@ -2128,8 +1341,6 @@ const WMI_DB = {
   'SBM':'McLaren','SBD':'Aston Martin',
   'ADV':'Volkswagen Austria','TMAM':'Skoda',
 };
-
-// Model year codes (position 10, public standard)
 const YEAR_CODES = {
   'A':1980,'B':1981,'C':1982,'D':1983,'E':1984,'F':1985,'G':1986,'H':1987,
   'J':1988,'K':1989,'L':1990,'M':1991,'N':1992,'P':1993,'R':1994,'S':1995,
@@ -2138,427 +1349,778 @@ const YEAR_CODES = {
   'C':2012,'D':2013,'E':2014,'F':2015,'G':2016,'H':2017,'J':2018,'K':2019,
   'L':2020,'M':2021,'N':2022,'P':2023,'R':2024,'S':2025,'T':2026,
 };
+const OBD_CODES = {"P0100": "Sensore portata aria (MAF) — circuito aperto", "P0101": "Sensore portata aria (MAF) — range/prestazione fuori norma", "P0102": "Sensore portata aria (MAF) — segnale basso", "P0103": "Sensore portata aria (MAF) — segnale alto", "P0110": "Sensore temperatura aria aspirazione — circuito aperto", "P0112": "Sensore temperatura aria aspirazione — segnale basso", "P0113": "Sensore temperatura aria aspirazione — segnale alto", "P0115": "Sensore temperatura liquido raffreddamento (ECT) — circuito", "P0116": "Sensore ECT — range/prestazione fuori norma", "P0117": "Sensore ECT — segnale basso", "P0118": "Sensore ECT — segnale alto", "P0120": "Sensore posizione acceleratore (TPS) A — circuito", "P0121": "Sensore posizione acceleratore (TPS) A — range/prestazione", "P0122": "Sensore posizione acceleratore (TPS) A — segnale basso", "P0123": "Sensore posizione acceleratore (TPS) A — segnale alto", "P0130": "Sonda lambda banco 1 sensore 1 — circuito", "P0131": "Sonda lambda banco 1 sensore 1 — tensione bassa", "P0132": "Sonda lambda banco 1 sensore 1 — tensione alta", "P0133": "Sonda lambda banco 1 sensore 1 — risposta lenta", "P0134": "Sonda lambda banco 1 sensore 1 — nessuna attività", "P0135": "Sonda lambda banco 1 sensore 1 — riscaldatore", "P0136": "Sonda lambda banco 1 sensore 2 — circuito", "P0137": "Sonda lambda banco 1 sensore 2 — tensione bassa", "P0138": "Sonda lambda banco 1 sensore 2 — tensione alta", "P0140": "Sonda lambda banco 1 sensore 2 — nessuna attività", "P0141": "Sonda lambda banco 1 sensore 2 — riscaldatore", "P0150": "Sonda lambda banco 2 sensore 1 — circuito", "P0151": "Sonda lambda banco 2 sensore 1 — tensione bassa", "P0152": "Sonda lambda banco 2 sensore 1 — tensione alta", "P0153": "Sonda lambda banco 2 sensore 1 — risposta lenta", "P0171": "Sistema miscela troppo magra — banco 1", "P0172": "Sistema miscela troppo ricca — banco 1", "P0174": "Sistema miscela troppo magra — banco 2", "P0175": "Sistema miscela troppo ricca — banco 2", "P0440": "Sistema evaporativo EVAP — malfunzionamento generico", "P0441": "Sistema evaporativo EVAP — flusso errato", "P0442": "Sistema evaporativo EVAP — perdita piccola rilevata", "P0446": "Sistema evaporativo EVAP — valvola sfiato", "P0455": "Sistema evaporativo EVAP — grande perdita rilevata", "P0456": "Sistema evaporativo EVAP — perdita molto piccola", "P0420": "Efficienza catalizzatore banco 1 sotto soglia", "P0421": "Efficienza catalizzatore banco 1 — riscaldamento sotto soglia", "P0430": "Efficienza catalizzatore banco 2 sotto soglia", "P0300": "Mancata accensione casuale/multipla rilevata", "P0301": "Mancata accensione cilindro 1", "P0302": "Mancata accensione cilindro 2", "P0303": "Mancata accensione cilindro 3", "P0304": "Mancata accensione cilindro 4", "P0305": "Mancata accensione cilindro 5", "P0306": "Mancata accensione cilindro 6", "P0010": "Attuatore fasatura camme aspirazione banco 1 — circuito", "P0011": "Posizione fasatura camme aspirazione banco 1 — troppo anticipata", "P0012": "Posizione fasatura camme aspirazione banco 1 — troppo ritardata", "P0013": "Attuatore fasatura camme scarico banco 1 — circuito", "P0014": "Posizione fasatura camme scarico banco 1 — troppo anticipata", "P0020": "Attuatore fasatura camme aspirazione banco 2 — circuito", "P0021": "Posizione fasatura camme aspirazione banco 2 — troppo anticipata", "P0087": "Pressione carburante — troppo bassa (rail/sistema)", "P0088": "Pressione carburante — troppo alta", "P0089": "Regolatore pressione carburante — prestazione", "P0090": "Regolatore pressione carburante — circuito", "P0191": "Sensore pressione carburante rail — range/prestazione", "P0192": "Sensore pressione carburante rail — segnale basso", "P0193": "Sensore pressione carburante rail — segnale alto", "P0200": "Iniettore — circuito aperto", "P0201": "Iniettore cilindro 1 — circuito", "P0202": "Iniettore cilindro 2 — circuito", "P0203": "Iniettore cilindro 3 — circuito", "P0204": "Iniettore cilindro 4 — circuito", "P0205": "Iniettore cilindro 5 — circuito", "P0206": "Iniettore cilindro 6 — circuito", "P0340": "Sensore posizione albero a camme banco 1 — circuito", "P0341": "Sensore posizione albero a camme banco 1 — range/prestazione", "P0342": "Sensore posizione albero a camme banco 1 — segnale basso", "P0343": "Sensore posizione albero a camme banco 1 — segnale alto", "P0335": "Sensore posizione albero motore (CKP) — circuito", "P0336": "Sensore posizione albero motore (CKP) — range/prestazione", "P0234": "Sovrappressione turbocompressore — limite superato", "P0235": "Sensore pressione turbocompressore banco 1 — circuito", "P0236": "Sensore pressione turbocompressore banco 1 — range/prestazione", "P0237": "Sensore pressione turbocompressore banco 1 — segnale basso", "P0238": "Sensore pressione turbocompressore banco 1 — segnale alto", "P0243": "Valvola wastegate turbocompressore — circuito", "P0245": "Valvola wastegate turbocompressore — segnale basso", "P0246": "Valvola wastegate turbocompressore — segnale alto", "P0217": "Temperatura motore eccessiva", "P0218": "Temperatura trasmissione eccessiva", "P0597": "Valvola termostatica — circuito aperto", "P0598": "Valvola termostatica — segnale basso", "P0599": "Valvola termostatica — segnale alto", "P0400": "Ricircolo gas scarico (EGR) — flusso insufficiente", "P0401": "Ricircolo gas scarico (EGR) — flusso insufficiente rilevato", "P0402": "Ricircolo gas scarico (EGR) — flusso eccessivo rilevato", "P0403": "Circuito valvola EGR — malfunzionamento", "P0404": "Valvola EGR — range/prestazione", "P0405": "Sensore posizione EGR A — segnale basso", "P0406": "Sensore posizione EGR A — segnale alto", "P2002": "Efficienza filtro antiparticolato (DPF) banco 1 — sotto soglia", "P2003": "Efficienza filtro antiparticolato (DPF) banco 2 — sotto soglia", "P244A": "Differenziale pressione DPF — basso flusso", "P244B": "Differenziale pressione DPF — alto flusso", "P2463": "Filtro antiparticolato diesel — accumulo eccessivo di fuliggine", "P0473": "Sensore pressione scarico — segnale alto", "P0474": "Sensore pressione scarico — segnale intermittente", "P203F": "Qualità reagente (AdBlue) — sotto soglia", "P2048": "Iniettore reagente AdBlue — circuito basso", "P2049": "Iniettore reagente AdBlue — circuito alto", "P204F": "Efficienza sistema SCR banco 1 — sotto soglia", "P0700": "Sistema controllo trasmissione — guasto generico", "P0715": "Sensore velocità turbina trasmissione — circuito", "P0720": "Sensore velocità uscita trasmissione — circuito", "P0730": "Rapporto di marcia errato", "P0740": "Circuito solenoide convertitore di coppia (TCC)", "P0750": "Solenoide cambio A — malfunzionamento", "P0760": "Solenoide cambio C — malfunzionamento", "P0780": "Problema cambio marcia", "C0035": "Sensore velocità ruota anteriore sinistra — circuito", "C0040": "Sensore velocità ruota anteriore destra — circuito", "C0045": "Sensore velocità ruota posteriore sinistra — circuito", "C0050": "Sensore velocità ruota posteriore destra — circuito", "C0110": "Malfunzionamento pompa motore ABS", "C0121": "Valvola solenoide ABS — malfunzionamento", "C0265": "Relè circuito attuatore ABS — aperto", "B1000": "Centralina controllo clima — guasto interno", "P0530": "Sensore pressione refrigerante A/C — circuito", "P0531": "Sensore pressione refrigerante A/C — range/prestazione", "P0532": "Sensore pressione refrigerante A/C — segnale basso", "P0533": "Sensore pressione refrigerante A/C — segnale alto", "B0001": "Circuito airbag lato guida — cortocircuito a massa", "B0002": "Circuito airbag passeggero — cortocircuito a massa", "B0051": "Airbag frontale passeggero — circuito aperto", "B0057": "Cintura di sicurezza pretensionatore lato guida — circuito", "P0560": "Tensione sistema — intermittente", "P0562": "Tensione sistema — bassa", "P0563": "Tensione sistema — alta", "P0600": "Bus comunicazione seriale — malfunzionamento", "P0601": "Memoria centralina motore (ECM/PCM) — errore checksum", "P0606": "Processore centralina motore (ECM/PCM) — guasto", "P0A00": "Sistema motore/generatore — malfunzionamento", "P0A0F": "Tensione batteria ad alta tensione — bassa", "P0A1F": "Capacità batteria — sotto soglia", "P0A7F": "Prestazione sistema batteria ad alta tensione", "P0A80": "Sostituire moduli batteria ad alta tensione", "P0A94": "Convertitore DC/DC — prestazione", "P1A10": "Temperatura batteria ibrida — alta", "P3000": "Sistema batteria ad alta tensione — malfunzionamento"};
+const OIL_QTY = {"Fiat||500 (312)||1.2 69cv": {"litri": 3.1, "viscosita": "5W-40", "norma": "Fiat 9.55535-S1"}, "Fiat||500 (312)||0.9 TwinAir 85cv": {"litri": 2.9, "viscosita": "5W-40", "norma": "Fiat 9.55535-S1"}, "Fiat||Panda III||1.0 Hybrid 70cv": {"litri": 3.5, "viscosita": "0W-20", "norma": "Fiat 9.55535-GS1"}, "Fiat||Panda III||1.3 MultiJet 95cv 4x4": {"litri": 3.6, "viscosita": "5W-30", "norma": "Fiat 9.55535-S1"}, "Volkswagen||Golf (VI/VII/VIII)||1.4 TSI 125cv": {"litri": 4.3, "viscosita": "5W-30", "norma": "VW 504.00/507.00"}, "Volkswagen||Golf (VI/VII/VIII)||2.0 TDI 150cv": {"litri": 4.3, "viscosita": "5W-30", "norma": "VW 504.00/507.00"}, "Volkswagen||Golf (VI/VII/VIII)||1.5 eTSI 150cv MHEV": {"litri": 4.5, "viscosita": "0W-20", "norma": "VW 508.00/509.00"}, "Volkswagen||Polo (5/6)||1.0 TSI 95cv": {"litri": 3.8, "viscosita": "5W-30", "norma": "VW 504.00/507.00"}, "Volkswagen||Tiguan (5N/AD)||2.0 TDI 150cv": {"litri": 4.3, "viscosita": "5W-30", "norma": "VW 507.00"}, "Audi||A3 (8V/8Y)||2.0 TDI 150cv": {"litri": 4.3, "viscosita": "5W-30", "norma": "VW 507.00"}, "Audi||A4 (B8/B9)||2.0 TFSI 190cv": {"litri": 4.6, "viscosita": "5W-30", "norma": "VW 504.00"}, "Skoda||Octavia (II/III/IV)||2.0 TDI 150cv": {"litri": 4.3, "viscosita": "5W-30", "norma": "VW 507.00"}, "BMW||Serie 3 (E90/F30/G20)||320d 184cv": {"litri": 5.5, "viscosita": "5W-30", "norma": "BMW Longlife-04"}, "BMW||Serie 3 (E90/F30/G20)||320i 184cv": {"litri": 5.0, "viscosita": "5W-30", "norma": "BMW Longlife-01"}, "BMW||Serie 5 (F10/G30)||520d 184cv": {"litri": 5.5, "viscosita": "5W-30", "norma": "BMW Longlife-04"}, "BMW||X3 (E83/F25/G01)||xDrive20d 184cv": {"litri": 5.5, "viscosita": "5W-30", "norma": "BMW Longlife-04"}, "Mercedes-Benz||Classe C (W204/W205/W206)||C220d 170cv": {"litri": 6.5, "viscosita": "5W-30", "norma": "MB 229.51"}, "Mercedes-Benz||Classe C (W204/W205/W206)||C200 184cv": {"litri": 5.5, "viscosita": "5W-30", "norma": "MB 229.5"}, "Mercedes-Benz||Classe E (W212/W213)||E220 CDI 170cv": {"litri": 7.0, "viscosita": "5W-30", "norma": "MB 229.51"}, "Toyota||Yaris (XP10/XP13/XP210)||1.5 Hybrid 116cv": {"litri": 3.9, "viscosita": "0W-20", "norma": "Toyota WS"}, "Toyota||Corolla (E120/E140/E170/E210)||1.8 Hybrid 122cv": {"litri": 4.2, "viscosita": "0W-20", "norma": "Toyota WS"}, "Toyota||RAV4 (XA30/XA40/XA50)||2.5 Hybrid 218cv": {"litri": 4.7, "viscosita": "0W-20", "norma": "Toyota WS"}, "Alfa Romeo||Giulia||2.0T 200cv": {"litri": 5.0, "viscosita": "5W-40", "norma": "Fiat 9.55535-GH2"}, "Alfa Romeo||Giulia||2.2 JTDm 180cv": {"litri": 5.5, "viscosita": "5W-30", "norma": "Fiat 9.55535-DS1"}, "Alfa Romeo||Stelvio||2.0T 200cv": {"litri": 5.0, "viscosita": "5W-40", "norma": "Fiat 9.55535-GH2"}, "Renault||Clio (III/IV/V)||1.0 TCe 100cv": {"litri": 4.0, "viscosita": "5W-40", "norma": "RN0700"}, "Renault||Mégane (III/IV)||1.3 TCe 140cv": {"litri": 4.8, "viscosita": "5W-30", "norma": "RN0700/RN0710"}, "Ford||Focus (III/IV)||1.0 EcoBoost 125cv": {"litri": 3.8, "viscosita": "5W-20", "norma": "WSS-M2C948-B"}, "Ford||Fiesta (VI/VII)||1.0 EcoBoost 125cv": {"litri": 3.5, "viscosita": "5W-20", "norma": "WSS-M2C948-B"}, "Peugeot||208 (I/II)||1.2 PureTech 100cv": {"litri": 3.5, "viscosita": "5W-30", "norma": "PSA B71 2290"}, "Peugeot||308 (I/II/III)||1.5 BlueHDi 130cv": {"litri": 4.2, "viscosita": "5W-30", "norma": "PSA B71 2312"}, "Citroën||C3 (II/III)||1.2 PureTech 110cv": {"litri": 3.5, "viscosita": "5W-30", "norma": "PSA B71 2290"}, "Opel||Corsa (D/E/F)||1.2 T 100cv": {"litri": 4.0, "viscosita": "5W-30", "norma": "dexos2"}, "Opel||Astra (H/J/K/L)||1.4 Turbo 140cv": {"litri": 4.0, "viscosita": "5W-30", "norma": "dexos2"}, "Honda||Civic (IX/X/XI)||1.5 VTEC Turbo 182cv": {"litri": 3.7, "viscosita": "0W-20", "norma": "Honda HTO-06"}, "Honda||CR-V (IV/V)||1.5 VTEC Turbo 173cv": {"litri": 3.9, "viscosita": "0W-20", "norma": "Honda HTO-06"}};
+const TYRE_P = {"Alfa Romeo||Giulia": {"2016–2024": {"225/45 R17": [2.3, 2.3], "225/40 R18": [2.4, 2.4], "225/35 R19": [2.5, 2.5], "default": [2.3, 2.3]}}, "Alfa Romeo||Stelvio": {"2017–2024": {"225/60 R18": [2.3, 2.3], "235/55 R19": [2.4, 2.4], "default": [2.3, 2.3]}}, "Alfa Romeo||Giulietta": {"2010–2020": {"205/55 R16": [2.2, 2.1], "225/45 R17": [2.3, 2.2], "default": [2.2, 2.1]}}, "Alfa Romeo||Mito": {"2008–2018": {"195/55 R16": [2.2, 2.0], "205/45 R17": [2.3, 2.1], "default": [2.2, 2.0]}}, "Fiat||500 (312)": {"2007–2024": {"185/55 R15": [2.2, 2.0], "195/45 R16": [2.3, 2.1], "default": [2.2, 2.0]}}, "Fiat||Panda III": {"2012–2024": {"175/65 R14": [2.2, 2.0], "185/55 R15": [2.2, 2.0], "default": [2.2, 2.0]}}, "Fiat||Tipo (356)": {"2016–2024": {"195/65 R15": [2.3, 2.1], "205/55 R16": [2.3, 2.1], "default": [2.3, 2.1]}}, "Volkswagen||Golf (VI/VII/VIII)": {"2008–2024": {"195/65 R15": [2.2, 2.1], "205/55 R16": [2.3, 2.2], "225/45 R17": [2.4, 2.3], "225/40 R18": [2.5, 2.4], "default": [2.3, 2.2]}}, "Volkswagen||Polo (5/6)": {"2009–2024": {"185/65 R15": [2.2, 2.0], "195/55 R16": [2.3, 2.1], "default": [2.2, 2.0]}}, "Volkswagen||Tiguan (5N/AD)": {"2007–2024": {"215/65 R16": [2.3, 2.2], "215/60 R17": [2.4, 2.3], "235/55 R17": [2.4, 2.3], "235/50 R18": [2.5, 2.4], "default": [2.4, 2.3]}}, "Volkswagen||Passat (B7/B8)": {"2011–2024": {"205/60 R16": [2.3, 2.2], "215/55 R17": [2.4, 2.3], "default": [2.3, 2.2]}}, "BMW||Serie 3 (E90/F30/G20)": {"2005–2024": {"205/55 R16": [2.2, 2.2], "225/45 R17": [2.3, 2.5], "225/40 R18": [2.3, 2.6], "default": [2.3, 2.5]}}, "BMW||Serie 5 (F10/G30)": {"2010–2024": {"225/55 R17": [2.3, 2.3], "245/45 R18": [2.4, 2.6], "245/40 R19": [2.4, 2.6], "default": [2.4, 2.6]}}, "BMW||X3 (E83/F25/G01)": {"2003–2024": {"225/55 R17": [2.4, 2.4], "245/50 R18": [2.5, 2.5], "default": [2.4, 2.4]}}, "BMW||X5 (E53/E70/F15/G05)": {"2000–2024": {"255/55 R18": [2.5, 2.5], "275/45 R19": [2.6, 2.6], "default": [2.5, 2.5]}}, "Mercedes-Benz||Classe C (W204/W205/W206)": {"2007–2024": {"205/60 R16": [2.3, 2.3], "225/50 R17": [2.4, 2.4], "225/45 R18": [2.5, 2.5], "default": [2.3, 2.3]}}, "Mercedes-Benz||Classe E (W212/W213)": {"2009–2024": {"225/55 R17": [2.4, 2.4], "245/45 R18": [2.5, 2.5], "245/40 R19": [2.5, 2.5], "default": [2.4, 2.4]}}, "Mercedes-Benz||GLC (X253/X254)": {"2015–2024": {"235/60 R18": [2.5, 2.5], "255/50 R19": [2.6, 2.6], "default": [2.5, 2.5]}}, "Audi||A3 (8V/8Y)": {"2012–2024": {"195/65 R15": [2.2, 2.1], "225/45 R17": [2.4, 2.3], "225/40 R18": [2.5, 2.4], "default": [2.3, 2.2]}}, "Audi||A4 (B8/B9)": {"2008–2024": {"205/60 R16": [2.3, 2.2], "225/50 R17": [2.4, 2.3], "245/40 R18": [2.5, 2.4], "default": [2.4, 2.3]}}, "Audi||Q5 (8R/FY)": {"2008–2024": {"235/65 R17": [2.4, 2.4], "255/55 R18": [2.5, 2.5], "default": [2.4, 2.4]}}, "Toyota||Yaris (XP10/XP13/XP210)": {"1999–2024": {"175/65 R14": [2.2, 2.0], "185/55 R15": [2.3, 2.1], "default": [2.2, 2.0]}}, "Toyota||Corolla (E120/E140/E170/E210)": {"2002–2024": {"195/65 R15": [2.3, 2.1], "215/45 R17": [2.4, 2.2], "default": [2.3, 2.1]}}, "Toyota||RAV4 (XA30/XA40/XA50)": {"2006–2024": {"225/65 R17": [2.3, 2.3], "235/55 R18": [2.4, 2.4], "default": [2.3, 2.3]}}, "Toyota||C-HR": {"2016–2024": {"215/60 R17": [2.3, 2.3], "225/50 R18": [2.4, 2.4], "default": [2.3, 2.3]}}, "Renault||Clio (III/IV/V)": {"2005–2024": {"185/65 R15": [2.2, 2.0], "195/55 R16": [2.3, 2.1], "default": [2.2, 2.0]}}, "Renault||Mégane (III/IV)": {"2008–2022": {"205/55 R16": [2.3, 2.1], "215/45 R17": [2.4, 2.2], "default": [2.3, 2.1]}}, "Renault||Captur (I/II)": {"2013–2024": {"195/60 R16": [2.3, 2.1], "215/50 R17": [2.4, 2.2], "default": [2.3, 2.1]}}, "Peugeot||208 (I/II)": {"2012–2024": {"185/65 R15": [2.2, 2.0], "195/55 R16": [2.3, 2.1], "default": [2.2, 2.0]}}, "Peugeot||308 (I/II/III)": {"2007–2024": {"205/55 R16": [2.3, 2.1], "225/45 R17": [2.4, 2.2], "default": [2.3, 2.1]}}, "Opel||Corsa (D/E/F)": {"2006–2024": {"185/65 R15": [2.2, 2.0], "195/55 R16": [2.3, 2.1], "default": [2.2, 2.0]}}, "Opel||Astra (H/J/K/L)": {"2004–2024": {"205/55 R16": [2.3, 2.1], "225/45 R17": [2.4, 2.2], "default": [2.3, 2.1]}}, "Ford||Focus (III/IV)": {"2011–2024": {"205/55 R16": [2.3, 2.1], "215/50 R17": [2.4, 2.2], "default": [2.3, 2.1]}}, "Ford||Fiesta (VI/VII)": {"2008–2023": {"185/60 R15": [2.2, 2.0], "195/50 R16": [2.3, 2.1], "default": [2.2, 2.0]}}, "Ford||Kuga (II/III)": {"2012–2024": {"215/65 R16": [2.3, 2.2], "235/50 R18": [2.5, 2.4], "default": [2.4, 2.3]}}, "Honda||Civic (IX/X/XI)": {"2012–2024": {"205/55 R16": [2.3, 2.2], "235/40 R18": [2.5, 2.4], "default": [2.3, 2.2]}}, "Honda||CR-V (IV/V)": {"2012–2024": {"225/65 R17": [2.4, 2.4], "235/55 R19": [2.5, 2.5], "default": [2.4, 2.4]}}, "Hyundai||Tucson (III/IV)": {"2015–2024": {"225/60 R17": [2.3, 2.3], "235/55 R18": [2.4, 2.4], "default": [2.3, 2.3]}}, "Hyundai||i30 (II/III)": {"2012–2024": {"195/65 R15": [2.2, 2.0], "205/55 R16": [2.3, 2.1], "default": [2.2, 2.0]}}, "Kia||Sportage (III/IV/V)": {"2010–2024": {"215/65 R16": [2.3, 2.3], "235/55 R18": [2.4, 2.4], "default": [2.3, 2.3]}}, "Nissan||Qashqai (J10/J11/J12)": {"2007–2024": {"215/60 R17": [2.3, 2.3], "225/55 R18": [2.4, 2.4], "default": [2.3, 2.3]}}, "Skoda||Octavia (II/III/IV)": {"2004–2024": {"205/55 R16": [2.3, 2.2], "225/45 R17": [2.4, 2.3], "default": [2.3, 2.2]}}, "SEAT||Leon (II/III/IV)": {"2005–2024": {"205/55 R16": [2.3, 2.1], "225/45 R17": [2.4, 2.2], "default": [2.3, 2.1]}}, "Mazda||CX-5 (KE/KF)": {"2012–2024": {"225/65 R17": [2.3, 2.3], "225/55 R19": [2.5, 2.5], "default": [2.3, 2.3]}}, "Mini||Mini (R56/R58/F56)": {"2006–2024": {"185/65 R15": [2.2, 2.1], "205/45 R17": [2.4, 2.3], "default": [2.3, 2.2]}}, "Land Rover||Discovery Sport (L550)": {"2015–2024": {"235/65 R17": [2.4, 2.4], "235/55 R19": [2.6, 2.6], "default": [2.4, 2.4]}}, "Land Rover||Range Rover Evoque (L538/L551)": {"2011–2024": {"235/60 R18": [2.5, 2.5], "235/55 R19": [2.6, 2.6], "default": [2.5, 2.5]}}, "Porsche||Macan (95B/J1)": {"2014–2024": {"235/60 R18": [2.6, 2.8], "265/45 R20": [2.7, 2.9], "default": [2.6, 2.8]}}, "Porsche||Cayenne (9PA/92A/9YA)": {"2002–2024": {"255/55 R18": [2.6, 2.8], "285/45 R20": [2.7, 2.9], "default": [2.6, 2.8]}}, "Volvo||XC60 (I/II)": {"2008–2024": {"235/65 R17": [2.4, 2.4], "235/50 R19": [2.6, 2.6], "default": [2.4, 2.4]}}, "Volvo||XC40": {"2018–2024": {"235/60 R18": [2.5, 2.5], "235/50 R19": [2.6, 2.6], "default": [2.5, 2.5]}}, "Dacia||Duster (I/II)": {"2010–2024": {"215/65 R16": [2.2, 2.2], "215/60 R17": [2.3, 2.3], "default": [2.2, 2.2]}}, "Dacia||Sandero (II/III)": {"2013–2024": {"185/65 R15": [2.2, 2.0], "195/55 R16": [2.3, 2.1], "default": [2.2, 2.0]}}, "Subaru||Forester (SG/SH/SJ/SK)": {"2002–2024": {"215/65 R16": [2.3, 2.3], "225/55 R17": [2.4, 2.4], "default": [2.3, 2.3]}}, "Subaru||Outback (BP/BR/BS/BT)": {"2003–2024": {"225/60 R17": [2.3, 2.3], "225/55 R18": [2.4, 2.4], "default": [2.3, 2.3]}}};
 
-// Position descriptions
-const VIN_POS = [
-  'Paese','Costruttore','Tipo','','','','','','Controllo',
-  'Anno','Stabilimento','','','','','','N. Seriale'
-];
+// ═══════════════════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════════════════
+function extractJSON(raw) {
+  let t = raw.replace(/```json\s*/gi,'').replace(/```/g,'').trim();
+  try { return JSON.parse(t); } catch(e) {}
+  const s = t.indexOf('{');
+  if (s === -1) throw new Error('Nessun JSON trovato');
+  let end = t.lastIndexOf('}');
+  while (end > s) {
+    try { return JSON.parse(t.slice(s, end+1)); } catch(e) { end = t.lastIndexOf('}', end-1); }
+  }
+  let p = t.slice(s);
+  const lc = p.lastIndexOf(','), lb = p.lastIndexOf('{');
+  if (lb > lc) p = p.slice(0, lc);
+  let opens=0, brackets=0;
+  for (const ch of p) { if(ch==='{') opens++; else if(ch==='}') opens--; else if(ch==='[') brackets++; else if(ch===']') brackets--; }
+  p += ']'.repeat(Math.max(0,brackets)) + '}'.repeat(Math.max(0,opens));
+  return JSON.parse(p);
+}
 
-function decodeVIN() {
-  const vin = document.getElementById('vin-input').value.trim().toUpperCase();
-  const errEl = document.getElementById('vin-error');
-  const resEl = document.getElementById('vin-result');
+function setLoading(v) {
+  document.getElementById('loading').className = v ? 'loading on' : 'loading';
+  document.getElementById('btn-analisi').disabled = v;
+}
+function setLoadingMsg(m) {
+  const el = document.getElementById('load-msg');
+  if (el) el.textContent = m;
+}
+function showError(m) {
+  document.getElementById('error-msg').textContent = m;
+  document.getElementById('error-box').className = 'ebox on';
+}
+function hideError() { document.getElementById('error-box').className = 'ebox'; }
 
-  if (vin.length !== 17 || /[IOQ]/.test(vin)) {
-    errEl.classList.add('visible');
-    resEl.classList.remove('visible');
+// ═══════════════════════════════════════════════════════════════════
+// MAIN NAV
+// ═══════════════════════════════════════════════════════════════════
+function switchView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  document.querySelector('.nav-btn[data-view="' + id + '"]').classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SEARCH DROPDOWNS (analisi)
+// ═══════════════════════════════════════════════════════════════════
+var _searchData = { marca: [], modello: [] };
+var _closeTimer = {};
+
+function buildMarcaList() { _searchData.marca = Object.keys(VEHICLES).sort(); }
+function buildModelloList(marca) { _searchData.modello = marca ? Object.keys(VEHICLES[marca]).sort() : []; }
+
+function filterSearch(type) {
+  var inp = document.getElementById('search-' + type);
+  var drop = document.getElementById('drop-' + type);
+  var q = inp.value.toLowerCase();
+  var items = _searchData[type].filter(function(x){ return x.toLowerCase().includes(q); });
+  renderDrop(drop, items, q, function(item){ selectOption(type, item); });
+  drop.classList.add('open');
+}
+function openDropdown(type) {
+  clearTimeout(_closeTimer[type]);
+  filterSearch(type);
+}
+function closeDropdown(type) {
+  _closeTimer[type] = setTimeout(function(){ document.getElementById('drop-' + type).classList.remove('open'); }, 200);
+}
+function renderDrop(drop, items, q, onSelect) {
+  if (!items.length) {
+    drop.innerHTML = '<div class="sdo" style="color:var(--t3)">Nessun risultato</div>';
     return;
   }
-  errEl.classList.remove('visible');
-
-  // Decode
-  const wmi3 = vin.slice(0,3);
-  const wmi2 = vin.slice(0,2);
-  const marca = WMI_DB[wmi3] || WMI_DB[wmi2] || 'Sconosciuto';
-
-  const paesi = {
-    'A':'Sudafrica','J':'Giappone','K':'Corea del Sud','L':'Cina',
-    'S':'Gran Bretagna','T':'Cecoslovacchia/Rep.Ceca','U':'Romania',
-    'V':'Francia/Spagna','W':'Germania','X':'Russia','Y':'Finlandia/Svezia',
-    'Z':'Italia','1':'USA','2':'Canada','3':'Messico','4':'USA','5':'USA',
-    '6':'Australia','9':'Brasile',
-  };
-  const paese = paesi[vin[0]] || 'Sconosciuto';
-
-  const yearChar = vin[9];
-  // Year code repeats every 30 years — pick most recent plausible
-  let anno = YEAR_CODES[yearChar];
-  if (anno && anno < 2000) anno += 30; // 1980→2010, 1981→2011, etc for modern cars
-  // For letters A-T that map to both 1980-1999 and 2010-2026
-  const yearMap2 = {'A':2010,'B':2011,'C':2012,'D':2013,'E':2014,'F':2015,
-    'G':2016,'H':2017,'J':2018,'K':2019,'L':2020,'M':2021,'N':2022,
-    'P':2023,'R':2024,'S':2025,'T':2026};
-  const yearMap1 = {'1':2001,'2':2002,'3':2003,'4':2004,'5':2005,'6':2006,
-    '7':2007,'8':2008,'9':2009};
-  anno = yearMap2[yearChar] || yearMap1[yearChar] || anno || '?';
-
-  const seriale = vin.slice(11);
-  const vds = vin.slice(3,9);
-
-  // Render chars
-  const charsEl = document.getElementById('vin-chars');
-  charsEl.innerHTML = vin.split('').map((ch,i) => {
-    const labels = ['Pa','Cos','Ti','','','','','','Ck','An','St','','','','','','Se'];
-    const hi = [0,1,2,9,10].includes(i);
-    return '<div class="vin-char' + (hi?' highlight':'') + '"><span>' + ch + '</span><span>' + (labels[i]||String(i+1)) + '</span></div>';
+  drop.innerHTML = items.map(function(item) {
+    var safe = q ? q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') : '';
+    var hi = safe ? item.replace(new RegExp('(' + safe + ')','gi'),'<mark>$1</mark>') : item;
+    var d = document.createElement('div');
+    d.className = 'sdo';
+    d.dataset.val = item;
+    d.innerHTML = hi;
+    return d.outerHTML;
   }).join('');
-
-  // Render grid
-  const gridEl = document.getElementById('vin-grid');
-  const fields = [
-    {label:'Costruttore / Marca', value: marca, icon:'🏭'},
-    {label:'Paese di produzione', value: paese, icon:'🌍'},
-    {label:'Anno modello', value: anno, icon:'📅'},
-    {label:'WMI (3 cifre)', value: wmi3, icon:'🔑'},
-    {label:'VDS (descrittore)', value: vds, icon:'⚙'},
-    {label:'N° seriale', value: seriale, icon:'#'},
-  ];
-  gridEl.innerHTML = fields.map(f =>
-    '<div class="vin-field"><div class="vin-field-label">' + f.icon + ' ' + f.label + '</div>' +
-    '<div class="vin-field-value">' + f.value + '</div></div>'
-  ).join('');
-
-  // Store for goto
-  window._vinDecoded = { marca, anno: String(anno) };
-
-  resEl.classList.add('visible');
+  drop.querySelectorAll('.sdo[data-val]').forEach(function(el) {
+    el.addEventListener('mousedown', function(e) { e.preventDefault(); onSelect(this.dataset.val); });
+  });
 }
 
-function gotoAnalisiFromVIN() {
-  if (!window._vinDecoded) return;
-  const { marca } = window._vinDecoded;
-  switchView('analisi');
-  // Pre-select marca
-  if (SCEGLIAUTO_SLUGS[marca]) {
-    selectOption('marca', marca);
+function selectOption(type, value) {
+  document.getElementById('search-' + type).value = value;
+  document.getElementById('sel-' + type).value = value;
+  document.getElementById('drop-' + type).classList.remove('open');
+  if (type === 'marca') {
+    buildModelloList(value);
+    var sm = document.getElementById('search-modello');
+    sm.value = ''; sm.disabled = false; sm.placeholder = 'Cerca modello…';
+    document.getElementById('sel-modello').value = '';
+    document.getElementById('sel-anno').innerHTML = '<option value="">— Anno —</option>';
+    document.getElementById('sel-motore').innerHTML = '<option value="">— Motore —</option>';
+  } else if (type === 'modello') {
+    updateAnni();
   }
 }
 
-// ═══════════════════════════════════════════
-// CONFRONTO — selectors setup
-// ═══════════════════════════════════════════
-function buildCompareSelectors(side) {
-  const wrap = document.getElementById('compare-selectors-' + side);
-  wrap.innerHTML = `
-    <div class="field-group">
-      <label>Marca</label>
-      <div class="search-wrap">
-        <span class="search-icon">⌕</span>
-        <input class="search-input" id="search-cmp-marca-${side}" placeholder="Cerca marca..."
-          autocomplete="off"
-          oninput="filterSearchCmp('${side}','marca')"
-          onfocus="openDropdownCmp('${side}','marca')"
-          onblur="closeDropdownCmp('${side}','marca')">
-        <div class="search-dropdown" id="drop-cmp-marca-${side}"></div>
-      </div>
-      <input type="hidden" id="sel-cmp-marca-${side}">
-    </div>
-    <div class="field-group">
-      <label>Modello · Anno · Motore</label>
-      <select id="sel-cmp-combo-${side}"
-        style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:0.88rem;">
-        <option value="">— Seleziona prima la marca —</option>
-      </select>
-    </div>`;
+function updateAnni(init) {
+  var marca   = document.getElementById('sel-marca').value;
+  var modello = document.getElementById('sel-modello').value;
+  var sel = document.getElementById('sel-anno');
+  sel.innerHTML = '<option value="">— Anno —</option>';
+  document.getElementById('sel-motore').innerHTML = '<option value="">— Motore —</option>';
+  if (!marca || !modello || !VEHICLES[marca] || !VEHICLES[marca][modello]) return;
+  Object.keys(VEHICLES[marca][modello]).forEach(function(a) {
+    var o = document.createElement('option'); o.value = a; o.textContent = a; sel.appendChild(o);
+  });
+  if (init) { sel.value = Object.keys(VEHICLES[marca][modello])[0]; updateMotori(true); }
 }
 
-let cmpCloseTimer = {};
-function filterSearchCmp(side, type) {
-  const q = document.getElementById('search-cmp-marca-' + side).value.toLowerCase();
-  const items = Object.keys(VEHICLES).sort().filter(function(x){ return x.toLowerCase().includes(q); });
-  const drop = document.getElementById('drop-cmp-marca-' + side);
-  if (!items.length) {
-    drop.innerHTML = '<div class="search-option" style="color:var(--muted)">Nessun risultato</div>';
-  } else {
-    drop.innerHTML = items.map(function(item) {
-      const hi = q ? item.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')','gi'),'<mark>$1</mark>') : item;
-      const el = document.createElement('div');
-      el.className = 'search-option';
-      el.dataset.side = side;
-      el.dataset.value = item;
-      el.innerHTML = hi;
-      el.addEventListener('mousedown', function(){ selectCmpMarca(this.dataset.side, this.dataset.value); });
-      return el.outerHTML;
-    }).join('');
-    // Re-attach after innerHTML (use event delegation on drop)
-    drop.querySelectorAll('.search-option[data-value]').forEach(function(el){
-      el.addEventListener('mousedown', function(){ selectCmpMarca(this.dataset.side, this.dataset.value); });
+function updateMotori(init) {
+  var marca   = document.getElementById('sel-marca').value;
+  var modello = document.getElementById('sel-modello').value;
+  var anno    = document.getElementById('sel-anno').value;
+  var sel = document.getElementById('sel-motore');
+  sel.innerHTML = '<option value="">— Motore —</option>';
+  if (!marca || !modello || !anno) return;
+  var motori = (VEHICLES[marca] && VEHICLES[marca][modello] && VEHICLES[marca][modello][anno]) || [];
+  motori.forEach(function(m) {
+    var o = document.createElement('option'); o.value = m; o.textContent = m; sel.appendChild(o);
+  });
+  if (init && motori.length) sel.value = motori[0];
+}
+
+function populateMarca() {
+  buildMarcaList();
+  selectOption('marca','Alfa Romeo');
+  selectOption('modello','Giulia');
+  updateAnni(true);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DIAGNOSI
+// ═══════════════════════════════════════════════════════════════════
+async function avviaDiagnosi() {
+  var marca   = document.getElementById('sel-marca').value;
+  var modello = document.getElementById('sel-modello').value;
+  var anno    = document.getElementById('sel-anno').value;
+  var motore  = document.getElementById('sel-motore').value;
+  if (!marca || !modello || !anno || !motore) { showError('Seleziona tutti i campi.'); return; }
+
+  setLoading(true); hideError();
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('tabs').className = 'tabs';
+  document.getElementById('filter-bar').className = 'filter-bar';
+
+  // vehicle bar
+  var bar = document.getElementById('vehicle-bar');
+  bar.className = 'visible';
+  bar.innerHTML = '<span style="color:var(--t3);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em">Veicolo:</span>'
+    + '<span class="vtag">' + marca + '</span>'
+    + '<span class="vtag">' + modello + '</span>'
+    + '<span class="vtag">' + anno + '</span>'
+    + '<span class="vtag">' + motore + '</span>';
+
+  var DB_URL = './db.json';
+  try {
+    if (!window._vdb) {
+      setLoadingMsg('Carico database…');
+      var dbRes = await fetch(DB_URL, { cache: 'default' });
+      if (!dbRes.ok) throw new Error('Database non raggiungibile (HTTP ' + dbRes.status + ')');
+      window._vdb = await dbRes.json();
+    }
+    var dbKey = marca + '||' + modello + '||' + anno + '||' + motore;
+    var entry = window._vdb && window._vdb.vehicles && window._vdb.vehicles[dbKey];
+    if (!entry) { setLoading(false); showNotInDB(marca, modello, anno, motore); return; }
+
+    // source badge
+    var badge = document.createElement('span');
+    badge.className = 'src-badge';
+    badge.style.cssText = 'color:var(--grn);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.07)';
+    badge.textContent = '⚡ database locale';
+    bar.appendChild(badge);
+
+    renderResults(entry, marca, modello, anno, motore);
+  } catch(err) {
+    showError('Errore durante l\'analisi: ' + err.message);
+  } finally {
+    setLoading(false);
+  }
+}
+
+function showNotInDB(marca, modello, anno, motore) {
+  document.getElementById('results').innerHTML =
+    '<div class="nodb">'
+    + '<div class="nodb-icon">🔧</div>'
+    + '<div class="nodb-title">Veicolo non ancora nel database</div>'
+    + '<div class="nodb-text"><strong style="color:var(--t1)">' + marca + ' ' + modello + ' ' + anno + ' — ' + motore + '</strong><br>'
+    + 'Questo veicolo verrà aggiunto al prossimo aggiornamento settimanale.<br>'
+    + 'Il database copre già <strong style="color:var(--t1)">1.544 combinazioni</strong> di veicoli e motori.</div>'
+    + '<div class="nodb-note">Nessuna chiamata API · Costo €0</div>'
+    + '</div>';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// TAB SYSTEM
+// ═══════════════════════════════════════════════════════════════════
+function switchTab(id) {
+  document.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  var pane = document.getElementById('tab-' + id);
+  var btn  = document.querySelector('.tab-btn[data-tab="' + id + '"]');
+  if (pane) pane.classList.add('active');
+  if (btn)  btn.classList.add('active');
+  document.getElementById('filter-bar').className = (id === 'problemi') ? 'filter-bar visible' : 'filter-bar';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// FILTER
+// ═══════════════════════════════════════════════════════════════════
+function applyFilter(sev) {
+  document.querySelectorAll('.fbtn').forEach(function(b){ b.className = 'fbtn'; });
+  var btn = document.querySelector('.fbtn[data-sev="' + sev + '"]');
+  if (btn) btn.classList.add(sev === 'all' ? 'fa' : (sev === 'alta' ? 'falta' : (sev === 'media' ? 'fmedia' : 'fbassa')));
+  document.querySelectorAll('.problem-card').forEach(function(c){
+    c.classList.toggle('hf', sev !== 'all' && c.dataset.sev !== sev);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER RESULTS
+// ═══════════════════════════════════════════════════════════════════
+function renderResults(data, marca, modello, anno, motore) {
+  var db = window._vdb || {};
+  var dbKey = marca + '||' + modello + '||' + anno + '||' + motore;
+  var maint = db.maintenance && db.maintenance[dbKey];
+
+  // ── affidabilità ──────────────────────────────────────────────────
+  var affClass = { alta:'aff-alta', media:'aff-media', bassa:'aff-bassa' }[data.affidabilita] || 'aff-media';
+  var affIcon  = { alta:'▲ Alta affidabilità', media:'◆ Affidabilità media', bassa:'▼ Bassa affidabilità' }[data.affidabilita] || '';
+
+  // ── TAB: problemi ─────────────────────────────────────────────────
+  var tProblemi = '<div class="rh"><div class="rt">Problemi Noti</div>'
+    + '<div class="rc">' + (data.problemi||[]).length + ' problemi identificati</div></div>'
+    + '<div class="summary-box ' + affClass + '"><div class="aff-label">' + affIcon + '</div>'
+    + '<div class="summary-text">' + (data.sommario||'') + '</div></div>';
+
+  (data.problemi||[]).forEach(function(p, i) {
+    var sev = p.severita || 'media';
+    var cost = (p.costo_min && p.costo_max)
+      ? '€' + Number(p.costo_min).toLocaleString() + '–' + Number(p.costo_max).toLocaleString()
+      : (p.costo_stima || '');
+    tProblemi += '<div class="problem-card" id="pc-' + i + '" data-sev="' + sev + '">'
+      + '<div class="pch" onclick="toggleCard(' + i + ')">'
+      + '<span class="sdot s' + sev[0] + '"></span>'
+      + '<span class="ptitle">' + p.titolo + '</span>'
+      + '<span class="slbl l' + sev[0] + '">' + sev + '</span>'
+      + '<span class="chev">▼</span></div>'
+      + '<div class="pcb">'
+      + '<div class="psec"><div class="pst">// Descrizione</div><p>' + p.descrizione + '</p></div>'
+      + (p.sintomi&&p.sintomi.length ? '<div class="psec"><div class="pst">// Sintomi</div><ul>'
+        + p.sintomi.map(function(s){ return '<li>'+s+'</li>'; }).join('') + '</ul></div>' : '')
+      + (p.soluzione ? '<div class="psec"><div class="pst">// Soluzione</div><p>' + p.soluzione + '</p></div>' : '')
+      + (cost ? '<div class="cbadge">💶 ' + cost + '</div>' : '')
+      + '</div></div>';
+  });
+
+  // ── TAB: stats ───────────────────────────────────────────────────
+  var tStats = '<div class="sg">'
+    + '<div class="sc sr"><div class="slb">Budget manutenzione</div>'
+    + '<div class="sv" style="color:var(--err)">€' + Number(data.costo_totale_min||0).toLocaleString() + '–' + Number(data.costo_totale_max||0).toLocaleString() + '</div>'
+    + '<div class="ss">stima totale problemi noti</div></div>'
+    + '<div class="sc so"><div class="slb">RC Auto indicativa</div>'
+    + '<div class="sv" style="color:var(--gold)">' + (data.assicurazione_fascia||'N/D') + '</div>'
+    + '<div class="ss">fascia mercato Italia</div></div>'
+    + '<div class="sc sg2"><div class="slb">Consumi dichiarati</div>'
+    + '<div class="sv" style="color:var(--grn);font-size:1.1rem">' + (data.consumo_dichiarato||'N/D') + '</div>'
+    + '<div class="ss">dato ufficiale WLTP</div></div>'
+    + '<div class="sc sb2"><div class="slb">Consumi reali stimati</div>'
+    + '<div class="sv" style="color:var(--blue);font-size:1.1rem">' + (data.consumo_reale||'N/D') + '</div>'
+    + '<div class="ss">uso misto reale</div></div>'
+    + '</div>';
+  tStats += '<div class="shd">// Red flag per chilometraggio</div><ul class="rfl">';
+  (data.km_red_flags||[]).forEach(function(f){
+    tStats += '<li class="rfi"><div class="rfk">' + Number(f.km).toLocaleString() + '<span>km</span></div>'
+      + '<div class="rfd">' + f.descrizione + '</div></li>';
+  });
+  tStats += '</ul>';
+
+  // ── TAB: manutenzione ────────────────────────────────────────────
+  var tMaint = '<div style="color:var(--t3);font-size:.83rem;padding:18px 0">Dati non disponibili per questo veicolo.</div>';
+  if (maint) {
+    var o=maint.olio||{}, d=maint.distribuzione, c=maint.candele,
+        r=maint.refrigerante||{}, fr=maint.liquido_freni||{},
+        fi=maint.filtri||{}, lm=maint.lampadine||{}, sc=maint.schedule||[];
+    var distBadge = d ? (d.tipo==='Catena'
+      ? '<span class="bcat bc-grn">⛓ Catena — no sostituzione programmata</span>'
+      : '<span class="bcat bc-red">⚠ Cinghia — sostituzione obbligatoria</span>') : '';
+    var distSub = d ? (d.tipo==='Catena' ? d.note
+      : (d.intervallo_km ? 'Ogni <strong>' + Number(d.intervallo_km).toLocaleString() + ' km</strong> o <strong>'+(d.intervallo_anni||5)+' anni</strong>' : d.note)) : 'N/A';
+
+    tMaint = '<div class="ms"><div class="shd">// Fluidi</div><div class="mg">'
+      + '<div class="mc co"><div class="mclb">Olio motore</div>'
+      + '<div class="mcv">' + (o.viscosita||'N/A') + '</div>'
+      + '<div class="mcs">Norma: <strong>' + (o.norma||'N/A') + '</strong><br>'
+      + 'Ogni <strong>' + (o.intervallo_km?Number(o.intervallo_km).toLocaleString():'?') + ' km</strong>'
+      + ' o <strong>' + (o.intervallo_mesi||'?') + ' mesi</strong></div></div>'
+      + '<div class="mc cb2"><div class="mclb">Liquido raffreddamento</div>'
+      + '<div class="mcv">' + (r.tipo?r.tipo.split('/')[0].trim():'N/A') + '</div>'
+      + '<div class="mcs">Colore: <strong>' + (r.colore||'—') + '</strong> · Ogni <strong>' + (r.intervallo_anni||'?') + ' anni</strong></div></div>'
+      + '<div class="mc cr"><div class="mclb">Liquido freni</div>'
+      + '<div class="mcv">' + (fr.tipo||'DOT 4') + '</div>'
+      + '<div class="mcs">Ogni <strong>' + (fr.intervallo_anni||2) + ' anni</strong></div></div>'
+      + '</div></div>';
+
+    tMaint += '<div class="ms"><div class="shd">// Distribuzione & Accensione</div><div class="mg">'
+      + '<div class="mc ' + (d&&d.tipo==='Catena'?'cg':'cr') + '"><div class="mclb">Distribuzione</div>'
+      + '<div class="mcv">' + (d?d.tipo:'N/A') + '</div>'
+      + '<div class="mcs">' + distSub + '</div>' + distBadge + '</div>'
+      + (c ? '<div class="mc co"><div class="mclb">Candele</div><div class="mcv">'+c.tipo+'</div>'
+        + '<div class="mcs">Ogni <strong>'+Number(c.km).toLocaleString()+' km</strong></div></div>' : '')
+      + '<div class="mc"><div class="mclb">Filtri</div>'
+      + '<div class="mcv" style="font-size:.8rem;line-height:1.6">'
+      + 'Aria: ogni <strong>'+(fi.aria_km?Number(fi.aria_km).toLocaleString():'30.000')+' km</strong><br>'
+      + 'Abitacolo: ogni <strong>'+(fi.abitacolo_km?Number(fi.abitacolo_km).toLocaleString():'20.000')+' km</strong>'
+      + (fi.gasolio_km?'<br>Gasolio: ogni <strong>'+Number(fi.gasolio_km).toLocaleString()+' km</strong>':'')
+      + (fi.dsg_km?'<br>Olio DSG: ogni <strong>'+Number(fi.dsg_km).toLocaleString()+' km</strong>':'')
+      + '</div></div></div></div>';
+
+    tMaint += '<div class="ms"><div class="shd">// Lampadine</div>'
+      + '<table class="btb"><thead><tr><th>Funzione</th><th>Tipo</th></tr></thead><tbody>'
+      + ['anabbaglianti','abbaglianti','indicatori','luci_posizione','luci_stop','retromarcia','plafoniera'].map(function(k){
+          var labels={'anabbaglianti':'Anabbaglianti','abbaglianti':'Abbaglianti','indicatori':'Indicatori',
+            'luci_posizione':'Luci posizione','luci_stop':'Luci stop','retromarcia':'Retromarcia','plafoniera':'Plafoniera'};
+          return '<tr><td>'+labels[k]+'</td><td>'+(lm[k]||'—')+'</td></tr>';
+        }).join('')
+      + '</tbody></table>'
+      + (lm.note?'<div style="margin-top:9px;font-size:.72rem;color:var(--t3);font-family:var(--mono);line-height:1.5">⚠ '+lm.note+'</div>':'')
+      + '</div>';
+
+    tMaint += '<div class="ms"><div class="shd">// Calendario manutenzione</div>'
+      + '<div style="display:flex;gap:14px;margin-bottom:10px;font-family:var(--mono);font-size:.58rem;color:var(--t3);text-transform:uppercase;letter-spacing:.08em">'
+      + '<span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--err);margin-right:4px;vertical-align:middle"></span>Alta</span>'
+      + '<span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--warn);margin-right:4px;vertical-align:middle"></span>Media</span>'
+      + '<span><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--grn);margin-right:4px;vertical-align:middle"></span>Bassa</span>'
+      + '</div><ul class="scl">'
+      + sc.map(function(s){
+          return '<li class="sci"><span class="sin">'+s.intervallo+'</span>'
+            +'<span class="sop">'+s.operazione+'</span>'
+            +'<span class="pd pd-'+s.priorita[0]+'"></span></li>';
+        }).join('')
+      + '</ul></div>';
+  }
+
+  // ── TAB: checklist ───────────────────────────────────────────────
+  var checks = data.checklist_ispezione||[];
+  var tCheck = '<div class="cprog"><span id="chk-cnt">0/'+checks.length+' completati</span>'
+    + '<div class="cpb"><div class="cpf" id="chk-fill" style="width:0%"></div></div>'
+    + '<button class="btn-outline" onclick="resetChecklist()">Reset</button>'
+    + '<button class="btn-outline" onclick="window.print()">🖨 Stampa</button></div>'
+    + '<ul class="cl" id="checklist-ul">'
+    + checks.map(function(item,i){
+        return '<li class="cli" id="chk-'+i+'" onclick="toggleCheck('+i+')">'
+          +'<div class="cb"></div><span class="ct">'+item+'</span></li>';
+      }).join('')
+    + '</ul>';
+
+  // ── TAB: domande ─────────────────────────────────────────────────
+  var domande = data.domande_venditore||[];
+  var tDomande = '<p style="font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:14px">Domande basate sui problemi noti di questo veicolo</p>'
+    + domande.map(function(d,i){
+        return '<div class="qi"><span class="qn">'+(i+1)+'</span><span>'+d+'</span></div>';
+      }).join('');
+
+  // ── TAB: tecnico (pressioni + olio) ─────────────────────────────
+  var marcaModKey = marca + '||' + modello;
+  var tyreData = TYRE_P[marcaModKey];
+  var oilData  = OIL_QTY[dbKey];
+  var tTecnico = '';
+
+  if (oilData) {
+    tTecnico += '<div class="shd">// Olio motore</div><div class="mg" style="margin-bottom:22px">'
+      + '<div class="mc co"><div class="mclb">Quantità</div><div class="mcv">'+oilData.litri+' litri</div><div class="mcs">con sostituzione filtro</div></div>'
+      + '<div class="mc co"><div class="mclb">Viscosità</div><div class="mcv" style="color:var(--gold)">'+oilData.viscosita+'</div></div>'
+      + '<div class="mc co"><div class="mclb">Norma costruttore</div><div class="mcv">'+oilData.norma+'</div></div>'
+      + '</div>';
+  }
+
+  tTecnico += '<div class="shd">// Pressioni pneumatici</div>';
+  if (tyreData) {
+    var annoKeys = Object.keys(tyreData).filter(function(k){ return k!=='default'; });
+    var bestRange = annoKeys.find(function(k){ return anno && k.split('–')[0] <= anno.split('–')[0]; }) || annoKeys[0];
+    var sizes = tyreData[bestRange] || tyreData[annoKeys[0]] || {};
+    tTecnico += '<table class="ttb"><thead><tr><th>Misura gomma</th><th>Anteriore</th><th>Posteriore</th></tr></thead><tbody>';
+    Object.entries(sizes).forEach(function(entry){
+      var sz = entry[0], pr = entry[1];
+      if (sz === 'default') return;
+      tTecnico += '<tr><td>'+sz+'</td><td>'+pr[0]+' bar</td><td>'+pr[1]+' bar</td></tr>';
     });
+    tTecnico += '</tbody></table>';
+    if (sizes.default) tTecnico += '<div style="margin-top:8px;font-size:.72rem;color:var(--t3);font-family:var(--mono)">Default: '+sizes.default[0]+' / '+sizes.default[1]+' bar</div>';
+  } else {
+    tTecnico += '<div style="color:var(--t3);font-size:.83rem">Pressioni non disponibili per questo modello.</div>';
   }
+
+  // ── TAB: OBD ────────────────────────────────────────────────────
+  var obdEntries = Object.entries(OBD_CODES);
+  var tOBD = '<div class="obds"><span class="si" style="position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--t3)">🔍</span>'
+    + '<input class="obdi" id="obd-search-input" placeholder="Cerca codice o descrizione…" oninput="filterOBD()"></div>'
+    + '<div class="obdct" id="obd-count">' + obdEntries.length + ' codici nel database</div>'
+    + '<ul class="obdl" id="obd-list">'
+    + obdEntries.map(function(e){
+        var code=e[0], desc=e[1], t=code[0];
+        return '<li class="obdi2"><span class="ocode o'+t+'">'+code+'</span><span class="odesc">'+desc+'</span></li>';
+      }).join('')
+    + '</ul>';
+
+  // ── TAB: extra ──────────────────────────────────────────────────
+  var slug = SCEGLIAUTO_SLUGS[marca] || marca.toLowerCase().replace(/\s+/g,'-');
+  var scUrl = 'https://www.scegliauto.com/video/' + slug + '/tutorial/';
+  var tExtra = '<div class="rb"><div class="rbt">📋 Recall e campagne di richiamo</div>'
+    + '<p>' + (data.recall_note||'Nessuna nota specifica disponibile.') + '</p>'
+    + '<p style="margin-top:10px">Verifica recall su: '
+    + '<a href="https://www.motorizzazione.it/servizi/campagne_di_richiamo/" target="_blank">Ministero Trasporti IT</a> · '
+    + '<a href="https://www.nhtsa.gov/vehicle/recalls" target="_blank">NHTSA</a> · '
+    + '<a href="https://www.autoscout24.it/informazioni/recall-auto/" target="_blank">AutoScout24</a>'
+    + '</p></div>'
+    + '<div class="rb" style="border-color:rgba(34,197,94,.25);background:rgba(34,197,94,.04)">'
+    + '<div class="rbt" style="color:var(--grn)">🎬 Video Tutorial Fai da Te — ' + marca + ' ' + modello + '</div>'
+    + '<p style="margin-bottom:12px">Guide di manutenzione e riparazione fai da te per la tua <strong style="color:var(--t1)">'
+    + marca + ' ' + modello + '</strong> — smontaggio, sostituzione parti, reset service e altro.</p>'
+    + '<a href="' + scUrl + '" target="_blank" rel="noopener" class="btn-link btn-link-grn">▶ Apri video tutorial su ScegliAuto</a>'
+    + '<p style="margin-top:9px;font-size:.7rem;color:var(--t3);font-family:var(--mono)">Fonte: scegliauto.com — contenuti di terze parti</p></div>'
+    + '<div class="rb" style="border-color:rgba(240,165,0,.25);background:rgba(240,165,0,.04)">'
+    + '<div class="rbt" style="color:var(--gold)">🔗 Risorse utili</div><p>'
+    + '<a href="https://www.autouncle.it/" target="_blank" style="color:var(--gold)">AutoUncle</a> — valutazione prezzo di mercato<br>'
+    + '<a href="https://www.automobile.it/" target="_blank" style="color:var(--gold)">Automobile.it</a> — annunci verificati<br>'
+    + '<a href="https://www.quattroruote.it/" target="_blank" style="color:var(--gold)">Quattroruote</a> — prove e affidabilità<br>'
+    + '<a href="https://www.motorionline.com/prove/" target="_blank" style="color:var(--gold)">Motorionline</a> — prove su strada'
+    + '</p></div>';
+
+  // ── Inject all tabs ──────────────────────────────────────────────
+  document.getElementById('results').innerHTML =
+    '<div class="tab-pane active" id="tab-problemi">' + tProblemi + '</div>'
+    + '<div class="tab-pane" id="tab-stats">' + tStats + '</div>'
+    + '<div class="tab-pane" id="tab-manutenzione">' + tMaint + '</div>'
+    + '<div class="tab-pane" id="tab-checklist">' + tCheck + '</div>'
+    + '<div class="tab-pane" id="tab-domande">' + tDomande + '</div>'
+    + '<div class="tab-pane" id="tab-tecnico">' + tTecnico + '</div>'
+    + '<div class="tab-pane" id="tab-obd">' + tOBD + '</div>'
+    + '<div class="tab-pane" id="tab-extra">' + tExtra + '</div>';
+
+  document.getElementById('tabs').className = 'tabs visible';
+  document.getElementById('filter-bar').className = 'filter-bar visible';
+}
+
+function toggleCard(i) {
+  document.getElementById('pc-' + i).classList.toggle('open');
+}
+
+// ── Checklist ─────────────────────────────────────────────────────
+var _chkState = {};
+function toggleCheck(i) {
+  _chkState[i] = !_chkState[i];
+  document.getElementById('chk-' + i).classList.toggle('chk', _chkState[i]);
+  updateChkProgress();
+}
+function resetChecklist() {
+  _chkState = {};
+  document.querySelectorAll('.cli').forEach(function(el){ el.classList.remove('chk'); });
+  updateChkProgress();
+}
+function updateChkProgress() {
+  var total = document.querySelectorAll('.cli').length;
+  var done  = Object.values(_chkState).filter(Boolean).length;
+  var pct   = total ? Math.round(done/total*100) : 0;
+  var el = document.getElementById('chk-cnt');
+  var fill = document.getElementById('chk-fill');
+  if (el) el.textContent = done + '/' + total + ' completati';
+  if (fill) fill.style.width = pct + '%';
+}
+
+// ── OBD search ────────────────────────────────────────────────────
+function filterOBD() {
+  var q = (document.getElementById('obd-search-input').value || '').toLowerCase().trim();
+  var items = document.querySelectorAll('.obdi2');
+  var vis = 0;
+  items.forEach(function(el){
+    var show = !q || el.textContent.toLowerCase().includes(q);
+    el.style.display = show ? '' : 'none';
+    if (show) vis++;
+  });
+  var cnt = document.getElementById('obd-count');
+  if (cnt) cnt.textContent = q ? vis + ' risultati' : items.length + ' codici nel database';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// VIN DECODER
+// ═══════════════════════════════════════════════════════════════════
+var YEAR_MAP = {
+  'A':2010,'B':2011,'C':2012,'D':2013,'E':2014,'F':2015,'G':2016,'H':2017,
+  'J':2018,'K':2019,'L':2020,'M':2021,'N':2022,'P':2023,'R':2024,'S':2025,'T':2026,
+  '1':2001,'2':2002,'3':2003,'4':2004,'5':2005,'6':2006,'7':2007,'8':2008,'9':2009
+};
+var PAESI = {
+  'A':'Sudafrica','J':'Giappone','K':'Corea del Sud','L':'Cina',
+  'S':'Gran Bretagna','T':'Repubblica Ceca','U':'Romania',
+  'V':'Francia/Spagna','W':'Germania','X':'Russia','Y':'Svezia/Finlandia',
+  'Z':'Italia','1':'USA','2':'Canada','3':'Messico','4':'USA','5':'USA',
+  '6':'Australia','9':'Brasile'
+};
+
+function decodeVIN() {
+  var vin = (document.getElementById('vin-input').value||'').trim().toUpperCase();
+  var errEl = document.getElementById('vin-error');
+  var resEl = document.getElementById('vin-result');
+  if (vin.length !== 17 || /[IOQ]/.test(vin)) {
+    errEl.className = 'vin-err on'; resEl.className = 'vin-res'; return;
+  }
+  errEl.className = 'vin-err';
+  var wmi3 = vin.slice(0,3), wmi2 = vin.slice(0,2);
+  var marca = WMI_DB[wmi3] || WMI_DB[wmi2] || 'Sconosciuto';
+  var paese = PAESI[vin[0]] || 'Sconosciuto';
+  var anno  = YEAR_MAP[vin[9]] || '?';
+  var POS   = ['Pa','Co','Ti','','','','','','Ck','An','St','','','','','','Se'];
+  var chars = vin.split('').map(function(ch,i){
+    var hi = [0,1,2,9,10].includes(i);
+    return '<div class="vc'+(hi?' hi':'')+'"><span>'+ch+'</span><span>'+(POS[i]||''+(i+1))+'</span></div>';
+  }).join('');
+  var fields = [
+    {lb:'Costruttore',v:marca},{lb:'Paese produzione',v:paese},
+    {lb:'Anno modello',v:anno},{lb:'WMI',v:wmi3},
+    {lb:'VDS',v:vin.slice(3,9)},{lb:'N° seriale',v:vin.slice(11)}
+  ];
+  var grid = fields.map(function(f){
+    return '<div><div class="vf-lb">'+f.lb+'</div><div class="vf-v">'+f.v+'</div></div>';
+  }).join('');
+  document.getElementById('vin-chars').innerHTML = chars;
+  document.getElementById('vin-grid').innerHTML = grid;
+  window._vinMarca = marca;
+  resEl.className = 'vin-res on';
+}
+function gotoAnalisiFromVIN() {
+  switchView('analisi');
+  if (window._vinMarca && VEHICLES[window._vinMarca]) selectOption('marca', window._vinMarca);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CONFRONTO
+// ═══════════════════════════════════════════════════════════════════
+var _cmpClose = {};
+function buildCompareSelectors(side) {
+  var wrap = document.getElementById('compare-selectors-' + side);
+  var ac = side === 'a' ? 'var(--red)' : 'var(--blue)';
+  wrap.innerHTML = '<div class="fg"><label>Marca</label>'
+    + '<div class="sw"><span class="si">⌕</span>'
+    + '<input class="si-input" id="cmp-search-' + side + '" placeholder="Cerca marca…" autocomplete="off"'
+    + ' oninput="cmpFilter(\'' + side + '\')" onfocus="cmpOpen(\'' + side + '\')" onblur="cmpClose(\'' + side + '\')">'
+    + '<div class="sd" id="cmp-drop-' + side + '"></div>'
+    + '</div><input type="hidden" id="cmp-sel-' + side + '"></div>'
+    + '<div class="fg"><label>Modello · Anno · Motore</label>'
+    + '<select id="cmp-combo-' + side + '"><option value="">— Seleziona prima la marca —</option></select></div>';
+}
+function cmpFilter(side) {
+  var q = (document.getElementById('cmp-search-' + side).value || '').toLowerCase();
+  var items = Object.keys(VEHICLES).sort().filter(function(x){ return x.toLowerCase().includes(q); });
+  var drop = document.getElementById('cmp-drop-' + side);
+  renderDrop(drop, items, q, function(item){ cmpSelectMarca(side, item); });
   drop.classList.add('open');
 }
-function openDropdownCmp(side) {
-  clearTimeout(cmpCloseTimer[side]);
-  filterSearchCmp(side, 'marca');
+function cmpOpen(side) { clearTimeout(_cmpClose[side]); cmpFilter(side); }
+function cmpClose(side) {
+  _cmpClose[side] = setTimeout(function(){ document.getElementById('cmp-drop-' + side).classList.remove('open'); }, 200);
 }
-function closeDropdownCmp(side) {
-  cmpCloseTimer[side] = setTimeout(() => {
-    const drop = document.getElementById('drop-cmp-marca-' + side);
-    if (drop) drop.classList.remove('open');
-  }, 200);
-}
-function selectCmpMarca(side, marca) {
-  document.getElementById('search-cmp-marca-' + side).value = marca;
-  document.getElementById('sel-cmp-marca-' + side).value = marca;
-  document.getElementById('drop-cmp-marca-' + side).classList.remove('open');
-  // Populate combo
-  const combo = document.getElementById('sel-cmp-combo-' + side);
-  combo.innerHTML = '<option value="">— Seleziona modello / anno / motore —</option>';
+function cmpSelectMarca(side, marca) {
+  document.getElementById('cmp-search-' + side).value = marca;
+  document.getElementById('cmp-sel-' + side).value = marca;
+  document.getElementById('cmp-drop-' + side).classList.remove('open');
+  var combo = document.getElementById('cmp-combo-' + side);
+  combo.innerHTML = '<option value="">— Seleziona —</option>';
   if (VEHICLES[marca]) {
-    for (const [modello, anni] of Object.entries(VEHICLES[marca])) {
-      for (const [anno, motori] of Object.entries(anni)) {
-        for (const motore of motori) {
-          const key = marca + '||' + modello + '||' + anno + '||' + motore;
-          const opt = document.createElement('option');
+    Object.entries(VEHICLES[marca]).forEach(function(me){
+      Object.entries(me[1]).forEach(function(ae){
+        ae[1].forEach(function(motore){
+          var key = marca+'||'+me[0]+'||'+ae[0]+'||'+motore;
+          var opt = document.createElement('option');
           opt.value = key;
-          opt.textContent = modello + ' · ' + anno + ' · ' + motore;
+          opt.textContent = me[0] + ' · ' + ae[0] + ' · ' + motore;
           combo.appendChild(opt);
-        }
-      }
-    }
+        });
+      });
+    });
   }
 }
-
 function avviaConfronto() {
-  const keyA = document.getElementById('sel-cmp-combo-a').value;
-  const keyB = document.getElementById('sel-cmp-combo-b').value;
-  if (!keyA || !keyB) { alert('Seleziona entrambi i veicoli prima di confrontare.'); return; }
-  if (keyA === keyB) { alert('Seleziona due veicoli diversi.'); return; }
+  var kA = document.getElementById('cmp-combo-a').value;
+  var kB = document.getElementById('cmp-combo-b').value;
+  if (!kA || !kB) { alert('Seleziona entrambi i veicoli.'); return; }
+  if (kA === kB)  { alert('Seleziona due veicoli diversi.'); return; }
+  var db = window._vdb || {};
+  var dA = db.vehicles && db.vehicles[kA];
+  var dB = db.vehicles && db.vehicles[kB];
+  var mA = db.maintenance && db.maintenance[kA];
+  var mB = db.maintenance && db.maintenance[kB];
+  var lblA = kA.split('||').slice(0,2).join(' ');
+  var lblB = kB.split('||').slice(0,2).join(' ');
 
-  const db = window._vehicleDB || {};
-  const dA = db.vehicles && db.vehicles[keyA];
-  const dB = db.vehicles && db.vehicles[keyB];
-  const mA = db.maintenance && db.maintenance[keyA];
-  const mB = db.maintenance && db.maintenance[keyB];
-
-  const [mA1,,annA,motA] = keyA.split('||');
-  const [mB1,,annB,motB] = keyB.split('||');
-  const lblA = mA1 + ' ' + keyA.split('||')[1];
-  const lblB = mB1 + ' ' + keyB.split('||')[1];
-
-  function row(label, vA, vB, higherIsBetter) {
-    let winA = false, winB = false;
-    if (vA && vB && vA !== vB) {
-      const nA = parseFloat(String(vA).replace(/[^0-9.]/g,''));
-      const nB = parseFloat(String(vB).replace(/[^0-9.]/g,''));
-      if (!isNaN(nA) && !isNaN(nB)) {
-        winA = higherIsBetter ? nA > nB : nA < nB;
-        winB = higherIsBetter ? nB > nA : nB < nA;
-      }
-    }
-    return '<div class="compare-row">' +
-      '<div class="compare-row-label">' + label + '</div>' +
-      '<div class="compare-cell left-col' + (winA?' win':'') + '">' + (vA||'—') + '</div>' +
-      '<div class="compare-cell' + (winB?' win':'') + '">' + (vB||'—') + '</div>' +
-      '</div>';
+  function row(lb, vA, vB, lowerBetter) {
+    var wA=false, wB=false;
+    var nA=parseFloat(String(vA).replace(/[^0-9.]/g,'')), nB=parseFloat(String(vB).replace(/[^0-9.]/g,''));
+    if (!isNaN(nA)&&!isNaN(nB)&&vA!==vB){ wA=lowerBetter?nA<nB:nA>nB; wB=lowerBetter?nB<nA:nB>nA; }
+    return '<div class="cr">'
+      +'<div class="crl">'+lb+'</div>'
+      +'<div class="cc lc'+(wA?' win':'')+'">'+( vA||'—')+'</div>'
+      +'<div class="cc'+(wB?' win':'')+'">'+( vB||'—')+'</div>'
+      +'</div>';
   }
-  function section(label) {
-    return '<div class="compare-row"><div class="compare-section-header">' + label + '</div></div>';
-  }
+  function sec(lb){ return '<div class="cr"><div class="csh">'+lb+'</div></div>'; }
+  var affM={alta:3,media:2,bassa:1};
+  var sA=affM[dA&&dA.affidabilita]||0, sB=affM[dB&&dB.affidabilita]||0;
 
-  const affMap = {alta:3,media:2,bassa:1};
-  const aff = (d) => d ? (d.affidabilita||'—') : '—';
-  const affScore = (d) => d ? (affMap[d.affidabilita]||0) : 0;
-
-  const headerStyle = 'padding:0 16px;font-family:DM Mono,monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;';
-  let html = '<div style="display:grid;grid-template-columns:140px 1fr 1fr;gap:0;margin-bottom:8px;padding:10px 0;">'
-    + '<div></div>'
-    + '<div style="' + headerStyle + 'color:var(--accent)">' + lblA + '</div>'
-    + '<div style="' + headerStyle + 'color:#3498db">' + lblB + '</div>'
-    + '</div>';
-
-  html += section('🔍 Affidabilità generale');
-  html += row('Affidabilità', aff(dA), aff(dB), false);
-  // Highlight winner
-  const winA = affScore(dA) > affScore(dB), winB = affScore(dB) > affScore(dA);
-  html += '<div class="compare-row">' +
-    '<div class="compare-row-label">Sommario</div>' +
-    '<div class="compare-cell left-col" style="font-size:0.78rem;color:var(--muted)">' + (dA?dA.sommario:'Dati non disponibili') + '</div>' +
-    '<div class="compare-cell" style="font-size:0.78rem;color:var(--muted)">' + (dB?dB.sommario:'Dati non disponibili') + '</div>' +
-    '</div>';
-
-  html += section('💰 Costi');
-  const costA = dA ? '€' + (dA.costo_totale_min||0).toLocaleString() + '–' + (dA.costo_totale_max||0).toLocaleString() : '—';
-  const costB = dB ? '€' + (dB.costo_totale_min||0).toLocaleString() + '–' + (dB.costo_totale_max||0).toLocaleString() : '—';
-  html += row('Budget manutenzione', costA, costB, false);
-  html += row('RC Auto indicativa', dA?dA.assicurazione_fascia:'—', dB?dB.assicurazione_fascia:'—', false);
-
-  html += section('⛽ Consumi');
+  var html='<div style="display:grid;grid-template-columns:138px 1fr 1fr;margin-bottom:7px">'
+    +'<div></div>'
+    +'<div style="padding:8px 13px;font-family:var(--mono);font-size:.6rem;text-transform:uppercase;color:var(--red)">'+lblA+'</div>'
+    +'<div style="padding:8px 13px;font-family:var(--mono);font-size:.6rem;text-transform:uppercase;color:var(--blue)">'+lblB+'</div>'
+    +'</div>';
+  html += sec('🔍 Affidabilità');
+  html += row('Affidabilità', dA?dA.affidabilita:'—', dB?dB.affidabilita:'—', false);
+  html += sec('💰 Costi');
+  html += row('Budget manutenzione',
+    dA?'€'+Number(dA.costo_totale_min||0).toLocaleString()+'–'+Number(dA.costo_totale_max||0).toLocaleString():'—',
+    dB?'€'+Number(dB.costo_totale_min||0).toLocaleString()+'–'+Number(dB.costo_totale_max||0).toLocaleString():'—', true);
+  html += row('RC Auto', dA?dA.assicurazione_fascia:'—', dB?dB.assicurazione_fascia:'—', false);
+  html += sec('⛽ Consumi');
   html += row('Dichiarati', dA?dA.consumo_dichiarato:'—', dB?dB.consumo_dichiarato:'—', false);
   html += row('Reali stimati', dA?dA.consumo_reale:'—', dB?dB.consumo_reale:'—', false);
-
-  html += section('🔧 Manutenzione');
+  html += sec('🔧 Manutenzione');
   html += row('Olio motore', mA?mA.olio.viscosita:'—', mB?mB.olio.viscosita:'—', false);
-  html += row('Intervallo olio', mA?(mA.olio.intervallo_km||'?').toLocaleString()+' km':'—', mB?(mB.olio.intervallo_km||'?').toLocaleString()+' km':'—', true);
-  const distA = mA&&mA.distribuzione ? mA.distribuzione.tipo + (mA.distribuzione.intervallo_km ? ' · ' + mA.distribuzione.intervallo_km.toLocaleString() + ' km' : ' (no scadenza)') : '—';
-  const distB = mB&&mB.distribuzione ? mB.distribuzione.tipo + (mB.distribuzione.intervallo_km ? ' · ' + mB.distribuzione.intervallo_km.toLocaleString() + ' km' : ' (no scadenza)') : '—';
+  html += row('Intervallo olio',
+    mA?(Number(mA.olio.intervallo_km||0).toLocaleString()+' km'):'—',
+    mB?(Number(mB.olio.intervallo_km||0).toLocaleString()+' km'):'—', true);
+  var distA=mA&&mA.distribuzione?mA.distribuzione.tipo+(mA.distribuzione.intervallo_km?' · '+Number(mA.distribuzione.intervallo_km).toLocaleString()+' km':' (no scadenza)'):'—';
+  var distB=mB&&mB.distribuzione?mB.distribuzione.tipo+(mB.distribuzione.intervallo_km?' · '+Number(mB.distribuzione.intervallo_km).toLocaleString()+' km':' (no scadenza)'):'—';
   html += row('Distribuzione', distA, distB, false);
+  html += sec('⚠ Problemi noti');
+  var sc = function(d,s){ return d?(d.problemi||[]).filter(function(p){return p.severita===s;}).length:0; };
+  html += row('Alta severità', sc(dA,'alta'), sc(dB,'alta'), true);
+  html += row('Media severità', sc(dA,'media'), sc(dB,'media'), true);
+  var score = function(d,m){ return (affM[d&&d.affidabilita]||0)*3 - sc(d,'alta')*2 - sc(d,'media'); };
+  var vS=score(dA,mA), vSB=score(dB,mB);
+  var verdict = vS>vSB ? '✅ <strong>'+lblA+'</strong> risulta complessivamente più affidabile e conveniente.'
+    : vSB>vS ? '✅ <strong>'+lblB+'</strong> risulta complessivamente più affidabile e conveniente.'
+    : '🤝 I due veicoli sono sostanzialmente equivalenti su questo profilo.';
+  html += '<div class="verdict">'+verdict+'</div>';
 
-  html += section('⚠ Problemi noti');
-  const sevCount = (d, sev) => d ? (d.problemi||[]).filter(p=>p.severita===sev).length : 0;
-  html += row('Problemi alta severità', sevCount(dA,'alta'), sevCount(dB,'alta'), false);
-  html += row('Problemi media severità', sevCount(dA,'media'), sevCount(dB,'media'), false);
-  html += row('Problemi bassa severità', sevCount(dA,'bassa'), sevCount(dB,'bassa'), false);
-
-  // Verdict
-  const scoreA = (affScore(dA)*3) - sevCount(dA,'alta')*2 - sevCount(dA,'media') + ((dA&&dA.costo_totale_max||9999)<1500?1:0);
-  const scoreB = (affScore(dB)*3) - sevCount(dB,'alta')*2 - sevCount(dB,'media') + ((dB&&dB.costo_totale_max||9999)<1500?1:0);
-  const verdict = scoreA > scoreB ? '✅ <strong>' + lblA + '</strong> risulta complessivamente più affidabile e conveniente.' :
-                  scoreB > scoreA ? '✅ <strong>' + lblB + '</strong> risulta complessivamente più affidabile e conveniente.' :
-                  '🤝 I due veicoli sono sostanzialmente equivalenti su questo profilo.';
-  html += '<div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent2);padding:16px 20px;margin-top:16px;font-size:0.88rem;color:#b8b7c8;line-height:1.7">' + verdict + '</div>';
-
-  const resEl = document.getElementById('compare-results');
-  resEl.innerHTML = html;
-  resEl.classList.add('visible');
-  resEl.scrollIntoView({behavior:'smooth', block:'start'});
+  var res = document.getElementById('compare-results');
+  res.innerHTML = html;
+  res.className = 'cres on';
+  res.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ═══════════════════════════════════════════
-// PROMEMORIA — search for reminder
-// ═══════════════════════════════════════════
-let remCloseTimer = {};
-function filterSearchRem(type) {
-  const q = document.getElementById('search-rem-marca').value.toLowerCase();
-  const items = Object.keys(VEHICLES).sort().filter(function(x){ return x.toLowerCase().includes(q); });
-  const drop = document.getElementById('drop-rem-marca');
-  if (!items.length) {
-    drop.innerHTML = '<div class="search-option" style="color:var(--muted)">Nessun risultato</div>';
-  } else {
-    drop.innerHTML = items.map(function(item) {
-      const hi = q ? item.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')','gi'),'<mark>$1</mark>') : item;
-      const d = document.createElement('div');
-      d.className = 'search-option';
-      d.dataset.value = item;
-      d.innerHTML = hi;
-      return d.outerHTML;
-    }).join('');
-    drop.querySelectorAll('.search-option[data-value]').forEach(function(el){
-      el.addEventListener('mousedown', function(){ selectRemMarca(this.dataset.value); });
-    });
-  }
+// ═══════════════════════════════════════════════════════════════════
+// PROMEMORIA
+// ═══════════════════════════════════════════════════════════════════
+var _remClose;
+function filterSearchRem() {
+  var q = (document.getElementById('search-rem-marca').value||'').toLowerCase();
+  var items = Object.keys(VEHICLES).sort().filter(function(x){ return x.toLowerCase().includes(q); });
+  var drop = document.getElementById('drop-rem-marca');
+  renderDrop(drop, items, q, function(item){ remSelectMarca(item); });
   drop.classList.add('open');
 }
-function openDropdownRem() { clearTimeout(remCloseTimer.r); filterSearchRem('marca'); }
+function openDropdownRem() { clearTimeout(_remClose); filterSearchRem(); }
 function closeDropdownRem() {
-  remCloseTimer.r = setTimeout(() => {
-    document.getElementById('drop-rem-marca').classList.remove('open');
-  }, 200);
+  _remClose = setTimeout(function(){ document.getElementById('drop-rem-marca').classList.remove('open'); }, 200);
 }
-function selectRemMarca(marca) {
+function remSelectMarca(marca) {
   document.getElementById('search-rem-marca').value = marca;
   document.getElementById('sel-rem-marca').value = marca;
   document.getElementById('drop-rem-marca').classList.remove('open');
-  const combo = document.getElementById('sel-rem-combo');
-  combo.innerHTML = '<option value="">— Seleziona modello / anno / motore —</option>';
+  var combo = document.getElementById('sel-rem-combo');
+  combo.innerHTML = '<option value="">— Seleziona —</option>';
   if (VEHICLES[marca]) {
-    for (const [modello, anni] of Object.entries(VEHICLES[marca])) {
-      for (const [anno, motori] of Object.entries(anni)) {
-        for (const motore of motori) {
-          const key = marca + '||' + modello + '||' + anno + '||' + motore;
-          const opt = document.createElement('option');
-          opt.value = key;
-          opt.textContent = modello + ' · ' + anno + ' · ' + motore;
+    Object.entries(VEHICLES[marca]).forEach(function(me){
+      Object.entries(me[1]).forEach(function(ae){
+        ae[1].forEach(function(motore){
+          var key = marca+'||'+me[0]+'||'+ae[0]+'||'+motore;
+          var opt = document.createElement('option');
+          opt.value = key; opt.textContent = me[0]+' · '+ae[0]+' · '+motore;
           combo.appendChild(opt);
-        }
-      }
-    }
+        });
+      });
+    });
   }
-  // Restore saved km if any
-  const saved = JSON.parse(localStorage.getItem('autodiagnosi_reminders') || '{}');
-  // pre-fill km from last save for this marca
 }
-
 function calcolaPromemoria() {
-  const key = document.getElementById('sel-rem-combo').value;
-  const kmStr = document.getElementById('km-input').value;
-  if (!key) { alert('Seleziona un veicolo.'); return; }
-  if (!kmStr || isNaN(parseInt(kmStr))) { alert('Inserisci il chilometraggio attuale.'); return; }
-  const kmAttuali = parseInt(kmStr);
-
-  const db = window._vehicleDB || {};
-  const maint = db.maintenance && db.maintenance[key];
+  var key = document.getElementById('sel-rem-combo').value;
+  var kmS = document.getElementById('km-input').value;
+  if (!key)   { alert('Seleziona un veicolo.'); return; }
+  if (!kmS || isNaN(parseInt(kmS))) { alert('Inserisci il chilometraggio attuale.'); return; }
+  var km = parseInt(kmS);
+  var db = window._vdb || {};
+  var maint = db.maintenance && db.maintenance[key];
   if (!maint) { alert('Dati manutenzione non disponibili per questo veicolo.'); return; }
+  var saved = JSON.parse(localStorage.getItem('ad_rem') || '{}');
+  saved[key] = { km: km, at: new Date().toISOString() };
+  localStorage.setItem('ad_rem', JSON.stringify(saved));
+  var sv = document.getElementById('reminder-saved');
+  sv.className = 'rem-saved on';
+  setTimeout(function(){ sv.className = 'rem-saved'; }, 3000);
 
-  // Save to localStorage
-  const saved = JSON.parse(localStorage.getItem('autodiagnosi_reminders') || '{}');
-  saved[key] = { km: kmAttuali, savedAt: new Date().toISOString() };
-  localStorage.setItem('autodiagnosi_reminders', JSON.stringify(saved));
-  document.getElementById('reminder-saved').classList.add('visible');
-  setTimeout(() => document.getElementById('reminder-saved').classList.remove('visible'), 3000);
-
-  // Build reminder cards from schedule
-  const schedule = maint.schedule || [];
-  const cards = document.getElementById('reminder-cards');
-
-  // Parse interval km from schedule string
   function parseKm(str) {
-    const m = str.match(/[\d.,]+\s*km/i);
-    if (!m) return null;
-    return parseInt(m[0].replace(/[.,\s]/g,'').replace('km',''));
+    var m = str.match(/[\d.]+\s*km/i);
+    return m ? parseInt(m[0].replace(/[.\s]/g,'').replace('km','')) : null;
   }
-  function parseMonths(str) {
-    const m = str.match(/(\d+)\s*(mesi|mese|anni|anno)/i);
+  function parseMo(str) {
+    var m = str.match(/(\d+)\s*(mesi|mese|anni|anno)/i);
     if (!m) return null;
-    const n = parseInt(m[1]);
-    return m[2].includes('ann') ? n * 12 : n;
+    return parseInt(m[1]) * (m[2].includes('ann') ? 12 : 1);
   }
-
-  cards.innerHTML = schedule.map(item => {
-    const intKm = parseKm(item.intervallo);
-    const intMo = parseMonths(item.intervallo);
-
-    let dueKm = null, delta = null, status = 'ok', pct = 0;
+  var sc = maint.schedule || [];
+  var cards = document.getElementById('reminder-cards');
+  cards.innerHTML = sc.map(function(item){
+    var intKm = parseKm(item.intervallo);
+    var status='ok', pct=0, delta='', dueKm=null;
     if (intKm) {
-      // Find last multiple of intKm before kmAttuali
-      const lastDone = Math.floor(kmAttuali / intKm) * intKm;
-      dueKm = lastDone + intKm;
-      delta = dueKm - kmAttuali;
-      pct = Math.min(100, Math.round((kmAttuali - lastDone) / intKm * 100));
-      if (delta < 0) status = 'overdue';
-      else if (delta < intKm * 0.15) status = 'soon';
-      else status = 'ok';
-    } else if (intMo) {
-      const saved2 = JSON.parse(localStorage.getItem('autodiagnosi_reminders') || '{}');
-      const savedKm = saved2[key]?.km || kmAttuali;
-      // Stima km/anno = 15000
-      const kmPerMonth = 15000 / 12;
-      const kmInterval = intMo * kmPerMonth;
-      dueKm = kmAttuali + kmInterval * 0.5; // rough estimate
-      delta = Math.round(dueKm - kmAttuali);
-      pct = 50;
-      status = 'ok';
+      var last = Math.floor(km/intKm)*intKm;
+      dueKm = last + intKm;
+      var diff = dueKm - km;
+      pct = Math.min(100, Math.round((km-last)/intKm*100));
+      if (diff < 0) { status='ov'; delta='⚠ Scaduto di '+Math.abs(diff).toLocaleString()+' km'; }
+      else if (diff < intKm*0.15) { status='soon'; delta='Tra '+diff.toLocaleString()+' km'; }
+      else { status='ok'; delta='Tra '+diff.toLocaleString()+' km'; }
+    } else {
+      var mo = parseMo(item.intervallo);
+      delta = item.intervallo; pct=50; status='ok';
     }
-
-    const deltaStr = dueKm
-      ? (delta < 0 ? '⚠ Scaduto di ' + Math.abs(delta).toLocaleString() + ' km'
-         : 'Tra ' + delta.toLocaleString() + ' km')
-      : item.intervallo;
-
-    const barColor = status === 'ok' ? 'var(--success)' : status === 'soon' ? 'var(--warning)' : 'var(--danger)';
-
-    return '<div class="reminder-card ' + status + '">' +
-      '<div class="reminder-op">' + item.operazione + '</div>' +
-      '<div class="reminder-km-row">' +
-        '<span class="reminder-due">' + (dueKm ? 'Scadenza: ' + Math.round(dueKm).toLocaleString() + ' km' : item.intervallo) + '</span>' +
-        '<span class="reminder-delta ' + status + '">' + deltaStr + '</span>' +
-      '</div>' +
-      '<div class="reminder-bar"><div class="reminder-bar-fill" style="width:' + pct + '%;background:' + barColor + '"></div></div>' +
-    '</div>';
+    var col = status==='ok'?'var(--grn)':status==='soon'?'var(--warn)':'var(--err)';
+    return '<div class="rcard '+status+'">'
+      +'<div class="rop">'+item.operazione+'</div>'
+      +'<div class="rkr">'
+      +'<span class="rdue">'+(dueKm?'Scadenza: '+Math.round(dueKm).toLocaleString()+' km':item.intervallo)+'</span>'
+      +'<span class="rdelta '+status+'">'+delta+'</span>'
+      +'</div>'
+      +'<div class="rbar"><div class="rbf" style="width:'+pct+'%;background:'+col+'"></div></div>'
+      +'</div>';
   }).join('');
-
-  cards.scrollIntoView({behavior:'smooth', block:'start'});
+  cards.scrollIntoView({behavior:'smooth',block:'start'});
 }
-
-// Restore last reminder on page load
 function restoreReminder() {
   try {
-    const saved = JSON.parse(localStorage.getItem('autodiagnosi_reminders') || '{}');
-    const lastKey = Object.keys(saved).pop();
+    var saved = JSON.parse(localStorage.getItem('ad_rem')||'{}');
+    var lastKey = Object.keys(saved).pop();
     if (!lastKey) return;
-    const [marca] = lastKey.split('||');
-    selectRemMarca(marca);
-    setTimeout(() => {
+    var marca = lastKey.split('||')[0];
+    remSelectMarca(marca);
+    setTimeout(function(){
       document.getElementById('sel-rem-combo').value = lastKey;
       document.getElementById('km-input').value = saved[lastKey].km;
-    }, 100);
+    }, 150);
   } catch(e) {}
 }
 
+// ═══════════════════════════════════════════════════════════════════
 // INIT
+// ═══════════════════════════════════════════════════════════════════
 populateMarca();
-buildCompareSelectors("a");
-buildCompareSelectors("b");
+buildCompareSelectors('a');
+buildCompareSelectors('b');
 restoreReminder();
+
 </script>
+</body>
+</html>
