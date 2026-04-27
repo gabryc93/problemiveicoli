@@ -428,6 +428,27 @@ select option{background:#1e1e28}
   .problem-card{break-inside:avoid}
   body{background:#fff;color:#000}
 }
+
+  /* ── SCHEDA TECNICA ─────────────────────────────────────────── */
+  .spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:22px}
+  .spec-card{background:var(--card);border:1px solid var(--b1);padding:14px 16px}
+  .spec-lbl{font-family:var(--mono);font-size:.56rem;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:4px}
+  .spec-val{font-size:.92rem;color:var(--t1);font-weight:600}
+  .spec-unit{font-size:.72rem;color:var(--t3);font-weight:400;margin-left:3px}
+  .spec-highlight{color:var(--gold)}
+  .spec-section{margin-bottom:24px}
+  .spec-row-table{width:100%;border-collapse:collapse;font-size:.82rem}
+  .spec-row-table tr{border-bottom:1px solid rgba(255,255,255,.04)}
+  .spec-row-table tr:last-child{border-bottom:none}
+  .spec-row-table td:first-child{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);padding:9px 10px 9px 0;width:45%}
+  .spec-row-table td:last-child{color:var(--t1);font-weight:500;padding:9px 0}
+  .ext-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .ext-link{display:inline-flex;align-items:center;gap:5px;background:var(--surf);border:1px solid var(--b1);
+    color:var(--t2);padding:7px 12px;font-family:var(--mono);font-size:.62rem;text-transform:uppercase;
+    letter-spacing:.08em;text-decoration:none;transition:all .18s}
+  .ext-link:hover{border-color:var(--red);color:var(--red)}
+  .spec-disclaimer{font-family:var(--mono);font-size:.62rem;color:var(--t3);line-height:1.5;
+    border:1px solid var(--b1);padding:10px 13px;margin-top:16px}
 </style>
 </head>
 <body>
@@ -511,6 +532,7 @@ select option{background:#1e1e28}
     <button class="tab-btn"        data-tab="checklist"    onclick="switchTab('checklist')">✓ Checklist</button>
     <button class="tab-btn"        data-tab="domande"      onclick="switchTab('domande')">💬 Domande</button>
     <button class="tab-btn"        data-tab="tecnico"      onclick="switchTab('tecnico')">📐 Tecnico</button>
+    <button class="tab-btn"        data-tab="scheda"       onclick="switchTab('scheda')">📋 Scheda</button>
     <button class="tab-btn"        data-tab="obd"          onclick="switchTab('obd')">🔍 OBD</button>
     <button class="tab-btn"        data-tab="extra"        onclick="switchTab('extra')">ℹ Extra</button>
   </div>
@@ -1755,6 +1777,52 @@ function renderResults(data, marca, modello, anno, motore) {
     tTecnico += '<div style="color:var(--t3);font-size:.83rem">Pressioni non disponibili per questo modello.</div>';
   }
 
+  // ── TAB: SCHEDA TECNICA ─────────────────────────────────────────
+  var spec = db.specs && db.specs[dbKey];
+  var tScheda = '';
+  if (!spec) {
+    tScheda = '<div style="color:var(--t3);font-size:.83rem;padding:18px 0">Specifiche non disponibili per questo veicolo.</div>';
+  } else {
+    var links = spec.link_esterni || {};
+    tScheda = '<div class="spec-section"><div class="shd">// Motore & Prestazioni</div>'
+      + '<div class="spec-grid">'
+      + (spec.potenza_cv ? '<div class="spec-card"><div class="spec-lbl">Potenza</div><div class="spec-val spec-highlight">'+spec.potenza_cv+'<span class="spec-unit">cv</span> / '+spec.potenza_kw+'<span class="spec-unit">kW</span></div></div>' : '')
+      + (spec.coppia_nm  ? '<div class="spec-card"><div class="spec-lbl">Coppia massima</div><div class="spec-val">'+spec.coppia_nm+'<span class="spec-unit">Nm</span></div></div>' : '')
+      + (spec.cilindrata_cc ? '<div class="spec-card"><div class="spec-lbl">Cilindrata</div><div class="spec-val">'+spec.cilindrata_cc.toLocaleString()+'<span class="spec-unit">cc</span></div></div>' : '')
+      + '<div class="spec-card"><div class="spec-lbl">Alimentazione</div><div class="spec-val" style="font-size:.82rem">'+spec.alimentazione+'</div></div>'
+      + '<div class="spec-card"><div class="spec-lbl">Trasmissione</div><div class="spec-val" style="font-size:.8rem">'+spec.trasmissione+'</div></div>'
+      + '<div class="spec-card"><div class="spec-lbl">Trazione</div><div class="spec-val" style="font-size:.8rem">'+spec.trazione+'</div></div>'
+      + '</div></div>'
+
+      + '<div class="spec-section"><div class="shd">// Prestazioni & Consumi</div>'
+      + '<table class="spec-row-table">'
+      + (spec.acc_0_100_s ? '<tr><td>0–100 km/h</td><td>'+spec.acc_0_100_s+' s</td></tr>' : '')
+      + (spec.vel_max_kmh ? '<tr><td>Velocità massima</td><td>'+spec.vel_max_kmh+' km/h</td></tr>' : '')
+      + (spec.consumo_dichiarato ? '<tr><td>Consumi dichiarati</td><td>'+spec.consumo_dichiarato+'</td></tr>' : '')
+      + (spec.consumo_reale ? '<tr><td>Consumi reali stimati</td><td>'+spec.consumo_reale+'</td></tr>' : '')
+      + (spec.co2_gkm ? '<tr><td>Emissioni CO₂</td><td>'+spec.co2_gkm+'</td></tr>' : '')
+      + '</table></div>'
+
+      + '<div class="spec-section"><div class="shd">// Dimensioni & Ingombri</div>'
+      + '<table class="spec-row-table">'
+      + (spec.lunghezza_mm ? '<tr><td>Lunghezza</td><td>'+spec.lunghezza_mm.toLocaleString()+' mm</td></tr>' : '')
+      + (spec.larghezza_mm ? '<tr><td>Larghezza</td><td>'+spec.larghezza_mm.toLocaleString()+' mm</td></tr>' : '')
+      + (spec.altezza_mm   ? '<tr><td>Altezza</td><td>'+spec.altezza_mm.toLocaleString()+' mm</td></tr>' : '')
+      + (spec.passo_mm     ? '<tr><td>Passo</td><td>'+spec.passo_mm.toLocaleString()+' mm</td></tr>' : '')
+      + (spec.bagagliaio_l ? '<tr><td>Bagagliaio</td><td>'+spec.bagagliaio_l+' L</td></tr>' : '')
+      + '</table></div>'
+
+      + '<div class="spec-section"><div class="shd">// Verifica dati su fonti ufficiali</div>'
+      + '<div class="ext-links">'
+      + (links.quattroruote ? '<a href="'+links.quattroruote+'" target="_blank" rel="noopener" class="ext-link">📰 Quattroruote</a>' : '')
+      + (links.alvolante    ? '<a href="'+links.alvolante+'"    target="_blank" rel="noopener" class="ext-link">🚗 alVolante</a>' : '')
+      + (links.motorionline ? '<a href="'+links.motorionline+'" target="_blank" rel="noopener" class="ext-link">⚡ Motorionline</a>' : '')
+      + (links.autoscout    ? '<a href="'+links.autoscout+'"    target="_blank" rel="noopener" class="ext-link">🔎 AutoScout24</a>' : '')
+      + '</div>'
+      + '<div class="spec-disclaimer">⚠ Le specifiche sono stimate dalla knowledge base e potrebbero variare in base all\'anno esatto e all\'allestimento. Verificare sempre sui siti ufficiali o sul libretto del veicolo.</div>'
+      + '</div>';
+  }
+
   // ── TAB: OBD ────────────────────────────────────────────────────
   var obdEntries = Object.entries(OBD_CODES);
   var tOBD = '<div class="obds"><span class="si" style="position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--t3)">🔍</span>'
@@ -1799,6 +1867,7 @@ function renderResults(data, marca, modello, anno, motore) {
     + '<div class="tab-pane" id="tab-checklist">' + tCheck + '</div>'
     + '<div class="tab-pane" id="tab-domande">' + tDomande + '</div>'
     + '<div class="tab-pane" id="tab-tecnico">' + tTecnico + '</div>'
+    + '<div class="tab-pane" id="tab-scheda">' + tScheda + '</div>'
     + '<div class="tab-pane" id="tab-obd">' + tOBD + '</div>'
     + '<div class="tab-pane" id="tab-extra">' + tExtra + '</div>';
 
