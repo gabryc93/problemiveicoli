@@ -597,6 +597,87 @@
     .problem-card { break-inside:avoid; }
     body { background:#fff; color:#000; }
   }
+
+  /* TECNICO TAB */
+  .tech-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-bottom:28px; }
+  .tech-card { background:var(--card); border:1px solid var(--border); padding:16px 18px; }
+  .tech-card-label { font-family:'DM Mono',monospace; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:6px; }
+  .tech-card-value { font-size:0.92rem; color:var(--text); font-weight:500; line-height:1.5; }
+  .tech-card-sub { font-size:0.75rem; color:var(--muted); margin-top:4px; }
+  .tyre-table { width:100%; border-collapse:collapse; font-size:0.83rem; }
+  .tyre-table th { font-family:'DM Mono',monospace; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); padding:8px 12px; text-align:left; border-bottom:1px solid var(--border); }
+  .tyre-table td { padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.04); color:#b8b7c8; }
+  .tyre-table tr:last-child td { border-bottom:none; }
+  .tyre-table td:nth-child(2),.tyre-table td:nth-child(3) { color:var(--accent2); font-family:'DM Mono',monospace; }
+
+  /* OBD TAB */
+  .obd-search-wrap { margin-bottom:20px; position:relative; }
+  .obd-search { background:var(--surface); border:1px solid var(--border); color:var(--text);
+    padding:12px 14px 12px 36px; font-family:'DM Mono',monospace; font-size:0.88rem;
+    width:100%; letter-spacing:0.05em; transition:border-color 0.2s; }
+  .obd-search:focus { outline:none; border-color:var(--accent); }
+  .obd-search::placeholder { color:var(--muted); letter-spacing:0; font-family:'DM Sans',sans-serif; }
+  .obd-search-icon { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:var(--muted); }
+  .obd-list { list-style:none; }
+  .obd-item { display:flex; align-items:flex-start; gap:14px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .obd-item:last-child { border-bottom:none; }
+  .obd-code { font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--accent2);
+    min-width:58px; font-weight:500; padding:3px 8px; background:rgba(245,166,35,0.08);
+    border:1px solid rgba(245,166,35,0.25); flex-shrink:0; line-height:1.4; text-align:center; }
+  .obd-code.P { color:var(--accent2); border-color:rgba(245,166,35,0.3); background:rgba(245,166,35,0.08); }
+  .obd-code.C { color:#3498db; border-color:rgba(52,152,219,0.3); background:rgba(52,152,219,0.08); }
+  .obd-code.B { color:#9b59b6; border-color:rgba(155,89,182,0.3); background:rgba(155,89,182,0.08); }
+  .obd-desc { font-size:0.87rem; color:#b8b7c8; line-height:1.6; }
+  .obd-count { font-family:'DM Mono',monospace; font-size:0.7rem; color:var(--muted); margin-bottom:16px; }
+
+  /* MANUTENZIONE TAB */
+  .maint-section { margin-bottom: 28px; }
+  .maint-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 8px; }
+  .maint-card {
+    background: var(--card); border: 1px solid var(--border); padding: 16px 18px;
+    position: relative; overflow: hidden;
+  }
+  .maint-card::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; background: var(--accent); }
+  .maint-card.green::before { background: var(--success); }
+  .maint-card.orange::before { background: var(--accent2); }
+  .maint-card.blue::before { background: #3498db; }
+  .maint-card.purple::before { background: #9b59b6; }
+  .maint-card-label { font-family:'DM Mono',monospace; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:6px; }
+  .maint-card-value { font-size:0.9rem; color:var(--text); font-weight:600; margin-bottom:4px; }
+  .maint-card-sub { font-size:0.78rem; color:#b8b7c8; line-height:1.5; }
+  .maint-card-badge {
+    display:inline-block; font-family:'DM Mono',monospace; font-size:0.62rem;
+    text-transform:uppercase; letter-spacing:0.08em; padding:2px 8px; border:1px solid;
+    margin-top:6px;
+  }
+  .badge-catena { color:var(--success); border-color:rgba(46,204,113,0.4); background:rgba(46,204,113,0.08); }
+  .badge-cinghia { color:var(--danger); border-color:rgba(231,76,60,0.4); background:rgba(231,76,60,0.08); }
+
+  /* SCHEDULE */
+  .schedule-list { list-style:none; }
+  .schedule-item {
+    display:grid; grid-template-columns: 180px 1fr 24px;
+    align-items:center; gap:14px; padding:12px 0;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+  }
+  .schedule-item:last-child { border-bottom:none; }
+  .schedule-interval {
+    font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--accent2);
+    line-height:1.4;
+  }
+  .schedule-op { font-size:0.87rem; color:#b8b7c8; }
+  .prio-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; justify-self:center; }
+  .prio-alta  { background:var(--danger);  box-shadow:0 0 6px var(--danger); }
+  .prio-media { background:var(--warning); box-shadow:0 0 6px var(--warning); }
+  .prio-bassa { background:var(--success); box-shadow:0 0 6px var(--success); }
+
+  /* BULBS TABLE */
+  .bulb-table { width:100%; border-collapse:collapse; font-size:0.83rem; }
+  .bulb-table th { font-family:'DM Mono',monospace; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); padding:8px 12px; text-align:left; border-bottom:1px solid var(--border); }
+  .bulb-table td { padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.04); color:#b8b7c8; }
+  .bulb-table tr:last-child td { border-bottom:none; }
+  .bulb-table td:first-child { color:var(--muted); font-family:'DM Mono',monospace; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; }
+  .bulb-table td:last-child { color:var(--text); font-weight:500; }
 </style>
 </head>
 <body>
@@ -674,6 +755,9 @@
     <button class="tab-btn" data-tab="checklist" onclick="switchTab('checklist')">✓ Checklist Ispezione</button>
     <button class="tab-btn" data-tab="domande" onclick="switchTab('domande')">💬 Domande al Venditore</button>
     <button class="tab-btn" data-tab="extra" onclick="switchTab('extra')">ℹ Extra & Recall</button>
+    <button class="tab-btn" data-tab="manutenzione" onclick="switchTab('manutenzione')">📅 Manutenzione</button>
+    <button class="tab-btn" data-tab="tecnico" onclick="switchTab('tecnico')">🔧 Dati Tecnici</button>
+    <button class="tab-btn" data-tab="obd" onclick="switchTab('obd')">🔍 Codici OBD</button>
   </div>
 
   <!-- LOADING -->
@@ -1462,73 +1546,70 @@ async function avviaDiagnosi() {
     <span class="tag">${anno}</span>
     <span class="tag">${motore}</span>`;
 
-  const prompt = `Sei un esperto meccanico e tecnico automobilistico con 20 anni di esperienza e un esperto di mercato assicurativo auto italiano.
-Analizza il seguente veicolo in modo completo.
 
-Veicolo: ${marca} ${modello} ${anno} — ${motore}
 
-Rispondi SOLO con un JSON valido (senza markdown, senza backtick), con questo schema ESATTO:
-{
-  "sommario": "frase riassuntiva sull'affidabilità generale (max 2 righe)",
-  "affidabilita": "alta|media|bassa",
-  "costo_totale_min": 800,
-  "costo_totale_max": 3000,
-  "assicurazione_fascia": "600–900 €/anno",
-  "consumo_dichiarato": "6.5 l/100km",
-  "consumo_reale": "8.0–10.0 l/100km",
-  "km_red_flags": [
-    { "km": 80000, "descrizione": "Sostituzione cinghia/catena distribuzione consigliata" },
-    { "km": 120000, "descrizione": "Verifica iniettori e turbina" }
-  ],
-  "problemi": [
-    {
-      "titolo": "Nome breve del problema",
-      "severita": "alta|media|bassa",
-      "descrizione": "Descrizione concisa (max 2 righe)",
-      "sintomi": ["sintomo 1", "sintomo 2"],
-      "soluzione": "Come risolvere",
-      "costo_min": 200,
-      "costo_max": 600
-    }
-  ],
-  "checklist_ispezione": [
-    "Verificare il livello e colore dell'olio motore",
-    "Controllare presenza di fumo allo scarico"
-  ],
-  "domande_venditore": [
-    "Quando è stata cambiata l'ultima volta la distribuzione?",
-    "Ha il libretto tagliandi completo?"
-  ],
-  "recall_note": "Breve nota su eventuali recall noti per questo modello e come verificarli"
-}
-
-Regole: esattamente 5 problemi reali e documentati; almeno 8 voci in checklist_ispezione; almeno 6 domande_venditore; 2-4 km_red_flags. Sii specifico e tecnico.`;
+  const DB_URL = "./db.json";
 
   try {
-    // ⬇ Sostituisci con l'URL del tuo Cloudflare Worker dopo il deploy
-    const WORKER_URL = "https://autodiagnosi.gabrycois.workers.dev";
+    const dbKey = marca + "||" + modello + "||" + anno + "||" + motore;
 
-    const response = await fetch(WORKER_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 4000,
-        messages: [{ role: "user", content: prompt }]
-      })
-    });
+    // Carica db.json (con cache browser)
+    if (!window._vehicleDB) {
+      setLoadingMsg("Carico database...");
+      const dbRes = await fetch(DB_URL, { cache: "default" });
+      if (!dbRes.ok) throw new Error("Database non raggiungibile (HTTP " + dbRes.status + ")");
+      window._vehicleDB = await dbRes.json();
+    }
 
-    const data = await response.json();
-    if (data.error) throw new Error(data.error.message || 'Errore API');
-    const raw = data.content.map(i => i.text || '').join('');
-    const parsed = extractJSON(raw);
-    renderResults(parsed);
+    const entry = window._vehicleDB?.vehicles?.[dbKey];
+
+    if (!entry) {
+      // Veicolo non presente nel DB → mostra messaggio, nessuna chiamata API
+      setLoading(false);
+      showNotInDB(marca, modello, anno, motore);
+      return;
+    }
+
+    showSourceBadge("database locale");
+    renderResults(entry);
+
   } catch (err) {
-    showError('Errore durante l\'analisi: ' + err.message);
+    showError("Errore durante l'analisi: " + err.message);
   } finally {
     setLoading(false);
   }
 }
+
+const SCEGLIAUTO_SLUGS = {
+  "Alfa Romeo":    "alfa-romeo",
+  "Audi":          "audi",
+  "BMW":           "bmw",
+  "Citroën":       "citroen",
+  "Dacia":         "dacia",
+  "Fiat":          "fiat",
+  "Ford":          "ford",
+  "Honda":         "honda",
+  "Hyundai":       "hyundai",
+  "Jeep":          "jeep",
+  "Kia":           "kia",
+  "Land Rover":    "land-rover",
+  "Mazda":         "mazda",
+  "Mercedes-Benz": "mercedes",
+  "Mini":          "mini",
+  "Mitsubishi":    "mitsubishi",
+  "Nissan":        "nissan",
+  "Opel":          "opel",
+  "Peugeot":       "peugeot",
+  "Porsche":       "porsche",
+  "Renault":       "renault",
+  "SEAT":          "seat",
+  "Skoda":         "skoda",
+  "Subaru":        "subaru",
+  "Suzuki":        "suzuki",
+  "Toyota":        "toyota",
+  "Volkswagen":    "volkswagen",
+  "Volvo":         "volvo",
+};
 
 // ═══════════════════════════════════════════
 // JSON EXTRACTION — handles markdown fences & truncation
@@ -1782,6 +1863,9 @@ function renderResults(data) {
     </div>`).join('')}`;
 
   // ── EXTRA TAB ──────────────────────────────────────────────────────────────
+  const scegliautoSlug = (SCEGLIAUTO_SLUGS[marca] || marca.toLowerCase().replace(/\s+/g, '-'));
+  const scegliautoUrl  = 'https://www.scegliauto.com/video/' + scegliautoSlug + '/tutorial/';
+
   const extraHtml = `
     <div class="recall-box">
       <div class="recall-title">📋 Recall e campagne di richiamo</div>
@@ -1792,6 +1876,31 @@ function renderResults(data) {
         <a href="https://www.autoscout24.it/informazioni/recall-auto/" target="_blank">AutoScout24 Recall</a>
       </p>
     </div>
+
+    <div class="recall-box" style="border-color:rgba(46,204,113,0.3);background:rgba(46,204,113,0.04)">
+      <div class="recall-title" style="color:var(--success)">🎬 Video Tutorial Fai da Te — ${marca} ${modello}</div>
+      <p style="margin-bottom:14px">
+        Guarda le video guide di manutenzione e riparazione fai da te per la tua
+        <strong style="color:var(--text)">${marca} ${modello}</strong>:
+        smontaggio componenti, sostituzione parti, reset service e molto altro.
+        Oltre 2.000 video organizzati per marca e modello.
+      </p>
+      <a href="${scegliautoUrl}"
+         target="_blank"
+         rel="noopener"
+         style="display:inline-flex;align-items:center;gap:8px;background:rgba(46,204,113,0.12);
+           border:1px solid rgba(46,204,113,0.4);color:var(--success);padding:10px 18px;
+           font-family:'DM Mono',monospace;font-size:0.75rem;text-transform:uppercase;
+           letter-spacing:0.1em;text-decoration:none;"
+         onmouseover="this.style.background='rgba(46,204,113,0.22)'"
+         onmouseout="this.style.background='rgba(46,204,113,0.12)'">
+        ▶ Apri video tutorial ${marca} su ScegliAuto
+      </a>
+      <p style="margin-top:10px;font-size:0.72rem;color:var(--muted);font-family:'DM Mono',monospace;">
+        Fonte esterna: scegliauto.com — contenuti di terze parti
+      </p>
+    </div>
+
     <div class="recall-box" style="border-color:rgba(245,166,35,0.3);background:rgba(245,166,35,0.04)">
       <div class="recall-title" style="color:var(--accent2)">🔗 Risorse utili</div>
       <p>
@@ -1803,6 +1912,144 @@ function renderResults(data) {
     </div>`;
 
   // ── INJECT ALL ─────────────────────────────────────────────────────────────
+  // Build tecnico tab
+  const marcaKey = marca + "||" + modello;
+  const db = window._vehicleDB || {};
+
+  // Tyre pressures
+  let tyreHtml = '<div style="color:var(--muted);font-size:0.85rem;">Pressioni non disponibili per questo modello nel database.</div>';
+  const tyreData = db.tyre_pressures && db.tyre_pressures[marcaKey];
+  if (tyreData) {
+    const annoKeys = Object.keys(tyreData);
+    // Find best matching anno range
+    const bestRange = annoKeys.find(k => k !== 'default' && anno && k.split('–')[0] <= anno.split('–')[0]) || annoKeys[0];
+    const sizes = tyreData[bestRange] || tyreData[annoKeys[0]];
+    tyreHtml = '<table class="tyre-table"><thead><tr><th>Misura gomma</th><th>Anteriore</th><th>Posteriore</th></tr></thead><tbody>';
+    for (const [size, pres] of Object.entries(sizes)) {
+      if (size === 'default') continue;
+      tyreHtml += '<tr><td>' + size + '</td><td>' + pres[0] + ' bar</td><td>' + pres[1] + ' bar</td></tr>';
+    }
+    tyreHtml += '</tbody></table>';
+    const def = sizes.default;
+    if (def) tyreHtml += '<div style="margin-top:10px;font-size:0.78rem;color:var(--muted);font-family:DM Mono,monospace">Default (se non indicato sul montante porta): ' + def[0] + ' / ' + def[1] + ' bar</div>';
+  }
+
+  // Oil quantity
+  let oilHtml = '<div style="color:var(--muted);font-size:0.85rem;">Quantità olio non disponibile per questo motore specifico.</div>';
+  const oilKey = marca + "||" + modello + "||" + motore;
+  const oilData = db.oil_quantities && db.oil_quantities[oilKey];
+  if (oilData) {
+    oilHtml = '<div class="tech-grid" style="margin-bottom:0"><div class="tech-card"><div class="tech-card-label">Quantità olio</div><div class="tech-card-value">' + oilData.litri + ' litri</div><div class="tech-card-sub">con sostituzione filtro</div></div><div class="tech-card"><div class="tech-card-label">Viscosità consigliata</div><div class="tech-card-value" style="color:var(--accent2)">' + oilData.viscosita + '</div></div><div class="tech-card"><div class="tech-card-label">Norma costruttore</div><div class="tech-card-value">' + oilData.norma + '</div></div></div>';
+  }
+
+  const tecnicoHtml = oilHtml + '<div class="section-hd" style="margin-top:24px">// Pressioni pneumatici</div>' + tyreHtml;
+
+  // OBD codes list (full, filterable)
+  const allCodes = db.obd_codes || {};
+  const obdListHtml = Object.entries(allCodes).map(([code, desc]) => {
+    const type = code[0];
+    return '<li class="obd-item"><span class="obd-code ' + type + '">' + code + '</span><span class="obd-desc">' + desc + '</span></li>';
+  }).join('');
+
+  // ── MANUTENZIONE TAB ─────────────────────────────────────────────────────
+  const maintKey = marca + "||" + modello + "||" + anno + "||" + motore;
+  const maint = db.maintenance && db.maintenance[maintKey];
+
+  let maintHtml = '<div style="color:var(--muted);font-size:0.85rem;padding:20px 0">Dati manutenzione non disponibili per questo veicolo.</div>';
+
+  if (maint) {
+    const o = maint.olio || {};
+    const d = maint.distribuzione;
+    const c = maint.candele;
+    const r = maint.refrigerante || {};
+    const fr = maint.liquido_freni || {};
+    const fi = maint.filtri || {};
+    const lm = maint.lampadine || {};
+    const sc = maint.schedule || [];
+
+    // Distribuzione badge
+    const distBadge = d ? (d.tipo === 'Catena'
+      ? '<span class="maint-card-badge badge-catena">⛓ Catena — no sostituzione programmata</span>'
+      : '<span class="maint-card-badge badge-cinghia">⚠ Cinghia — sostituzione obbligatoria</span>') : '';
+    const distSub = d ? (d.tipo === 'Catena' ? d.note : (d.intervallo_km ? 'Ogni <strong>' + d.intervallo_km.toLocaleString() + ' km</strong> o <strong>' + (d.intervallo_anni||5) + ' anni</strong><br><small>' + d.note + '</small>' : d.note)) : 'N/A';
+
+    maintHtml = `
+      <div class="maint-section">
+        <div class="section-hd">// Fluidi</div>
+        <div class="maint-grid">
+          <div class="maint-card orange">
+            <div class="maint-card-label">Olio motore</div>
+            <div class="maint-card-value">${o.viscosita || 'N/A'}</div>
+            <div class="maint-card-sub">Norma: <strong>${o.norma || 'N/A'}</strong><br>
+              Intervallo: ogni <strong>${o.intervallo_km ? o.intervallo_km.toLocaleString() : '?'} km</strong> o <strong>${o.intervallo_mesi || '?'} mesi</strong>
+            </div>
+          </div>
+          <div class="maint-card blue">
+            <div class="maint-card-label">Liquido raffreddamento</div>
+            <div class="maint-card-value">${r.tipo ? r.tipo.split('/')[0].trim() : 'N/A'}</div>
+            <div class="maint-card-sub">Colore: <strong>${r.colore || '—'}</strong> · Ogni <strong>${r.intervallo_anni || '?'} anni</strong><br><small>${r.note ? r.note.slice(0,80)+'…' : ''}</small></div>
+          </div>
+          <div class="maint-card red">
+            <div class="maint-card-label">Liquido freni</div>
+            <div class="maint-card-value">${fr.tipo || 'DOT 4'}</div>
+            <div class="maint-card-sub">Ogni <strong>${fr.intervallo_anni || 2} anni</strong> indipendentemente dal km<br><small>${fr.note ? fr.note.slice(0,80)+'…' : ''}</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="maint-section">
+        <div class="section-hd">// Distribuzione & Accensione</div>
+        <div class="maint-grid">
+          <div class="maint-card ${d && d.tipo === 'Catena' ? 'green' : 'red'}">
+            <div class="maint-card-label">Distribuzione</div>
+            <div class="maint-card-value">${d ? d.tipo : 'N/A'}</div>
+            <div class="maint-card-sub">${distSub}</div>
+            ${distBadge}
+          </div>
+          ${c ? '<div class="maint-card orange"><div class="maint-card-label">Candele</div><div class="maint-card-value">' + c.tipo + '</div><div class="maint-card-sub">Ogni <strong>' + c.km.toLocaleString() + ' km</strong><br><small>' + c.note + '</small></div></div>' : '<div class="maint-card"><div class="maint-card-label">Candele</div><div class="maint-card-value" style="color:var(--muted)">N/A (diesel o BEV)</div></div>'}
+          <div class="maint-card">
+            <div class="maint-card-label">Filtri</div>
+            <div class="maint-card-value" style="font-size:0.82rem;line-height:1.6">
+              Aria motore: ogni <strong>${(fi.aria_km||30000).toLocaleString()} km</strong><br>
+              Abitacolo/Polline: ogni <strong>${(fi.abitacolo_km||20000).toLocaleString()} km</strong> o <strong>${fi.abitacolo_mesi||12} mesi</strong>
+              ${fi.gasolio_km ? '<br>Filtro gasolio: ogni <strong>' + fi.gasolio_km.toLocaleString() + ' km</strong>' : ''}
+              ${fi.dsg_km ? '<br>Olio DSG: ogni <strong>' + fi.dsg_km.toLocaleString() + ' km</strong>' : ''}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="maint-section">
+        <div class="section-hd">// Lampadine</div>
+        <table class="bulb-table">
+          <thead><tr><th>Funzione</th><th>Tipo</th></tr></thead>
+          <tbody>
+            <tr><td>Anabbaglianti</td><td>${lm.anabbaglianti || '—'}</td></tr>
+            <tr><td>Abbaglianti</td><td>${lm.abbaglianti || '—'}</td></tr>
+            <tr><td>Indicatori di direzione</td><td>${lm.indicatori || '—'}</td></tr>
+            <tr><td>Luci di posizione</td><td>${lm.luci_posizione || '—'}</td></tr>
+            <tr><td>Luci stop</td><td>${lm.luci_stop || '—'}</td></tr>
+            <tr><td>Retromarcia</td><td>${lm.retromarcia || '—'}</td></tr>
+            <tr><td>Plafoniera interna</td><td>${lm.plafoniera || '—'}</td></tr>
+          </tbody>
+        </table>
+        ${lm.note ? '<div style="margin-top:10px;font-size:0.75rem;color:var(--muted);font-family:DM Mono,monospace;line-height:1.5">⚠ ' + lm.note + '</div>' : ''}
+      </div>
+
+      <div class="maint-section">
+        <div class="section-hd">// Calendario manutenzione</div>
+        <div style="display:flex;gap:16px;margin-bottom:12px;font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">
+          <span><span class="prio-dot prio-alta" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--danger);margin-right:5px;vertical-align:middle;"></span>Alta priorità</span>
+          <span><span class="prio-dot prio-media" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--warning);margin-right:5px;vertical-align:middle;"></span>Media</span>
+          <span><span class="prio-dot prio-bassa" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success);margin-right:5px;vertical-align:middle;"></span>Bassa</span>
+        </div>
+        <ul class="schedule-list">
+          ${sc.map(s => '<li class="schedule-item"><span class="schedule-interval">' + s.intervallo + '</span><span class="schedule-op">' + s.operazione + '</span><span class="prio-dot prio-' + s.priorita + '"></span></li>').join('')}
+        </ul>
+      </div>
+    `;
+  }
+
   document.getElementById('results').innerHTML = `
     <div class="tab-pane active" id="tab-problemi">
       <div class="results-header">
@@ -1814,13 +2061,39 @@ function renderResults(data) {
     <div class="tab-pane" id="tab-stats">${statsHtml}</div>
     <div class="tab-pane" id="tab-checklist">${checkHtml}</div>
     <div class="tab-pane" id="tab-domande">${domandeHtml}</div>
+    <div class="tab-pane" id="tab-manutenzione">${maintHtml}</div>
     <div class="tab-pane" id="tab-extra">${extraHtml}</div>
-  `;
+    <div class="tab-pane" id="tab-tecnico">${tecnicoHtml}</div>
+    <div class="tab-pane" id="tab-obd">
+      <div class="section-hd">// Cerca codice errore OBD / EOBD</div>
+      <div class="obd-search-wrap">
+        <span class="obd-search-icon">🔍</span>
+        <input class="obd-search" id="obd-search-input" placeholder="Es: P0420, DPF, lambda, turbo..." oninput="filterOBD()">
+      </div>
+      <div class="obd-count" id="obd-count">${Object.keys(allCodes).length} codici nel database</div>
+      <ul class="obd-list" id="obd-list">${obdListHtml}</ul>
+    </div>
+  \`;
 }
 
 function toggleCard(i) {
   const card = document.getElementById('card-' + i);
   card.classList.toggle('open');
+}
+
+// ── OBD SEARCH ────────────────────────────────────────────────────────────
+function filterOBD() {
+  const q = document.getElementById('obd-search-input').value.toLowerCase().trim();
+  const items = document.querySelectorAll('.obd-item');
+  let visible = 0;
+  items.forEach(item => {
+    const text = item.textContent.toLowerCase();
+    const show = !q || text.includes(q);
+    item.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const cnt = document.getElementById('obd-count');
+  if (cnt) cnt.textContent = (q ? visible + ' risultati' : items.length + ' codici nel database');
 }
 
 // ── CHECKLIST LOGIC ────────────────────────────────────────────────────────
@@ -1867,6 +2140,193 @@ function hideError() {
 function toggleKeyVisibility() {
   const input = document.getElementById('apikey-input');
   input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+// ═══════════════════════════════════════════
+// SOURCE & LOADING HELPERS
+// ═══════════════════════════════════════════
+function setLoadingMsg(msg) {
+  const el = document.querySelector('.loading-state p');
+  if (el) el.textContent = msg;
+}
+
+function showNotInDB(marca, modello, anno, motore) {
+  document.getElementById('tabs').className        = 'tabs';
+  document.getElementById('filter-bar').className  = 'filter-bar';
+  // Build tecnico tab
+  const marcaKey = marca + "||" + modello;
+  const db = window._vehicleDB || {};
+
+  // Tyre pressures
+  let tyreHtml = '<div style="color:var(--muted);font-size:0.85rem;">Pressioni non disponibili per questo modello nel database.</div>';
+  const tyreData = db.tyre_pressures && db.tyre_pressures[marcaKey];
+  if (tyreData) {
+    const annoKeys = Object.keys(tyreData);
+    // Find best matching anno range
+    const bestRange = annoKeys.find(k => k !== 'default' && anno && k.split('–')[0] <= anno.split('–')[0]) || annoKeys[0];
+    const sizes = tyreData[bestRange] || tyreData[annoKeys[0]];
+    tyreHtml = '<table class="tyre-table"><thead><tr><th>Misura gomma</th><th>Anteriore</th><th>Posteriore</th></tr></thead><tbody>';
+    for (const [size, pres] of Object.entries(sizes)) {
+      if (size === 'default') continue;
+      tyreHtml += '<tr><td>' + size + '</td><td>' + pres[0] + ' bar</td><td>' + pres[1] + ' bar</td></tr>';
+    }
+    tyreHtml += '</tbody></table>';
+    const def = sizes.default;
+    if (def) tyreHtml += '<div style="margin-top:10px;font-size:0.78rem;color:var(--muted);font-family:DM Mono,monospace">Default (se non indicato sul montante porta): ' + def[0] + ' / ' + def[1] + ' bar</div>';
+  }
+
+  // Oil quantity
+  let oilHtml = '<div style="color:var(--muted);font-size:0.85rem;">Quantità olio non disponibile per questo motore specifico.</div>';
+  const oilKey = marca + "||" + modello + "||" + motore;
+  const oilData = db.oil_quantities && db.oil_quantities[oilKey];
+  if (oilData) {
+    oilHtml = '<div class="tech-grid" style="margin-bottom:0"><div class="tech-card"><div class="tech-card-label">Quantità olio</div><div class="tech-card-value">' + oilData.litri + ' litri</div><div class="tech-card-sub">con sostituzione filtro</div></div><div class="tech-card"><div class="tech-card-label">Viscosità consigliata</div><div class="tech-card-value" style="color:var(--accent2)">' + oilData.viscosita + '</div></div><div class="tech-card"><div class="tech-card-label">Norma costruttore</div><div class="tech-card-value">' + oilData.norma + '</div></div></div>';
+  }
+
+  const tecnicoHtml = oilHtml + '<div class="section-hd" style="margin-top:24px">// Pressioni pneumatici</div>' + tyreHtml;
+
+  // OBD codes list (full, filterable)
+  const allCodes = db.obd_codes || {};
+  const obdListHtml = Object.entries(allCodes).map(([code, desc]) => {
+    const type = code[0];
+    return '<li class="obd-item"><span class="obd-code ' + type + '">' + code + '</span><span class="obd-desc">' + desc + '</span></li>';
+  }).join('');
+
+  // ── MANUTENZIONE TAB ─────────────────────────────────────────────────────
+  const maintKey = marca + "||" + modello + "||" + anno + "||" + motore;
+  const maint = db.maintenance && db.maintenance[maintKey];
+
+  let maintHtml = '<div style="color:var(--muted);font-size:0.85rem;padding:20px 0">Dati manutenzione non disponibili per questo veicolo.</div>';
+
+  if (maint) {
+    const o = maint.olio || {};
+    const d = maint.distribuzione;
+    const c = maint.candele;
+    const r = maint.refrigerante || {};
+    const fr = maint.liquido_freni || {};
+    const fi = maint.filtri || {};
+    const lm = maint.lampadine || {};
+    const sc = maint.schedule || [];
+
+    // Distribuzione badge
+    const distBadge = d ? (d.tipo === 'Catena'
+      ? '<span class="maint-card-badge badge-catena">⛓ Catena — no sostituzione programmata</span>'
+      : '<span class="maint-card-badge badge-cinghia">⚠ Cinghia — sostituzione obbligatoria</span>') : '';
+    const distSub = d ? (d.tipo === 'Catena' ? d.note : (d.intervallo_km ? 'Ogni <strong>' + d.intervallo_km.toLocaleString() + ' km</strong> o <strong>' + (d.intervallo_anni||5) + ' anni</strong><br><small>' + d.note + '</small>' : d.note)) : 'N/A';
+
+    maintHtml = `
+      <div class="maint-section">
+        <div class="section-hd">// Fluidi</div>
+        <div class="maint-grid">
+          <div class="maint-card orange">
+            <div class="maint-card-label">Olio motore</div>
+            <div class="maint-card-value">${o.viscosita || 'N/A'}</div>
+            <div class="maint-card-sub">Norma: <strong>${o.norma || 'N/A'}</strong><br>
+              Intervallo: ogni <strong>${o.intervallo_km ? o.intervallo_km.toLocaleString() : '?'} km</strong> o <strong>${o.intervallo_mesi || '?'} mesi</strong>
+            </div>
+          </div>
+          <div class="maint-card blue">
+            <div class="maint-card-label">Liquido raffreddamento</div>
+            <div class="maint-card-value">${r.tipo ? r.tipo.split('/')[0].trim() : 'N/A'}</div>
+            <div class="maint-card-sub">Colore: <strong>${r.colore || '—'}</strong> · Ogni <strong>${r.intervallo_anni || '?'} anni</strong><br><small>${r.note ? r.note.slice(0,80)+'…' : ''}</small></div>
+          </div>
+          <div class="maint-card red">
+            <div class="maint-card-label">Liquido freni</div>
+            <div class="maint-card-value">${fr.tipo || 'DOT 4'}</div>
+            <div class="maint-card-sub">Ogni <strong>${fr.intervallo_anni || 2} anni</strong> indipendentemente dal km<br><small>${fr.note ? fr.note.slice(0,80)+'…' : ''}</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="maint-section">
+        <div class="section-hd">// Distribuzione & Accensione</div>
+        <div class="maint-grid">
+          <div class="maint-card ${d && d.tipo === 'Catena' ? 'green' : 'red'}">
+            <div class="maint-card-label">Distribuzione</div>
+            <div class="maint-card-value">${d ? d.tipo : 'N/A'}</div>
+            <div class="maint-card-sub">${distSub}</div>
+            ${distBadge}
+          </div>
+          ${c ? '<div class="maint-card orange"><div class="maint-card-label">Candele</div><div class="maint-card-value">' + c.tipo + '</div><div class="maint-card-sub">Ogni <strong>' + c.km.toLocaleString() + ' km</strong><br><small>' + c.note + '</small></div></div>' : '<div class="maint-card"><div class="maint-card-label">Candele</div><div class="maint-card-value" style="color:var(--muted)">N/A (diesel o BEV)</div></div>'}
+          <div class="maint-card">
+            <div class="maint-card-label">Filtri</div>
+            <div class="maint-card-value" style="font-size:0.82rem;line-height:1.6">
+              Aria motore: ogni <strong>${(fi.aria_km||30000).toLocaleString()} km</strong><br>
+              Abitacolo/Polline: ogni <strong>${(fi.abitacolo_km||20000).toLocaleString()} km</strong> o <strong>${fi.abitacolo_mesi||12} mesi</strong>
+              ${fi.gasolio_km ? '<br>Filtro gasolio: ogni <strong>' + fi.gasolio_km.toLocaleString() + ' km</strong>' : ''}
+              ${fi.dsg_km ? '<br>Olio DSG: ogni <strong>' + fi.dsg_km.toLocaleString() + ' km</strong>' : ''}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="maint-section">
+        <div class="section-hd">// Lampadine</div>
+        <table class="bulb-table">
+          <thead><tr><th>Funzione</th><th>Tipo</th></tr></thead>
+          <tbody>
+            <tr><td>Anabbaglianti</td><td>${lm.anabbaglianti || '—'}</td></tr>
+            <tr><td>Abbaglianti</td><td>${lm.abbaglianti || '—'}</td></tr>
+            <tr><td>Indicatori di direzione</td><td>${lm.indicatori || '—'}</td></tr>
+            <tr><td>Luci di posizione</td><td>${lm.luci_posizione || '—'}</td></tr>
+            <tr><td>Luci stop</td><td>${lm.luci_stop || '—'}</td></tr>
+            <tr><td>Retromarcia</td><td>${lm.retromarcia || '—'}</td></tr>
+            <tr><td>Plafoniera interna</td><td>${lm.plafoniera || '—'}</td></tr>
+          </tbody>
+        </table>
+        ${lm.note ? '<div style="margin-top:10px;font-size:0.75rem;color:var(--muted);font-family:DM Mono,monospace;line-height:1.5">⚠ ' + lm.note + '</div>' : ''}
+      </div>
+
+      <div class="maint-section">
+        <div class="section-hd">// Calendario manutenzione</div>
+        <div style="display:flex;gap:16px;margin-bottom:12px;font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">
+          <span><span class="prio-dot prio-alta" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--danger);margin-right:5px;vertical-align:middle;"></span>Alta priorità</span>
+          <span><span class="prio-dot prio-media" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--warning);margin-right:5px;vertical-align:middle;"></span>Media</span>
+          <span><span class="prio-dot prio-bassa" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success);margin-right:5px;vertical-align:middle;"></span>Bassa</span>
+        </div>
+        <ul class="schedule-list">
+          ${sc.map(s => '<li class="schedule-item"><span class="schedule-interval">' + s.intervallo + '</span><span class="schedule-op">' + s.operazione + '</span><span class="prio-dot prio-' + s.priorita + '"></span></li>').join('')}
+        </ul>
+      </div>
+    `;
+  }
+
+  document.getElementById('results').innerHTML = `
+    <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent2);
+      padding:32px 28px;text-align:center;">
+      <div style="font-size:2rem;margin-bottom:16px">🔧</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.08em;
+        color:var(--accent2);margin-bottom:12px">Veicolo non ancora nel database</div>
+      <div style="font-size:0.88rem;color:#b8b7c8;line-height:1.7;margin-bottom:20px">
+        <strong style="color:var(--text)">${marca} ${modello} ${anno} — ${motore}</strong><br>
+        Questo veicolo verrà aggiunto al prossimo aggiornamento settimanale (ogni lunedì).<br>
+        Il database copre già <strong style="color:var(--text)">1.544 combinazioni</strong> di veicoli e motori.
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted);
+        text-transform:uppercase;letter-spacing:0.1em;">
+        Nessuna chiamata API effettuata · Costo: €0
+      </div>
+    </div>`;
+}
+
+function showSourceBadge(source) {
+  const bar = document.getElementById('vehicle-bar');
+  // Remove old badge
+  const old = bar.querySelector('.source-badge');
+  if (old) old.remove();
+  const badge = document.createElement('span');
+  badge.className = 'source-badge';
+  const colors = {
+    'database locale': 'var(--success)',
+    'cache worker':    'var(--accent2)',
+    'generato ora':    'var(--accent)',
+  };
+  badge.style.cssText = `margin-left:auto;font-family:'DM Mono',monospace;font-size:0.65rem;
+    text-transform:uppercase;letter-spacing:0.08em;padding:4px 10px;border:1px solid;
+    color:${colors[source]||'var(--muted)'};border-color:${colors[source]||'var(--border)'};
+    background:${colors[source]||'transparent'}18;`;
+  badge.textContent = '⚡ ' + source;
+  bar.appendChild(badge);
 }
 
 // INIT
