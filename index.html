@@ -449,6 +449,126 @@ select option{background:#1e1e28}
   .ext-link:hover{border-color:var(--red);color:var(--red)}
   .spec-disclaimer{font-family:var(--mono);font-size:.62rem;color:var(--t3);line-height:1.5;
     border:1px solid var(--b1);padding:10px 13px;margin-top:16px}
+
+  /* ── DIARIO ─────────────────────────────────────────────────────── */
+  .diary-layout { display:grid; grid-template-columns:260px 1fr; gap:18px; align-items:start; }
+  @media(max-width:680px){ .diary-layout { grid-template-columns:1fr; } }
+
+  /* Sidebar veicolo */
+  .diary-sidebar { position:sticky; top:16px; }
+  .diary-car-select { background:var(--card); border:1px solid var(--b1); padding:18px; margin-bottom:12px; }
+  .diary-car-select select { width:100%; margin-top:8px; }
+  .diary-stats-mini { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .dsm { background:var(--card); border:1px solid var(--b1); padding:12px 14px; }
+  .dsm-lb { font-family:var(--mono); font-size:.56rem; text-transform:uppercase; letter-spacing:.1em; color:var(--t3); margin-bottom:4px; }
+  .dsm-v  { font-family:var(--head); font-size:1.3rem; color:var(--t1); line-height:1; }
+  .dsm-u  { font-size:.65rem; color:var(--t3); }
+
+  /* Form aggiunta */
+  .diary-form { background:var(--card); border:1px solid var(--b1); padding:20px; margin-bottom:14px; position:relative; }
+  .diary-form::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--grn),var(--blue)); }
+  .diary-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+  @media(max-width:500px){ .diary-form-grid { grid-template-columns:1fr; } }
+  .diary-input { background:var(--surf); border:1px solid var(--b1); color:var(--t1); padding:9px 11px; font-family:var(--body); font-size:.86rem; width:100%; transition:border-color .18s; }
+  .diary-input:focus { outline:none; border-color:var(--grn); }
+  .diary-input::placeholder { color:var(--t3); }
+  .diary-type-pills { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .dtype { background:var(--surf); border:1px solid var(--b1); color:var(--t3); padding:5px 12px; font-family:var(--mono); font-size:.62rem; text-transform:uppercase; letter-spacing:.08em; cursor:pointer; transition:all .15s; }
+  .dtype.active { border-color:var(--grn); color:var(--grn); background:rgba(34,197,94,.08); }
+
+  /* Lista interventi */
+  .diary-list { }
+  .diary-month { font-family:var(--mono); font-size:.6rem; text-transform:uppercase; letter-spacing:.14em; color:var(--t3); padding:10px 0 6px; border-bottom:1px solid var(--b1); margin-bottom:8px; }
+  .diary-entry { background:var(--card); border:1px solid var(--b1); padding:14px 16px; margin-bottom:7px; display:flex; align-items:flex-start; gap:12px; transition:border-color .15s; }
+  .diary-entry:hover { border-color:var(--b2); }
+  .diary-entry-icon { width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; background:var(--surf); border-radius:2px; }
+  .diary-entry-body { flex:1; min-width:0; }
+  .diary-entry-top { display:flex; align-items:center; gap:8px; margin-bottom:3px; flex-wrap:wrap; }
+  .diary-entry-type { font-family:var(--mono); font-size:.6rem; text-transform:uppercase; letter-spacing:.08em; padding:2px 7px; border:1px solid; }
+  .dtype-tagliando   { color:var(--blue);  border-color:rgba(59,130,246,.3);  background:rgba(59,130,246,.07); }
+  .dtype-riparazione { color:var(--err);   border-color:rgba(239,68,68,.3);   background:rgba(239,68,68,.07); }
+  .dtype-revisione   { color:#a78bfa;       border-color:rgba(167,139,250,.3); background:rgba(167,139,250,.07); }
+  .dtype-bollo       { color:var(--warn);  border-color:rgba(245,158,11,.3);  background:rgba(245,158,11,.07); }
+  .dtype-assicurazione { color:var(--gold); border-color:rgba(240,165,0,.3); background:rgba(240,165,0,.07); }
+  .dtype-rifornimento { color:var(--grn);  border-color:rgba(34,197,94,.3);  background:rgba(34,197,94,.07); }
+  .dtype-altro       { color:var(--t3);    border-color:var(--b1); }
+  .diary-entry-date { font-family:var(--mono); font-size:.65rem; color:var(--t3); margin-left:auto; white-space:nowrap; }
+  .diary-entry-title { font-size:.88rem; color:var(--t1); font-weight:600; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .diary-entry-meta { font-size:.78rem; color:var(--t2); display:flex; gap:12px; flex-wrap:wrap; }
+  .diary-entry-cost { font-family:var(--mono); font-size:.8rem; color:var(--gold); font-weight:600; white-space:nowrap; }
+  .diary-entry-del { background:none; border:none; color:var(--t3); cursor:pointer; font-size:.9rem; padding:2px 6px; transition:color .15s; flex-shrink:0; }
+  .diary-entry-del:hover { color:var(--err); }
+
+  /* Grafici */
+  .diary-charts { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+  @media(max-width:600px){ .diary-charts { grid-template-columns:1fr; } }
+  .chart-box { background:var(--card); border:1px solid var(--b1); padding:16px; }
+  .chart-box-title { font-family:var(--mono); font-size:.6rem; text-transform:uppercase; letter-spacing:.1em; color:var(--t3); margin-bottom:12px; }
+  .bar-chart { display:flex; flex-direction:column; gap:6px; }
+  .bar-row { display:flex; align-items:center; gap:8px; }
+  .bar-label { font-family:var(--mono); font-size:.6rem; color:var(--t2); width:90px; text-align:right; flex-shrink:0; text-transform:uppercase; letter-spacing:.06em; }
+  .bar-track { flex:1; background:var(--b1); height:8px; position:relative; }
+  .bar-fill { height:100%; transition:width .5s ease; }
+  .bar-val { font-family:var(--mono); font-size:.62rem; color:var(--t3); width:60px; text-align:right; flex-shrink:0; }
+  .empty-diary { padding:40px 0; text-align:center; color:var(--t3); font-family:var(--mono); font-size:.75rem; text-transform:uppercase; letter-spacing:.1em; }
+  .empty-diary span { font-size:2rem; display:block; margin-bottom:12px; opacity:.4; }
+
+  /* Export */
+  .diary-actions { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+
+  /* ── OBD LIVE SCANNER ───────────────────────────────────────────── */
+  .obd-hero { text-align:center; padding:28px 20px 20px; }
+  .obd-hero-icon { font-size:2.8rem; margin-bottom:10px; }
+  .obd-hero h2 { font-family:var(--head); font-size:1.8rem; letter-spacing:.06em; margin-bottom:6px; }
+  .obd-hero p  { font-size:.82rem; color:var(--t2); line-height:1.65; max-width:480px; margin:0 auto; }
+
+  .obd-connect-bar { display:flex; align-items:center; gap:12px; padding:16px 20px;
+    background:var(--card); border:1px solid var(--b1); margin-bottom:16px; flex-wrap:wrap; }
+  #obd-status { font-family:var(--mono); font-size:.72rem; color:var(--t3);
+    text-transform:uppercase; letter-spacing:.1em; flex:1; }
+
+  .obd-controls { display:none; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+
+  /* Live cards */
+  .obd-live-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; margin-bottom:18px; }
+  .obd-card { background:var(--card); border:1px solid var(--b1); padding:14px 16px;
+    display:flex; align-items:flex-start; gap:11px; transition:border-color .2s; }
+  .obd-card:hover { border-color:var(--b2); }
+  .obd-card-icon { font-size:1.4rem; line-height:1; flex-shrink:0; }
+  .obd-card-body { flex:1; min-width:0; }
+  .obd-card-name { font-family:var(--mono); font-size:.58rem; text-transform:uppercase;
+    letter-spacing:.1em; color:var(--t3); margin-bottom:3px; }
+  .obd-card-val  { font-family:var(--head); font-size:1.7rem; color:var(--t1);
+    line-height:1; letter-spacing:.04em; }
+  .obd-card-unit { font-size:.65rem; color:var(--t3); margin-bottom:6px; }
+  .obd-gauge-track { height:3px; background:var(--b1); }
+  .obd-gauge-fill  { height:100%; width:0%; transition:width .35s ease; }
+
+  /* DTC */
+  .obd-dtc-section-title { font-family:var(--mono); font-size:.65rem; text-transform:uppercase;
+    letter-spacing:.1em; color:var(--t3); margin-bottom:10px; }
+  .obd-dtc-item { display:flex; align-items:flex-start; gap:12px;
+    padding:11px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+  .obd-dtc-item:last-child { border-bottom:none; }
+  .obd-dtc-pending { opacity:.75; }
+  .obd-dtc-code { font-family:var(--mono); font-size:.75rem; padding:3px 8px;
+    border:1px solid; flex-shrink:0; min-width:54px; text-align:center; line-height:1.6; }
+  .obd-dtc-desc { flex:1; }
+  .obd-dtc-title { font-size:.85rem; color:var(--t1); font-weight:600; line-height:1.4; margin-bottom:2px; }
+  .obd-dtc-cat   { font-family:var(--mono); font-size:.6rem; color:var(--t3); text-transform:uppercase; letter-spacing:.08em; }
+  .obd-dtc-status { font-family:var(--mono); font-size:.72rem; text-transform:uppercase;
+    letter-spacing:.1em; padding:10px 0; }
+  .obd-no-dtc { color:var(--grn); font-family:var(--mono); font-size:.75rem;
+    padding:24px 0; text-align:center; text-transform:uppercase; letter-spacing:.1em; }
+  .obd-freeze-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:8px; margin-top:12px; }
+
+  /* Compat warning */
+  .obd-compat { background:rgba(245,158,11,.06); border:1px solid rgba(245,158,11,.25);
+    padding:12px 16px; margin-bottom:14px; font-size:.82rem; color:var(--t2); line-height:1.65; }
+  .obd-compat strong { color:var(--warn); }
+
+  /* Panel */
+  #obd-panel-live { display:none; }
 </style>
 </head>
 <body>
@@ -471,6 +591,8 @@ select option{background:#1e1e28}
   <button class="nav-btn"        data-view="vin"        onclick="switchView('vin')">🔑 Decoder VIN</button>
   <button class="nav-btn"        data-view="confronto"  onclick="switchView('confronto')">⚖ Confronto</button>
   <button class="nav-btn"        data-view="promemoria" onclick="switchView('promemoria')">📅 Promemoria</button>
+  <button class="nav-btn"        data-view="diario"    onclick="switchView('diario')">📓 Diario</button>
+  <button class="nav-btn"        data-view="obd-scan"  onclick="switchView('obd-scan')">🔌 OBD Live</button>
 </nav>
 
 <!-- ══ VIEW: ANALISI ════════════════════════════════════════════════════════ -->
@@ -610,6 +732,139 @@ select option{background:#1e1e28}
   <div class="rem-saved" id="reminder-saved">✓ Dati salvati nel browser</div>
   <div class="rcards" id="reminder-cards"></div>
 </div>
+
+  <!-- ══ VIEW: OBD LIVE ══════════════════════════════════════════════════════ -->
+  <div class="view" id="view-obd-scan">
+
+    <div class="obd-compat">
+      <strong>⚠ Compatibilità:</strong> richiede Chrome o Edge su <strong>desktop o Android</strong>.
+      Safari e Firefox non supportano Web Bluetooth. Serve un dongle OBD-II Bluetooth LE (BLE)
+      ELM327 (~10–20€ su Amazon — cerca "OBD2 BLE ELM327").
+    </div>
+
+    <!-- Connect bar -->
+    <div class="obd-connect-bar">
+      <div id="obd-status" style="color:var(--t3)">📡 Non connesso</div>
+      <button class="btn btn-blue" id="obd-btn-connect" onclick="obdConnect()" style="font-size:.85rem;padding:9px 16px">
+        🔌 CONNETTI OBD
+      </button>
+      <button class="btn btn-outline" id="obd-btn-disconnect" onclick="obdDisconnect()" style="display:none">
+        ✕ Disconnetti
+      </button>
+    </div>
+
+    <!-- Controls -->
+    <div class="obd-controls" id="obd-controls">
+      <button class="btn btn-grn"     onclick="obdStartLive()"  style="font-size:.85rem;padding:9px 16px">▶ LIVE</button>
+      <button class="btn btn-outline" onclick="obdStopLive()"   style="font-size:.85rem;padding:9px 16px">⏹ Stop</button>
+      <button class="btn btn-outline" onclick="obdReadDTC()"    style="font-size:.85rem;padding:9px 16px;color:var(--warn);border-color:rgba(245,158,11,.4)">🔍 Leggi errori</button>
+      <button class="btn btn-outline" onclick="obdReadFreeze()" style="font-size:.85rem;padding:9px 16px">❄ Freeze Frame</button>
+      <button class="btn btn-outline" onclick="obdClearDTC()"   style="font-size:.85rem;padding:9px 16px;color:var(--err);border-color:rgba(239,68,68,.3)">🗑 Cancella errori</button>
+    </div>
+
+    <!-- Live panel -->
+    <div id="obd-panel-live">
+      <div class="shd">// Dati in tempo reale</div>
+      <div class="obd-live-grid" id="obd-live-grid">
+        <!-- Cards generate here -->
+      </div>
+    </div>
+
+    <!-- DTC panel -->
+    <div class="panel p-red" style="margin-top:4px">
+      <div class="plabel">// Codici di errore (DTC)</div>
+      <div class="obd-dtc-status" id="obd-dtc-status"></div>
+      <div id="obd-dtc-list">
+        <div style="color:var(--t3);font-size:.82rem;line-height:1.65">
+          Connetti un adattatore OBD e premi <strong style="color:var(--t1)">Leggi errori</strong>
+          per vedere i codici di guasto presenti in centralina.<br>
+          Puoi anche premere <strong style="color:var(--t1)">LIVE</strong> per monitorare
+          RPM, temperatura, velocità e altri parametri in tempo reale.
+        </div>
+      </div>
+    </div>
+
+    <!-- How-to -->
+    <div class="panel" style="margin-top:4px">
+      <div class="plabel">// Come si usa</div>
+      <div style="font-size:.83rem;color:var(--t2);line-height:1.8">
+        <strong style="color:var(--t1)">1.</strong> Acquista un dongle OBD-II Bluetooth LE (BLE) ELM327
+        — cerca su Amazon "OBD2 BLE ELM327", preferibilmente marca KONNWEI, Viecar o Veepeak (~15€)<br>
+        <strong style="color:var(--t1)">2.</strong> Inseriscilo nella presa OBD della tua auto
+        (sotto al cruscotto lato guida, spesso vicino al volante)<br>
+        <strong style="color:var(--t1)">3.</strong> Accendi il quadro (posizione MAR, motore non necessario)<br>
+        <strong style="color:var(--t1)">4.</strong> Apri questa pagina in <strong style="color:var(--t1)">Chrome o Edge</strong> e premi <strong style="color:var(--t1)">Connetti OBD</strong><br>
+        <strong style="color:var(--t1)">5.</strong> Seleziona il dispositivo dalla lista Bluetooth del browser<br>
+        <strong style="color:var(--t1)">6.</strong> Usa <strong style="color:var(--t1)">LIVE</strong> per dati in tempo reale o <strong style="color:var(--t1)">Leggi errori</strong> per i DTC
+      </div>
+    </div>
+
+  </div><!-- /view-obd-scan -->
+
+
+  <!-- ══ VIEW: DIARIO ════════════════════════════════════════════════════════ -->
+  <div class="view" id="view-diario">
+    <div class="diary-layout">
+      <div class="diary-sidebar">
+        <div class="diary-car-select panel p-grn">
+          <div class="plabel plabel-grn">// Veicolo</div>
+          <div class="fg">
+            <label>Targa / Nome</label>
+            <input class="diary-input" id="diary-car-name" placeholder="Es: Giulia AB123CD"
+              oninput="diaryRender()" style="margin-bottom:8px">
+          </div>
+          <div class="fg" style="margin-top:8px">
+            <label>Km iniziali (al primo inserimento)</label>
+            <input class="diary-input" id="diary-km-start" type="number" placeholder="Es: 80000"
+              oninput="diaryUpdateStats()">
+          </div>
+        </div>
+        <div class="diary-stats-mini">
+          <div class="dsm"><div class="dsm-lb">Spesa totale</div><div class="dsm-v" id="ds-total">€0</div></div>
+          <div class="dsm"><div class="dsm-lb">Interventi</div><div class="dsm-v" id="ds-count">0</div></div>
+          <div class="dsm"><div class="dsm-lb">Costo/km</div><div class="dsm-v" id="ds-cpkm">—</div></div>
+          <div class="dsm"><div class="dsm-lb">Anno corrente</div><div class="dsm-v" id="ds-year">€0</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="diary-form">
+          <div class="plabel plabel-grn">// Aggiungi intervento</div>
+          <div class="diary-type-pills" id="diary-type-pills"></div>
+          <div class="diary-form-grid">
+            <div class="fg"><label>Titolo / descrizione</label>
+              <input class="diary-input" id="di-title" placeholder="Es: Tagliando 90.000 km"></div>
+            <div class="fg"><label>Data</label>
+              <input class="diary-input" id="di-date" type="date"></div>
+            <div class="fg"><label>Costo (€)</label>
+              <input class="diary-input" id="di-cost" type="number" placeholder="0" step="0.01" min="0"></div>
+            <div class="fg"><label>Km odometro</label>
+              <input class="diary-input" id="di-km" type="number" placeholder="Es: 87500"></div>
+            <div class="fg" style="grid-column:1/-1"><label>Note aggiuntive</label>
+              <input class="diary-input" id="di-notes" placeholder="Officina, ricambi, garanzia…"></div>
+          </div>
+          <div id="di-fuel-extra" style="display:none">
+            <div class="diary-form-grid" style="margin-top:-4px;margin-bottom:10px">
+              <div class="fg"><label>Litri riforniti</label>
+                <input class="diary-input" id="di-liters" type="number" placeholder="Es: 45.2" step="0.1"></div>
+              <div class="fg"><label>€/litro</label>
+                <input class="diary-input" id="di-ppl" type="number" placeholder="Es: 1.82" step="0.001"></div>
+            </div>
+          </div>
+          <button class="btn btn-grn" onclick="diaryAdd()" style="width:100%;font-size:.95rem">+ AGGIUNGI</button>
+        </div>
+        <div class="diary-actions">
+          <button class="btn-outline" onclick="diaryExportCSV()">📤 Esporta CSV</button>
+          <button class="btn-outline" onclick="diaryClear()" style="color:var(--err);border-color:rgba(239,68,68,.3)">🗑 Cancella tutto</button>
+          <div style="margin-left:auto;font-family:var(--mono);font-size:.62rem;color:var(--t3);display:flex;align-items:center">
+            💾 Dati salvati nel browser
+          </div>
+        </div>
+        <div class="diary-charts" id="diary-charts" style="display:none"></div>
+        <div id="diary-list"></div>
+      </div>
+    </div>
+  </div><!-- /view-diario -->
+
 
 <div class="disc"><strong>NOTA:</strong> Informazioni generate da AI a scopo informativo. Consultare sempre un meccanico qualificato per diagnosi e riparazioni. I costi sono stime indicative.</div>
 
@@ -4789,6 +5044,7 @@ function switchView(id) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('view-' + id).classList.add('active');
   document.querySelector('.nav-btn[data-view="' + id + '"]').classList.add('active');
+  if (id === 'diario') diaryInit();
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -5551,6 +5807,658 @@ function restoreReminder() {
       document.getElementById('km-input').value = saved[lastKey].km;
     }, 150);
   } catch(e) {}
+}
+
+
+// =======================================================================
+// OBD LIVE SCANNER — Web Bluetooth + ELM327
+// =======================================================================
+// Supported adapters: most BLE ELM327 clones (OBDII BLE, Viecar, Veepeak,
+// KONNWEI, iCar etc.) using the FFF0/FFF1/FFF2 GATT profile or UART NUS.
+// Browser: Chrome 79+, Edge 79+, Chrome Android 85+ (NOT Safari/Firefox)
+
+var OBD = {
+  device:   null,
+  server:   null,
+  rxChar:   null,
+  txChar:   null,
+  connected: false,
+  scanning:  false,
+  _rxBuf:   '',
+  _resolve: null,
+  _timer:   null,
+  _liveInterval: null,
+
+  // ── GATT profiles to try ──────────────────────────────────────────
+  PROFILES: [
+    // Most common cheap ELM327 BLE adapters
+    { service:'0000fff0-0000-1000-8000-00805f9b34fb',
+      write:  '0000fff2-0000-1000-8000-00805f9b34fb',
+      notify: '0000fff1-0000-1000-8000-00805f9b34fb' },
+    // Veepeak / VLINK
+    { service:'e7810a71-73ae-499d-8c15-faa9aef0c3f2',
+      write:  'bef8d6c9-9c21-4c9e-b632-bd58c1009f9f',
+      notify: 'bef8d6c9-9c21-4c9e-b632-bd58c1009f9f' },
+    // Nordic UART Service (some adapters)
+    { service:'6e400001-b5a3-f393-e0a9-e50e24dcca9e',
+      write:  '6e400002-b5a3-f393-e0a9-e50e24dcca9e',
+      notify: '6e400003-b5a3-f393-e0a9-e50e24dcca9e' },
+  ],
+
+  // ── OBD-II PIDs for live data ──────────────────────────────────────
+  PIDS: [
+    { pid:'010C', name:'RPM',           unit:'giri/min', parse: function(d){ return ((d[0]*256+d[1])/4).toFixed(0); }, icon:'⚙', color:'var(--blue)', max:8000 },
+    { pid:'010D', name:'Velocità',      unit:'km/h',     parse: function(d){ return d[0]; },                          icon:'🚗', color:'var(--grn)',  max:250  },
+    { pid:'0105', name:'Temp. liquido', unit:'°C',       parse: function(d){ return d[0]-40; },                       icon:'🌡', color:'var(--warn)', max:130  },
+    { pid:'010F', name:'Temp. aria',    unit:'°C',       parse: function(d){ return d[0]-40; },                       icon:'💨', color:'var(--blue)', max:100  },
+    { pid:'0111', name:'Acceleratore',  unit:'%',        parse: function(d){ return (d[0]*100/255).toFixed(1); },     icon:'🦶', color:'var(--gold)', max:100  },
+    { pid:'012F', name:'Carburante',    unit:'%',        parse: function(d){ return (d[0]*100/255).toFixed(1); },     icon:'⛽', color:'var(--grn)',  max:100  },
+    { pid:'0104', name:'Carico motore', unit:'%',        parse: function(d){ return (d[0]*100/255).toFixed(1); },     icon:'📊', color:'var(--err)',  max:100  },
+    { pid:'010B', name:'Pressione MAP', unit:'kPa',      parse: function(d){ return d[0]; },                          icon:'📡', color:'#a78bfa',    max:300  },
+    { pid:'0110', name:'Portata MAF',   unit:'g/s',      parse: function(d){ return ((d[0]*256+d[1])/100).toFixed(2); }, icon:'🌬', color:'var(--blue)', max:200 },
+    { pid:'015C', name:'Temp. olio',    unit:'°C',       parse: function(d){ return d[0]-40; },                       icon:'🛢', color:'var(--warn)', max:150  },
+    { pid:'0142', name:'Tensione',      unit:'V',        parse: function(d){ return ((d[0]*256+d[1])/1000).toFixed(2); }, icon:'⚡', color:'var(--gold)', max:16 },
+    { pid:'0146', name:'Temp. ambien.', unit:'°C',       parse: function(d){ return d[0]-40; },                       icon:'🌤', color:'var(--t2)',   max:60   },
+  ],
+
+  _supported: [],
+
+  // ── Connect ──────────────────────────────────────────────────────────
+  connect: async function() {
+    if (!navigator.bluetooth) {
+      obdUI.setStatus('error', 'Web Bluetooth non supportato. Usa Chrome o Edge su desktop/Android.');
+      return;
+    }
+    obdUI.setStatus('connecting', 'Ricerca adattatore OBD…');
+    obdUI.setBtnConnect(false);
+
+    try {
+      var serviceUUIDs = OBD.PROFILES.map(function(p) { return p.service; });
+      OBD.device = await navigator.bluetooth.requestDevice({
+        filters: [
+          { services: [OBD.PROFILES[0].service] },
+          { services: [OBD.PROFILES[1].service] },
+          { services: [OBD.PROFILES[2].service] },
+          { namePrefix: 'OBD' },
+          { namePrefix: 'ELM' },
+          { namePrefix: 'OBDII' },
+          { namePrefix: 'Vlink' },
+          { namePrefix: 'Viecar' },
+          { namePrefix: 'IOS-Vlink' },
+          { namePrefix: 'KONNWEI' },
+          { namePrefix: 'V-LINK' },
+          { namePrefix: 'PLX' },
+          { namePrefix: 'CAR' },
+        ],
+        optionalServices: serviceUUIDs,
+      });
+
+      OBD.device.addEventListener('gattserverdisconnected', OBD._onDisconnect);
+      obdUI.setStatus('connecting', 'Connessione a ' + (OBD.device.name || 'dispositivo') + '…');
+
+      OBD.server = await OBD.device.gatt.connect();
+
+      // Try each profile
+      var connected = false;
+      for (var i = 0; i < OBD.PROFILES.length; i++) {
+        try {
+          var profile = OBD.PROFILES[i];
+          var svc = await OBD.server.getPrimaryService(profile.service);
+          OBD.txChar = await svc.getCharacteristic(profile.write);
+          OBD.rxChar = await svc.getCharacteristic(profile.notify);
+          await OBD.rxChar.startNotifications();
+          OBD.rxChar.addEventListener('characteristicvaluechanged', OBD._onData);
+          connected = true;
+          break;
+        } catch(e) { /* try next */ }
+      }
+
+      if (!connected) throw new Error('Nessun profilo GATT compatibile trovato');
+
+      obdUI.setStatus('connecting', 'Inizializzazione ELM327…');
+      await OBD._initELM();
+      OBD.connected = true;
+      obdUI.onConnected(OBD.device.name || 'OBD Adapter');
+
+    } catch(e) {
+      if (e.name !== 'NotFoundError') {
+        obdUI.setStatus('error', 'Errore: ' + e.message);
+      } else {
+        obdUI.setStatus('idle', '');
+      }
+      OBD._cleanup();
+      obdUI.setBtnConnect(true);
+    }
+  },
+
+  disconnect: function() {
+    OBD.stopLive();
+    if (OBD.device && OBD.device.gatt.connected) {
+      OBD.device.gatt.disconnect();
+    }
+    OBD._cleanup();
+    obdUI.onDisconnected();
+  },
+
+  _onDisconnect: function() {
+    OBD.stopLive();
+    OBD._cleanup();
+    obdUI.onDisconnected();
+  },
+
+  _cleanup: function() {
+    OBD.connected = false;
+    OBD.server = null; OBD.rxChar = null; OBD.txChar = null;
+    OBD._rxBuf = ''; OBD._resolve = null;
+    clearTimeout(OBD._timer);
+  },
+
+  // ── Data receive ──────────────────────────────────────────────────────
+  _onData: function(e) {
+    var bytes = new Uint8Array(e.target.value.buffer);
+    OBD._rxBuf += Array.from(bytes).map(function(b) {
+      return b === 13 ? '\r' : b === 10 ? '\n' : String.fromCharCode(b);
+    }).join('');
+    if (OBD._rxBuf.includes('>') && OBD._resolve) {
+      clearTimeout(OBD._timer);
+      var r = OBD._resolve;
+      OBD._resolve = null;
+      r(OBD._rxBuf.replace(/>/g,'').trim());
+      OBD._rxBuf = '';
+    }
+  },
+
+  // ── Send command ──────────────────────────────────────────────────────
+  _send: function(cmd, timeout) {
+    return new Promise(function(resolve, reject) {
+      if (!OBD.txChar) { reject(new Error('Non connesso')); return; }
+      OBD._rxBuf = '';
+      OBD._resolve = resolve;
+      OBD._timer = setTimeout(function() {
+        OBD._resolve = null;
+        resolve('TIMEOUT');
+      }, timeout || 3000);
+      var data = new TextEncoder().encode(cmd + '\r');
+      OBD.txChar.writeValue(data).catch(reject);
+    });
+  },
+
+  // ── ELM327 init sequence ──────────────────────────────────────────────
+  _initELM: async function() {
+    await OBD._send('ATZ',  3000);   // Reset
+    await OBD._send('ATE0', 2000);   // Echo off
+    await OBD._send('ATL0', 2000);   // Linefeed off
+    await OBD._send('ATS0', 2000);   // Spaces off
+    await OBD._send('ATH0', 2000);   // Headers off
+    await OBD._send('ATSP0',2000);   // Auto protocol
+    await OBD._send('0100', 4000);   // Supported PIDs (wakes up)
+
+    // Discover supported PIDs
+    OBD._supported = [];
+    var checks = ['0100','0120','0140','0160'];
+    for (var i = 0; i < checks.length; i++) {
+      var r = await OBD._send(checks[i], 3000);
+      var m = r.match(/41\s*[0-9A-F]{2}\s*([0-9A-F\s]+)/i);
+      if (m) {
+        var hex = m[1].replace(/\s/g,'');
+        var base = 1 + i*32;
+        for (var b = 0; b < hex.length && b < 8; b++) {
+          var byte_ = parseInt(hex.slice(b*2, b*2+2), 16);
+          for (var bit = 7; bit >= 0; bit--) {
+            if (byte_ & (1<<bit)) OBD._supported.push(base + (b*8) + (7-bit));
+          }
+        }
+      }
+    }
+  },
+
+  // ── Read single PID ───────────────────────────────────────────────────
+  readPID: async function(pid) {
+    var r = await OBD._send(pid, 2500);
+    var mode = '4' + pid[1];
+    var re = new RegExp(mode + '\\s*' + pid.slice(2) + '\\s*([0-9A-Fa-f\\s]+)', 'i');
+    var m = r.match(re);
+    if (!m) return null;
+    var bytes = m[1].replace(/\s/g,'').match(/.{2}/g);
+    if (!bytes) return null;
+    return bytes.map(function(b) { return parseInt(b,16); });
+  },
+
+  // ── Live polling ─────────────────────────────────────────────────────
+  startLive: function() {
+    if (OBD._liveInterval) return;
+    var idx = 0;
+    var activePids = OBD.PIDS.filter(function(p) {
+      var pidNum = parseInt(p.pid.slice(2),16);
+      return OBD._supported.indexOf(pidNum) >= 0;
+    });
+    if (!activePids.length) activePids = OBD.PIDS.slice(0,6); // fallback: try all
+
+    obdUI.initLiveCards(activePids);
+
+    OBD._liveInterval = setInterval(async function() {
+      if (!OBD.connected || !activePids.length) return;
+      var p = activePids[idx % activePids.length];
+      idx++;
+      try {
+        var bytes = await OBD.readPID(p.pid);
+        if (bytes) obdUI.updateLiveCard(p, p.parse(bytes));
+      } catch(e) {}
+    }, 400);
+  },
+
+  stopLive: function() {
+    if (OBD._liveInterval) { clearInterval(OBD._liveInterval); OBD._liveInterval = null; }
+  },
+
+  // ── Read DTCs ────────────────────────────────────────────────────────
+  readDTC: async function() {
+    OBD.stopLive();
+    obdUI.setDTCStatus('reading');
+    try {
+      var r = await OBD._send('03', 5000);   // Mode 03 = stored DTCs
+      var codes = OBD._parseDTC(r);
+      // Also read pending DTCs (mode 07)
+      var r2 = await OBD._send('07', 3000);
+      var pending = OBD._parseDTC(r2);
+      obdUI.showDTCs(codes, pending);
+    } catch(e) {
+      obdUI.setDTCStatus('error', e.message);
+    }
+  },
+
+  _parseDTC: function(raw) {
+    var codes = [];
+    var hex = raw.replace(/[^0-9A-Fa-f]/g,'');
+    // Remove mode response byte(s)
+    if (hex.startsWith('43') || hex.startsWith('47')) hex = hex.slice(2);
+    if (hex === '00' || hex === '0000') return codes;
+    var pairs = hex.match(/.{4}/g) || [];
+    pairs.forEach(function(pair) {
+      if (pair === '0000') return;
+      var first = parseInt(pair[0],16);
+      var type  = ['P','C','B','U'][first >> 2] || 'P';
+      var digit = (first & 3).toString() + pair.slice(1);
+      codes.push(type + digit.toUpperCase());
+    });
+    return codes;
+  },
+
+  clearDTC: async function() {
+    if (!confirm('Cancellare tutti i codici di errore dalla centralina? Il segnale di avaria si spegnerà.')) return;
+    obdUI.setDTCStatus('clearing');
+    var r = await OBD._send('04', 5000);
+    if (r.includes('44') || r.includes('NO DATA')) {
+      obdUI.setDTCStatus('cleared');
+    } else {
+      obdUI.setDTCStatus('error', 'Risposta inattesa: ' + r.slice(0,20));
+    }
+  },
+
+  // ── Freeze frame ─────────────────────────────────────────────────────
+  readFreeze: async function() {
+    OBD.stopLive();
+    obdUI.setDTCStatus('reading');
+    var r = await OBD._send('0202', 3000);   // DTC that triggered freeze
+    var r2 = await OBD._send('0204', 3000);  // Engine load at freeze
+    var r3 = await OBD._send('020C', 3000);  // RPM at freeze
+    var r4 = await OBD._send('020D', 3000);  // Speed at freeze
+    var r5 = await OBD._send('0205', 3000);  // Coolant at freeze
+    obdUI.showFreeze({ dtc:r, load:r2, rpm:r3, speed:r4, coolant:r5 });
+  },
+};
+
+// =======================================================================
+// OBD UI
+// =======================================================================
+var obdUI = {
+
+  setStatus: function(state, msg) {
+    var el = document.getElementById('obd-status');
+    if (!el) return;
+    var icons = { idle:'📡', connecting:'⏳', connected:'✅', error:'❌' };
+    var colors = { idle:'var(--t3)', connecting:'var(--warn)', connected:'var(--grn)', error:'var(--err)' };
+    el.style.color = colors[state] || 'var(--t3)';
+    el.innerHTML = (icons[state]||'') + (msg ? ' ' + msg : '');
+  },
+
+  setBtnConnect: function(show) {
+    var btnC = document.getElementById('obd-btn-connect');
+    var btnD = document.getElementById('obd-btn-disconnect');
+    if (btnC) btnC.style.display = show ? '' : 'none';
+    if (btnD) btnD.style.display = show ? 'none' : '';
+  },
+
+  onConnected: function(name) {
+    obdUI.setStatus('connected', 'Connesso a ' + name);
+    obdUI.setBtnConnect(false);
+    document.getElementById('obd-controls').style.display = 'flex';
+    document.getElementById('obd-panel-live').style.display = 'block';
+  },
+
+  onDisconnected: function() {
+    obdUI.setStatus('idle', 'Disconnesso');
+    obdUI.setBtnConnect(true);
+    var ctrl = document.getElementById('obd-controls');
+    if (ctrl) ctrl.style.display = 'none';
+  },
+
+  initLiveCards: function(pids) {
+    var grid = document.getElementById('obd-live-grid');
+    if (!grid) return;
+    grid.innerHTML = pids.map(function(p) {
+      return '<div class="obd-card" id="obc-' + p.pid + '">'
+        + '<div class="obd-card-icon">' + p.icon + '</div>'
+        + '<div class="obd-card-body">'
+        +   '<div class="obd-card-name">' + p.name + '</div>'
+        +   '<div class="obd-card-val" id="obv-' + p.pid + '">—</div>'
+        +   '<div class="obd-card-unit">' + p.unit + '</div>'
+        +   '<div class="obd-gauge-track"><div class="obd-gauge-fill" id="obg-' + p.pid + '" style="background:' + p.color + '"></div></div>'
+        + '</div></div>';
+    }).join('');
+  },
+
+  updateLiveCard: function(p, val) {
+    var valEl  = document.getElementById('obv-' + p.pid);
+    var fillEl = document.getElementById('obg-' + p.pid);
+    if (valEl)  valEl.textContent = val;
+    if (fillEl) fillEl.style.width = Math.min(100, (parseFloat(val) / p.max * 100)).toFixed(1) + '%';
+  },
+
+  setDTCStatus: function(state, msg) {
+    var el = document.getElementById('obd-dtc-status');
+    if (!el) return;
+    var msgs = {
+      reading:  '⏳ Lettura codici in corso…',
+      clearing: '⏳ Cancellazione in corso…',
+      cleared:  '✅ Codici cancellati. Riavviare il motore.',
+      error:    '❌ ' + (msg||'Errore'),
+    };
+    el.textContent = msgs[state] || '';
+    el.style.color = state === 'cleared' ? 'var(--grn)' : state === 'error' ? 'var(--err)' : 'var(--warn)';
+  },
+
+  showDTCs: function(stored, pending) {
+    var el = document.getElementById('obd-dtc-list');
+    if (!el) return;
+
+    if (!stored.length && !pending.length) {
+      el.innerHTML = '<div class="obd-no-dtc">✅ Nessun codice di errore presente</div>';
+      document.getElementById('obd-dtc-status').textContent = '';
+      return;
+    }
+
+    var html = '';
+    if (stored.length) {
+      html += '<div class="obd-dtc-section-title">⚠ Errori attivi (' + stored.length + ')</div>';
+      stored.forEach(function(code) {
+        var info = OBD_CODES[code] || 'Descrizione non disponibile nel database locale';
+        html += '<div class="obd-dtc-item">'
+          + '<span class="obd-dtc-code ocode o' + code[0] + '">' + code + '</span>'
+          + '<div class="obd-dtc-desc">'
+          +   '<div class="obd-dtc-title">' + info + '</div>'
+          +   '<div class="obd-dtc-cat">' + obdUI._dtcCategory(code) + '</div>'
+          + '</div></div>';
+      });
+    }
+    if (pending.length) {
+      html += '<div class="obd-dtc-section-title" style="margin-top:14px">⏳ Errori in sospeso (' + pending.length + ')</div>';
+      pending.forEach(function(code) {
+        var info = OBD_CODES[code] || 'Descrizione non disponibile';
+        html += '<div class="obd-dtc-item obd-dtc-pending">'
+          + '<span class="obd-dtc-code ocode o' + code[0] + '">' + code + '</span>'
+          + '<div class="obd-dtc-desc">'
+          +   '<div class="obd-dtc-title">' + info + '</div>'
+          +   '<div class="obd-dtc-cat">' + obdUI._dtcCategory(code) + ' · Pendente</div>'
+          + '</div></div>';
+      });
+    }
+
+    el.innerHTML = html;
+    document.getElementById('obd-dtc-status').textContent = '';
+  },
+
+  showFreeze: function(data) {
+    var el = document.getElementById('obd-dtc-list');
+    if (!el) return;
+    function extract(raw, mode_pid) {
+      var m = raw.replace(/\s/g,'').match(new RegExp('4[27]' + mode_pid.slice(2) + '([0-9A-Fa-f]+)', 'i'));
+      return m ? m[1] : null;
+    }
+    var html = '<div class="obd-dtc-section-title">❄ Freeze Frame — dati al momento del guasto</div>';
+    html += '<div class="obd-freeze-grid">';
+    var ff = [
+      { label:'Motore (RPM)', raw: extract(data.rpm,'020C'), parse: function(h){ var b=h.match(/.{2}/g);return b?((parseInt(b[0],16)*256+parseInt(b[1],16))/4).toFixed(0):'-'; } },
+      { label:'Velocità (km/h)', raw: extract(data.speed,'020D'), parse: function(h){ return parseInt(h.slice(0,2),16)||'-'; } },
+      { label:'Carico motore', raw: extract(data.load,'0204'), parse: function(h){ return (parseInt(h.slice(0,2),16)*100/255).toFixed(1)+'%'; } },
+      { label:'Temp. liquido (°C)', raw: extract(data.coolant,'0205'), parse: function(h){ return (parseInt(h.slice(0,2),16)-40)||'-'; } },
+    ];
+    ff.forEach(function(f) {
+      var val = f.raw ? (function(){ try{ return f.parse(f.raw); }catch(e){ return '-'; } })() : '—';
+      html += '<div class="dsm"><div class="dsm-lb">' + f.label + '</div><div class="dsm-v" style="font-size:1.1rem">' + val + '</div></div>';
+    });
+    html += '</div>';
+    el.innerHTML = html;
+    document.getElementById('obd-dtc-status').textContent = '';
+  },
+
+  _dtcCategory: function(code) {
+    var cats = {
+      P0:'Powertrain generico', P1:'Powertrain specifico costruttore',
+      P2:'Powertrain generico (ISO)', P3:'Powertrain costruttore',
+      C0:'Chassis generico', B0:'Body generico',
+      U0:'Network generico', U1:'Network costruttore',
+    };
+    return cats[code.slice(0,2)] || 'Codice ' + code[0];
+  },
+};
+
+function obdConnect()    { OBD.connect(); }
+function obdDisconnect() { OBD.disconnect(); }
+function obdStartLive()  { OBD.startLive(); }
+function obdStopLive()   { OBD.stopLive(); obdUI.setStatus('connected','Live fermato'); }
+function obdReadDTC()    { OBD.readDTC(); }
+function obdClearDTC()   { OBD.clearDTC(); }
+function obdReadFreeze() { OBD.readFreeze(); }
+
+
+// =======================================================================
+// DIARIO DELLA VETTURA
+// =======================================================================
+var DIARY_KEY = 'autodiagnosi_diary';
+var DIARY_TYPES = [
+  { id:'tagliando',     label:'Tagliando',     icon:'🔧', color:'var(--blue)' },
+  { id:'riparazione',   label:'Riparazione',   icon:'🔩', color:'var(--err)'  },
+  { id:'revisione',     label:'Revisione',     icon:'📋', color:'#a78bfa'     },
+  { id:'rifornimento',  label:'Rifornimento',  icon:'⛽', color:'var(--grn)'  },
+  { id:'bollo',         label:'Bollo',         icon:'📝', color:'var(--warn)' },
+  { id:'assicurazione', label:'Assicurazione', icon:'🛡', color:'var(--gold)' },
+  { id:'altro',         label:'Altro',         icon:'📌', color:'var(--t3)'   },
+];
+var _diaryType = 'tagliando';
+
+function diaryLoad() {
+  try { return JSON.parse(localStorage.getItem(DIARY_KEY) || '{"entries":[],"car":"","kmStart":0}'); }
+  catch(e) { return { entries:[], car:'', kmStart:0 }; }
+}
+function diarySave(data) { localStorage.setItem(DIARY_KEY, JSON.stringify(data)); }
+
+function diaryInit() {
+  var pills = document.getElementById('diary-type-pills');
+  if (!pills) return;
+  pills.innerHTML = DIARY_TYPES.map(function(t) {
+    return '<div class="dtype' + (t.id === _diaryType ? ' active' : '') + '" data-tid="' + t.id
+      + '" onclick="diarySetType(\'' + t.id + '\')">' + t.icon + ' ' + t.label + '</div>';
+  }).join('');
+  var data = diaryLoad();
+  var nameEl = document.getElementById('diary-car-name');
+  var kmEl   = document.getElementById('diary-km-start');
+  if (nameEl && data.car)     nameEl.value = data.car;
+  if (kmEl   && data.kmStart) kmEl.value   = data.kmStart;
+  var dateEl = document.getElementById('di-date');
+  if (dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
+  diaryRender();
+}
+
+function diarySetType(id) {
+  _diaryType = id;
+  document.querySelectorAll('.dtype').forEach(function(el) {
+    el.classList.toggle('active', el.dataset.tid === id);
+  });
+  var fx = document.getElementById('di-fuel-extra');
+  if (fx) fx.style.display = (id === 'rifornimento') ? 'block' : 'none';
+}
+
+function diaryAdd() {
+  var title = (document.getElementById('di-title').value || '').trim();
+  var date  = document.getElementById('di-date').value;
+  var cost  = parseFloat(document.getElementById('di-cost').value) || 0;
+  var km    = parseInt(document.getElementById('di-km').value) || 0;
+  var notes = (document.getElementById('di-notes').value || '').trim();
+  if (!title) { document.getElementById('di-title').focus(); return; }
+  if (!date)  { document.getElementById('di-date').focus(); return; }
+  var entry = { id:Date.now(), type:_diaryType, title:title, date:date, cost:cost, km:km, notes:notes };
+  if (_diaryType === 'rifornimento') {
+    var liters = parseFloat(document.getElementById('di-liters').value) || 0;
+    var ppl    = parseFloat(document.getElementById('di-ppl').value) || 0;
+    if (liters) entry.liters = liters;
+    if (ppl)    entry.ppl    = ppl;
+    if (!cost && liters && ppl) entry.cost = Math.round(liters * ppl * 100) / 100;
+  }
+  var data = diaryLoad();
+  data.entries.unshift(entry);
+  data.car     = (document.getElementById('diary-car-name').value || '').trim();
+  data.kmStart = parseInt(document.getElementById('diary-km-start').value) || 0;
+  diarySave(data);
+  ['di-title','di-cost','di-km','di-notes','di-liters','di-ppl'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+  diaryRender();
+}
+
+function diaryDelete(id) {
+  var data = diaryLoad();
+  data.entries = data.entries.filter(function(e) { return e.id !== id; });
+  diarySave(data);
+  diaryRender();
+}
+
+function diaryUpdateStats() {
+  var data = diaryLoad();
+  data.car     = (document.getElementById('diary-car-name').value || '').trim();
+  data.kmStart = parseInt(document.getElementById('diary-km-start').value) || 0;
+  diarySave(data);
+  diaryRender();
+}
+
+function diaryRender() {
+  var data    = diaryLoad();
+  var entries = data.entries || [];
+  var total    = entries.reduce(function(s,e) { return s + (e.cost||0); }, 0);
+  var yr       = new Date().getFullYear() + '';
+  var yearCost = entries.filter(function(e) { return (e.date||'').startsWith(yr); })
+                        .reduce(function(s,e) { return s + (e.cost||0); }, 0);
+  var kms   = entries.filter(function(e) { return e.km>0; }).map(function(e) { return e.km; });
+  var kmMax = kms.length ? Math.max.apply(null,kms) : 0;
+  var kmMin = data.kmStart || (kms.length ? Math.min.apply(null,kms) : 0);
+  var cpkm  = (kmMax-kmMin>0 && total>0) ? (total/(kmMax-kmMin)).toFixed(2) : null;
+  function fmt(n) { return n.toLocaleString('it-IT',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+  function setEl(id, v) { var el=document.getElementById(id); if(el) el.textContent=v; }
+  setEl('ds-total', '\u20AC' + fmt(total));
+  setEl('ds-count', entries.length);
+  setEl('ds-cpkm',  cpkm ? '\u20AC' + cpkm : '\u2014');
+  setEl('ds-year',  '\u20AC' + fmt(yearCost));
+
+  // Charts
+  var chartsEl = document.getElementById('diary-charts');
+  if (chartsEl && entries.length >= 2) {
+    chartsEl.style.display = 'grid';
+    var byCat = {}; DIARY_TYPES.forEach(function(t) { byCat[t.id]=0; });
+    entries.forEach(function(e) { if(e.cost) byCat[e.type]=(byCat[e.type]||0)+e.cost; });
+    var maxCat = Math.max.apply(null,Object.values(byCat))||1;
+    var catBars = DIARY_TYPES.filter(function(t) { return byCat[t.id]>0; })
+      .sort(function(a,b) { return byCat[b.id]-byCat[a.id]; })
+      .map(function(t) {
+        return '<div class="bar-row"><div class="bar-label">'+t.icon+' '+t.label+'</div>'
+          +'<div class="bar-track"><div class="bar-fill" style="width:'
+          +(byCat[t.id]/maxCat*100).toFixed(1)+'%;background:'+t.color+'"></div></div>'
+          +'<div class="bar-val">\u20AC'+Math.round(byCat[t.id]).toLocaleString()+'</div></div>';
+      }).join('');
+    var byYear = {};
+    entries.forEach(function(e) { var y=(e.date||'').slice(0,4); if(y) byYear[y]=(byYear[y]||0)+(e.cost||0); });
+    var maxYear = Math.max.apply(null,Object.values(byYear))||1;
+    var yearBars = Object.keys(byYear).sort().map(function(y) {
+      return '<div class="bar-row"><div class="bar-label">'+y+'</div>'
+        +'<div class="bar-track"><div class="bar-fill" style="width:'
+        +(byYear[y]/maxYear*100).toFixed(1)+'%;background:var(--gold)"></div></div>'
+        +'<div class="bar-val">\u20AC'+Math.round(byYear[y]).toLocaleString()+'</div></div>';
+    }).join('');
+    chartsEl.innerHTML =
+      '<div class="chart-box"><div class="chart-box-title">// Spesa per categoria</div><div class="bar-chart">'+catBars+'</div></div>'
+      +'<div class="chart-box"><div class="chart-box-title">// Spesa per anno</div><div class="bar-chart">'+yearBars+'</div></div>';
+  } else if (chartsEl) {
+    chartsEl.style.display='none'; chartsEl.innerHTML='';
+  }
+
+  // List
+  var listEl = document.getElementById('diary-list');
+  if (!listEl) return;
+  if (!entries.length) {
+    listEl.innerHTML = '<div class="empty-diary"><span>\ud83d\udcd3</span>Nessun intervento registrato.<br>Aggiungi il primo usando il modulo sopra.</div>';
+    return;
+  }
+  var groups = {};
+  entries.forEach(function(e) {
+    var k=(e.date||'').slice(0,7)||'Senza data';
+    if(!groups[k]) groups[k]=[];
+    groups[k].push(e);
+  });
+  var mN=['','Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+  var html='';
+  Object.keys(groups).sort().reverse().forEach(function(key) {
+    var lbl=key;
+    if(key.match(/^\d{4}-\d{2}$/)) { var p=key.split('-'); lbl=mN[parseInt(p[1])]+' '+p[0]; }
+    var mTot=groups[key].reduce(function(s,e) { return s+(e.cost||0); },0);
+    html+='<div class="diary-month">'+lbl+(mTot?'<span style="float:right;color:var(--gold)">\u20AC'+mTot.toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span>':'')+'</div>';
+    groups[key].forEach(function(e) {
+      var t=DIARY_TYPES.find(function(x){return x.id===e.type;})||DIARY_TYPES[6];
+      var meta=[];
+      if(e.km) meta.push('\u2299 '+e.km.toLocaleString()+' km');
+      if(e.liters) meta.push('\u26fd '+e.liters+' L');
+      if(e.ppl) meta.push('@ \u20AC'+e.ppl+'/L');
+      if(e.notes) meta.push(e.notes);
+      html+='<div class="diary-entry">'
+        +'<div class="diary-entry-icon">'+t.icon+'</div>'
+        +'<div class="diary-entry-body">'
+        +'<div class="diary-entry-top">'
+        +'<span class="diary-entry-type dtype-'+e.type+'">'+t.label+'</span>'
+        +(e.cost?'<span class="diary-entry-cost">\u20AC'+e.cost.toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span>':'')+'<span class="diary-entry-date">'+((e.date||'').split('-').reverse().join('/'))+'</span>'
+        +'</div>'
+        +'<div class="diary-entry-title">'+e.title+'</div>'
+        +(meta.length?'<div class="diary-entry-meta">'+meta.join(' \u00b7 ')+'</div>':'')+'</div>'
+        +'<button class="diary-entry-del" onclick="diaryDelete('+e.id+')" title="Elimina">\u2715</button></div>';
+    });
+  });
+  listEl.innerHTML=html;
+}
+
+function diaryExportCSV() {
+  var data=diaryLoad(); var entries=data.entries||[];
+  if(!entries.length){alert('Nessun dato da esportare.');return;}
+  var rows=[['Data','Tipo','Titolo','Costo (EUR)','Km','Litri','EUR/L','Note']];
+  entries.forEach(function(e){rows.push([e.date||'',e.type||'',e.title||'',(e.cost||0).toFixed(2),e.km||'',e.liters||'',e.ppl||'',e.notes||'']);});
+  var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
+  var blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url; a.download='diario_auto.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function diaryClear() {
+  if(!confirm('Eliminare TUTTI gli interventi? Non reversibile.')) return;
+  localStorage.removeItem(DIARY_KEY);
+  ['diary-car-name','diary-km-start'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  diaryRender();
 }
 
 // ═══════════════════════════════════════════════════════════════════
