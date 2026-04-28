@@ -6,18 +6,70 @@
 <title>AutoDiagnosi</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ── TOKENS ─────────────────────────────────────────────────────── */
-:root{
-  --bg:#0b0b0d;--surf:#13131a;--card:#18181f;--card2:#1e1e27;
-  --b1:#252530;--b2:#303040;
-  --red:#e03c34;--red2:#c83028;
-  --gold:#f0a500;--blue:#3b82f6;--grn:#22c55e;
-  --warn:#f59e0b;--err:#ef4444;
-  --t1:#eeedf6;--t2:#9998aa;--t3:#5e5d70;
-  --mono:'DM Mono',monospace;
-  --head:'Bebas Neue',sans-serif;
-  --body:'DM Sans',sans-serif;
+/* ─── THEME TOKENS ──────────────────────────────────────────────────────── */
+:root {
+  color-scheme: dark;
+  --bg:    #0b0b0d;
+  --surf:  #13131a;
+  --card:  #18181f;
+  --card2: #1e1e27;
+  --b1:    #252530;
+  --b2:    #303040;
+  --red:   #e03c34;
+  --red2:  #c83028;
+  --gold:  #f0a500;
+  --blue:  #3b82f6;
+  --grn:   #22c55e;
+  --warn:  #f59e0b;
+  --err:   #ef4444;
+  --t1:    #eeedf6;
+  --t2:    #9998aa;
+  --t3:    #5e5d70;
+  --mono:  'DM Mono', monospace;
+  --head:  'Bebas Neue', sans-serif;
+  --body:  'DM Sans', sans-serif;
+  --shadow: 0 4px 24px rgba(0,0,0,.5);
+  --radius: 2px;
+  --transition: .2s ease;
 }
+
+/* Light mode overrides */
+[data-theme="light"] {
+  color-scheme: light;
+  --bg:    #f4f4f6;
+  --surf:  #ffffff;
+  --card:  #ffffff;
+  --card2: #f0f0f5;
+  --b1:    #dddde8;
+  --b2:    #c8c8d8;
+  --t1:    #141420;
+  --t2:    #44445a;
+  --t3:    #888899;
+  --shadow: 0 4px 24px rgba(0,0,0,.12);
+}
+[data-theme="light"] body::before {
+  background-image:
+    linear-gradient(rgba(224,60,52,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(224,60,52,.04) 1px, transparent 1px);
+}
+[data-theme="light"] .search-dropdown,
+[data-theme="light"] .sd { background:#fff; }
+[data-theme="light"] select option { background:#fff; color:#141420; }
+[data-theme="light"] .obd-compat { background:rgba(245,158,11,.08); }
+[data-theme="light"] .diary-form::before { opacity:.7; }
+[data-theme="light"] .panel::before { opacity:.85; }
+
+/* System preference fallback (no JS) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg:#f4f4f6; --surf:#fff; --card:#fff; --card2:#f0f0f5;
+    --b1:#dddde8; --b2:#c8c8d8; --t1:#141420; --t2:#44445a; --t3:#888899;
+  }
+}
+
+
+/* ── TOKENS ─────────────────────────────────────────────────────── */
+
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--t1);font-family:var(--body);min-height:100vh;overflow-x:hidden}
@@ -72,7 +124,6 @@ nav.top{display:flex;border-bottom:1px solid var(--b1);margin-bottom:24px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 140px;gap:12px;align-items:end;margin-bottom:16px}
 @media(max-width:680px){.grid4,.grid2{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr 1fr}}
-@media(max-width:420px){.grid4,.grid2,.grid3{grid-template-columns:1fr}}
 
 .fg{display:flex;flex-direction:column;gap:5px}
 .fg label{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;
@@ -371,7 +422,7 @@ select option{background:#1e1e28}
 
 /* ── COMPARE ─────────────────────────────────────────────────────── */
 .cg2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-@media(max-width:560px){.cg2{grid-template-columns:1fr}}
+
 .cp{background:var(--card);border:1px solid var(--b1);padding:18px}
 .cp::before{content:'';display:block;height:2px;margin-bottom:12px}
 .cp.ca::before{background:var(--red)}.cp.cb3::before{background:var(--blue)}
@@ -452,7 +503,7 @@ select option{background:#1e1e28}
 
   /* ── DIARIO ─────────────────────────────────────────────────────── */
   .diary-layout { display:grid; grid-template-columns:260px 1fr; gap:18px; align-items:start; }
-  @media(max-width:680px){ .diary-layout { grid-template-columns:1fr; } }
+  
 
   /* Sidebar veicolo */
   .diary-sidebar { position:sticky; top:16px; }
@@ -468,7 +519,7 @@ select option{background:#1e1e28}
   .diary-form { background:var(--card); border:1px solid var(--b1); padding:20px; margin-bottom:14px; position:relative; }
   .diary-form::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--grn),var(--blue)); }
   .diary-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
-  @media(max-width:500px){ .diary-form-grid { grid-template-columns:1fr; } }
+  
   .diary-input { background:var(--surf); border:1px solid var(--b1); color:var(--t1); padding:9px 11px; font-family:var(--body); font-size:.86rem; width:100%; transition:border-color .18s; }
   .diary-input:focus { outline:none; border-color:var(--grn); }
   .diary-input::placeholder { color:var(--t3); }
@@ -501,7 +552,7 @@ select option{background:#1e1e28}
 
   /* Grafici */
   .diary-charts { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
-  @media(max-width:600px){ .diary-charts { grid-template-columns:1fr; } }
+  
   .chart-box { background:var(--card); border:1px solid var(--b1); padding:16px; }
   .chart-box-title { font-family:var(--mono); font-size:.6rem; text-transform:uppercase; letter-spacing:.1em; color:var(--t3); margin-bottom:12px; }
   .bar-chart { display:flex; flex-direction:column; gap:6px; }
@@ -569,6 +620,185 @@ select option{background:#1e1e28}
 
   /* Panel */
   #obd-panel-live { display:none; }
+
+
+/* ─── THEME TOGGLE ──────────────────────────────────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  width: 42px;
+  height: 42px;
+  background: var(--card);
+  border: 1px solid var(--b2);
+  color: var(--t2);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  box-shadow: var(--shadow);
+}
+.theme-toggle:hover { border-color: var(--red); color: var(--red); }
+
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────── */
+
+/* ── Mobile first base tweaks ─────────────────────────────────────── */
+@media (max-width: 480px) {
+  .wrap { padding: 0 12px 60px; }
+
+  header { padding: 20px 0 16px; gap: 12px; }
+  header h1 { font-size: 1.8rem; }
+  .logo { width: 36px; height: 36px; }
+  .logo svg { width: 18px; height: 18px; }
+
+  nav.top { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  nav.top::-webkit-scrollbar { display: none; }
+  .nav-btn { padding: 11px 12px; font-size: .56rem; white-space: nowrap; }
+
+  .panel { padding: 16px 14px; }
+  .plabel { font-size: .56rem; margin-bottom: 12px; }
+
+  .grid4 { grid-template-columns: 1fr 1fr; }
+  .grid3 { grid-template-columns: 1fr; }
+  .grid2 { grid-template-columns: 1fr; }
+
+  .btn-red { font-size: .95rem; padding: 12px 14px; }
+  .btn-grad { font-size: .95rem; padding: 12px 14px; }
+
+  /* Tabs: scrollable */
+  #tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 1px; }
+  #tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { padding: 8px 11px; font-size: .54rem; white-space: nowrap; flex-shrink: 0; }
+
+  /* Vehicle bar */
+  #vehicle-bar { font-size: .58rem; gap: 6px; }
+  .vtag { font-size: .56rem; padding: 2px 7px; }
+
+  /* Filter bar */
+  .fbtn { padding: 4px 9px; font-size: .56rem; }
+  .flabel { display: none; }
+
+  /* Problem cards */
+  .ptitle { font-size: .82rem; }
+  .pch { padding: 11px 12px; gap: 9px; }
+  .pcb { padding: 0 12px 14px 30px; }
+
+  /* Stats */
+  .sg { grid-template-columns: 1fr 1fr; }
+  .sv { font-size: 1.2rem; }
+
+  /* Maint grid */
+  .mg { grid-template-columns: 1fr; }
+
+  /* Compare */
+  .cg2 { grid-template-columns: 1fr; }
+  .cr { grid-template-columns: 1fr; }
+  .crl { border-right: none; border-bottom: 1px solid var(--b1); }
+  .cc.lc { border-right: none; }
+  .cr { display: block; }
+  .csh { grid-column: 1; }
+
+  /* VIN */
+  .vin-row { flex-direction: column; }
+  .vin-in  { font-size: .8rem; letter-spacing: .1em; }
+  .vc { width: 30px; height: 36px; gap: 1px; }
+  .vc span:first-child { font-size: .78rem; }
+  .vc span:last-child  { font-size: .38rem; }
+  .vin-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Reminder */
+  .rcards { grid-template-columns: 1fr; }
+
+  /* Diary */
+  .diary-layout { grid-template-columns: 1fr; }
+  .diary-sidebar { position: static; }
+  .diary-form-grid { grid-template-columns: 1fr; }
+  .diary-charts { grid-template-columns: 1fr; }
+  .diary-entry { gap: 8px; }
+  .diary-entry-title { font-size: .82rem; }
+
+  /* OBD */
+  .obd-live-grid { grid-template-columns: 1fr 1fr; }
+  .obd-connect-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .obd-controls { flex-wrap: wrap; }
+
+  /* Spec grid */
+  .spec-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Tyre / bulb table: make scrollable */
+  .ttb, .btb { font-size: .72rem; }
+
+  /* Checklist */
+  .cprog { flex-wrap: wrap; gap: 6px; }
+}
+
+/* ── Small tablets ────────────────────────────────────────────────── */
+@media (min-width: 481px) and (max-width: 768px) {
+  .wrap { padding: 0 16px 64px; }
+  header h1 { font-size: 2.2rem; }
+  .grid4 { grid-template-columns: 1fr 1fr; }
+  .mg { grid-template-columns: 1fr 1fr; }
+  .sg { grid-template-columns: repeat(2, 1fr); }
+  .cg2 { grid-template-columns: 1fr; }
+  .diary-charts { grid-template-columns: 1fr; }
+  .obd-live-grid { grid-template-columns: repeat(3, 1fr); }
+  .spec-grid { grid-template-columns: repeat(3, 1fr); }
+  nav.top { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  nav.top::-webkit-scrollbar { display: none; }
+  #tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+  #tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { flex-shrink: 0; }
+}
+
+/* ── Large tablets / small desktop ───────────────────────────────── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .wrap { padding: 0 20px 80px; max-width: 100%; }
+  .grid4 { grid-template-columns: 1fr 1fr 160px 1fr; }
+  .obd-live-grid { grid-template-columns: repeat(4, 1fr); }
+  .spec-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ── Touch interactions ────────────────────────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+  .sdo, .search-option, .dtype, .fbtn, .tab-btn, .nav-btn,
+  .checklist-item, .problem-card-header, .diary-entry-del,
+  .btn, .btn-outline, .btn-link, .ext-link {
+    min-height: 40px;
+  }
+  .sdo, .search-option { padding: 11px 14px; }
+  .checklist-item { padding: 12px 0; }
+  select { min-height: 42px; }
+  input { min-height: 42px; }
+  .diary-type-pills .dtype { padding: 8px 14px; }
+}
+
+/* ── Landscape mobile ─────────────────────────────────────────────── */
+@media (max-width: 768px) and (orientation: landscape) {
+  header { padding: 12px 0; }
+  header h1 { font-size: 1.6rem; }
+  header p { display: none; }
+  .panel { padding: 12px 14px; }
+}
+
+/* ── Large screens ────────────────────────────────────────────────── */
+@media (min-width: 1440px) {
+  .wrap { max-width: 1100px; }
+  .obd-live-grid { grid-template-columns: repeat(6, 1fr); }
+  .mg { grid-template-columns: repeat(4, 1fr); }
+  .sg { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -865,6 +1095,8 @@ select option{background:#1e1e28}
     </div>
   </div><!-- /view-diario -->
 
+
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Cambia tema">🌙</button>
 
 <div class="disc"><strong>NOTA:</strong> Informazioni generate da AI a scopo informativo. Consultare sempre un meccanico qualificato per diagnosi e riparazioni. I costi sono stime indicative.</div>
 
@@ -6461,9 +6693,34 @@ function diaryClear() {
   diaryRender();
 }
 
+
+// ── THEME TOGGLE ────────────────────────────────────────────────────────────
+(function() {
+  var saved = localStorage.getItem('ad_theme');
+  var sys   = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  var theme = saved || sys;
+  document.documentElement.setAttribute('data-theme', theme);
+})();
+
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme') || 'dark';
+  var next    = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('ad_theme', next);
+  var btn = document.getElementById('theme-toggle');
+  if (btn) btn.textContent = next === 'dark' ? '🌙' : '☀️';
+}
+
+function initThemeBtn() {
+  var btn   = document.getElementById('theme-toggle');
+  var theme = document.documentElement.getAttribute('data-theme') || 'dark';
+  if (btn) btn.textContent = theme === 'dark' ? '🌙' : '☀️';
+}
+
 // ═══════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════
+initThemeBtn();
 populateMarca();
 buildCompareSelectors('a');
 buildCompareSelectors('b');
