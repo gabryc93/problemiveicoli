@@ -799,6 +799,21 @@ select option{background:#1e1e28}
     transition-duration: .01ms !important;
   }
 }
+
+  /* ── VEHICLE TYPE SELECTOR ─────────────────────────────────────── */
+  .type-toggle { display:flex; gap:0; margin-bottom:18px; border:1px solid var(--b1); width:fit-content; }
+  .type-btn { background:var(--surf); border:none; color:var(--t3); padding:10px 22px;
+    font-family:var(--mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.12em;
+    cursor:pointer; transition:all .18s; display:flex; align-items:center; gap:7px; }
+  .type-btn:first-child { border-right:1px solid var(--b1); }
+  .type-btn.active { background:var(--red); color:#fff; }
+  .type-btn.active-moto { background:var(--blue); color:#fff; }
+  .type-badge { font-size:.55rem; background:rgba(255,255,255,.15); padding:1px 5px;
+    border-radius:2px; letter-spacing:.06em; }
+  .moto-hint { font-family:var(--mono); font-size:.62rem; color:var(--blue);
+    padding:6px 12px; border:1px solid rgba(59,130,246,.25); background:rgba(59,130,246,.05);
+    margin-bottom:14px; display:none; }
+  .moto-hint.visible { display:block; }
 </style>
 </head>
 <body>
@@ -830,6 +845,13 @@ select option{background:#1e1e28}
 
   <div class="panel p-red">
     <div class="plabel">// Seleziona il veicolo</div>
+    <div class="type-toggle">
+      <button class="type-btn active" id="type-auto" onclick="setVehicleMode('auto')">🚗 Automobile</button>
+      <button class="type-btn" id="type-moto" onclick="setVehicleMode('moto')">🏍 Motocicletta</button>
+    </div>
+    <div class="moto-hint" id="moto-hint">
+      ℹ Stai analizzando una motocicletta — la manutenzione include catena, valvole e check specifici moto
+    </div>
     <div class="grid4">
       <div class="fg">
         <label>Marca</label>
@@ -5159,6 +5181,965 @@ const VEHICLES = {
     }
   }
 };
+
+var _vehicleMode = "auto";  // "auto" | "moto"
+
+const MOTORCYCLES = {
+  "Aprilia": {
+    "Dorsoduro 750 / 900": {
+      "2008–2018": [
+        "Dorsoduro 750 90cv",
+        "Dorsoduro 900 95cv"
+      ]
+    },
+    "RS 660": {
+      "2020–2024": [
+        "RS 660 100cv"
+      ]
+    },
+    "Tuono 660": {
+      "2021–2024": [
+        "Tuono 660 95cv"
+      ]
+    },
+    "Tuono V4": {
+      "2011–2020": [
+        "Tuono V4 1000 167cv",
+        "Tuono V4 1100 175cv RR"
+      ],
+      "2021–2024": [
+        "Tuono V4 1100 175cv",
+        "Tuono V4 Factory 175cv"
+      ]
+    },
+    "Tuareg 660": {
+      "2022–2024": [
+        "Tuareg 660 80cv"
+      ]
+    },
+    "RSV4": {
+      "2009–2020": [
+        "RSV4 Factory 180cv",
+        "RSV4 RF 201cv",
+        "RSV4 1000 RR 217cv"
+      ],
+      "2021–2024": [
+        "RSV4 1100 217cv Factory",
+        "RSV4 SE 221cv"
+      ]
+    },
+    "Shiver 750 / 900": {
+      "2007–2021": [
+        "Shiver 750 95cv",
+        "Shiver 900 96cv GT"
+      ]
+    },
+    "Caponord 1200": {
+      "2013–2017": [
+        "Caponord 1200 125cv ABS",
+        "Caponord 1200 Rally 125cv"
+      ]
+    }
+  },
+  "Benelli": {
+    "TRK 502 / 502X": {
+      "2017–2024": [
+        "TRK 502 47cv",
+        "TRK 502X 47cv"
+      ]
+    },
+    "TRK 702 / 702X": {
+      "2022–2024": [
+        "TRK 702 80cv",
+        "TRK 702X 80cv"
+      ]
+    },
+    "Leoncino 500": {
+      "2017–2024": [
+        "Leoncino 500 47.6cv",
+        "Leoncino 500 Trail 47.6cv"
+      ]
+    },
+    "752S": {
+      "2019–2024": [
+        "752S 80cv"
+      ]
+    },
+    "502C": {
+      "2020–2024": [
+        "502C 47cv"
+      ]
+    },
+    "BN 302 / 302S": {
+      "2015–2020": [
+        "BN 302 38cv",
+        "BN 302S 38cv"
+      ]
+    }
+  },
+  "BMW Motorrad": {
+    "R 1250 GS / Adventure": {
+      "2019–2024": [
+        "R 1250 GS 136cv",
+        "R 1250 GS Adventure 136cv",
+        "R 1250 GS HP 136cv"
+      ]
+    },
+    "R 1300 GS / Adventure": {
+      "2024–2024": [
+        "R 1300 GS 145cv",
+        "R 1300 GS Adventure 145cv"
+      ]
+    },
+    "F 900 R / XR": {
+      "2020–2024": [
+        "F 900 R 105cv",
+        "F 900 XR 105cv"
+      ]
+    },
+    "F 850 GS / Adventure": {
+      "2018–2024": [
+        "F 850 GS 95cv",
+        "F 850 GS Adventure 95cv"
+      ]
+    },
+    "F 800 GS / Adventure": {
+      "2008–2018": [
+        "F 800 GS 85cv",
+        "F 800 GS Adventure 85cv",
+        "F 800 R 87cv"
+      ]
+    },
+    "S 1000 RR": {
+      "2009–2018": [
+        "S 1000 RR 193cv",
+        "S 1000 RR HP4 212cv"
+      ],
+      "2019–2024": [
+        "S 1000 RR 210cv",
+        "S 1000 RR M 212cv"
+      ]
+    },
+    "S 1000 XR": {
+      "2015–2019": [
+        "S 1000 XR 165cv"
+      ],
+      "2020–2024": [
+        "S 1000 XR 165cv",
+        "S 1000 XR M Sport 165cv"
+      ]
+    },
+    "R nineT": {
+      "2014–2024": [
+        "R nineT 109cv",
+        "R nineT Pure 109cv",
+        "R nineT Scrambler 109cv",
+        "R nineT Urban G/S 109cv",
+        "R nineT Racer 109cv"
+      ]
+    },
+    "G 310 R / GS": {
+      "2017–2024": [
+        "G 310 R 34cv",
+        "G 310 GS 34cv"
+      ]
+    },
+    "C 400 X / GT": {
+      "2019–2024": [
+        "C 400 X 34cv",
+        "C 400 GT 34cv"
+      ]
+    },
+    "K 1600 GT / GTL": {
+      "2011–2024": [
+        "K 1600 GT 160cv",
+        "K 1600 GTL 160cv",
+        "K 1600 Grand America 160cv"
+      ]
+    },
+    "M 1000 RR": {
+      "2021–2024": [
+        "M 1000 RR 212cv",
+        "M 1000 RR Competition 212cv"
+      ]
+    },
+    "R 18": {
+      "2020–2024": [
+        "R 18 91cv",
+        "R 18 B 91cv",
+        "R 18 Transcontinental 91cv"
+      ]
+    }
+  },
+  "Ducati": {
+    "Monster 821 / 937": {
+      "2014–2020": [
+        "Monster 821 109cv",
+        "Monster 821 Stealth 109cv"
+      ],
+      "2021–2024": [
+        "Monster 937 111cv",
+        "Monster+ 111cv"
+      ]
+    },
+    "Monster 1200 / 1200S": {
+      "2014–2021": [
+        "Monster 1200 150cv",
+        "Monster 1200S 150cv R",
+        "Monster 1200 25° Ann."
+      ]
+    },
+    "Multistrada V4 / V4S": {
+      "2021–2024": [
+        "Multistrada V4 170cv",
+        "Multistrada V4S 170cv",
+        "Multistrada V4 Pikes Peak 170cv",
+        "Multistrada V4 Rally 170cv"
+      ]
+    },
+    "Multistrada 1260 / 1260S": {
+      "2018–2021": [
+        "Multistrada 1260 158cv",
+        "Multistrada 1260S 158cv",
+        "Multistrada 1260 Pikes Peak 158cv",
+        "Multistrada 1260 Grand Tour"
+      ]
+    },
+    "Multistrada 950 / 950S": {
+      "2017–2022": [
+        "Multistrada 950 113cv",
+        "Multistrada 950S 113cv"
+      ]
+    },
+    "Panigale V4 / V4S": {
+      "2018–2024": [
+        "Panigale V4 214cv",
+        "Panigale V4S 214cv",
+        "Panigale V4R 221cv",
+        "Panigale V4 Speciale 226cv"
+      ]
+    },
+    "Panigale V2": {
+      "2020–2024": [
+        "Panigale V2 155cv",
+        "Panigale V2 Bayliss 1st Ann."
+      ]
+    },
+    "Scrambler 800": {
+      "2015–2024": [
+        "Scrambler Icon 73cv",
+        "Scrambler Full Throttle 73cv",
+        "Scrambler Café Racer 73cv",
+        "Scrambler Desert Sled 73cv",
+        "Scrambler Nightshift 73cv"
+      ]
+    },
+    "Scrambler 1100": {
+      "2018–2024": [
+        "Scrambler 1100 86cv",
+        "Scrambler 1100 Special 86cv",
+        "Scrambler 1100 Sport Pro 86cv"
+      ]
+    },
+    "Streetfighter V4": {
+      "2020–2024": [
+        "Streetfighter V4 208cv",
+        "Streetfighter V4S 208cv",
+        "Streetfighter V4 Lamborghini 208cv"
+      ]
+    },
+    "SuperSport 950": {
+      "2017–2024": [
+        "SuperSport 950 110cv",
+        "SuperSport 950S 110cv"
+      ]
+    },
+    "DesertX": {
+      "2022–2024": [
+        "DesertX 110cv",
+        "DesertX Rally 110cv"
+      ]
+    },
+    "Diavel V4": {
+      "2023–2024": [
+        "Diavel V4 168cv"
+      ]
+    }
+  },
+  "Harley-Davidson": {
+    "Sportster S": {
+      "2021–2024": [
+        "Sportster S 121cv Revolution Max"
+      ]
+    },
+    "Nightster / Nightster Special": {
+      "2022–2024": [
+        "Nightster 89cv",
+        "Nightster Special 89cv"
+      ]
+    },
+    "Pan America 1250": {
+      "2021–2024": [
+        "Pan America 1250 150cv",
+        "Pan America 1250 Special 150cv"
+      ]
+    },
+    "Fat Boy / Heritage": {
+      "2018–2024": [
+        "Fat Boy 114ci 97cv",
+        "Heritage Classic 114ci 97cv",
+        "Fat Bob 114ci 97cv"
+      ]
+    },
+    "Road King / Road Glide": {
+      "2017–2024": [
+        "Road King 114ci 100cv",
+        "Road Glide Special 117ci 106cv",
+        "Street Glide 117ci 106cv"
+      ]
+    },
+    "Softail Standard / Street Bob": {
+      "2018–2024": [
+        "Softail Standard 107ci 92cv",
+        "Street Bob 114ci 97cv"
+      ]
+    },
+    "LiveWire": {
+      "2019–2024": [
+        "LiveWire BEV 105cv"
+      ]
+    }
+  },
+  "Honda": {
+    "Africa Twin CRF1000L / CRF1100L": {
+      "2016–2019": [
+        "CRF1000L Africa Twin 94cv",
+        "CRF1000L Adventure Sports 94cv"
+      ],
+      "2020–2024": [
+        "CRF1100L Africa Twin 100cv",
+        "CRF1100L Adventure Sports 100cv",
+        "CRF1100L Adventure Sports DCT"
+      ]
+    },
+    "XL 750 Transalp": {
+      "2023–2024": [
+        "XL 750 Transalp 91cv"
+      ]
+    },
+    "CB500F / CB500X / CBR500R": {
+      "2013–2024": [
+        "CB500F 47cv",
+        "CB500X 47cv A2",
+        "CBR500R 47cv A2"
+      ]
+    },
+    "CB650R / CBR650R": {
+      "2019–2024": [
+        "CB650R 95cv",
+        "CBR650R 95cv"
+      ]
+    },
+    "CB750 Hornet": {
+      "2023–2024": [
+        "CB750 Hornet 92cv"
+      ]
+    },
+    "CB1000R": {
+      "2018–2024": [
+        "CB1000R 143cv Neo Sports Café",
+        "CB1000R Black Edition 143cv"
+      ]
+    },
+    "CBR1000RR Fireblade": {
+      "2017–2024": [
+        "CBR1000RR Fireblade 192cv",
+        "CBR1000RR-R Fireblade SP 214cv"
+      ]
+    },
+    "CRF 300L / Rally": {
+      "2021–2024": [
+        "CRF300L 27cv",
+        "CRF300L Rally 27cv"
+      ]
+    },
+    "NC750X / DCT": {
+      "2012–2024": [
+        "NC750X 58cv",
+        "NC750X DCT 58cv",
+        "NT1100 102cv DCT"
+      ]
+    },
+    "X-ADV 750": {
+      "2017–2024": [
+        "X-ADV 750 54cv DCT"
+      ]
+    },
+    "ADV 350": {
+      "2022–2024": [
+        "ADV 350 29cv"
+      ]
+    },
+    "Forza 350 / 750": {
+      "2018–2024": [
+        "Forza 350 29cv",
+        "Forza 750 58cv DCT"
+      ]
+    },
+    "SH 125i / 150i / 350i": {
+      "2009–2024": [
+        "SH 125i ABS 13cv",
+        "SH 150i ABS 15cv",
+        "SH 350i ABS 29cv"
+      ]
+    },
+    "PCX 125": {
+      "2010–2024": [
+        "PCX 125 12cv",
+        "PCX 125 Hybrid 13cv"
+      ]
+    },
+    "Integra 750": {
+      "2012–2019": [
+        "Integra 750 54cv DCT"
+      ]
+    },
+    "VFR800F / VFR1200": {
+      "2014–2021": [
+        "VFR800F 107cv",
+        "VFR1200F 173cv DCT"
+      ]
+    }
+  },
+  "Kawasaki": {
+    "Z900 / Z900RS": {
+      "2017–2024": [
+        "Z900 125cv",
+        "Z900 SE 125cv",
+        "Z900RS 111cv",
+        "Z900RS Café 111cv",
+        "Z900RS SE 111cv"
+      ]
+    },
+    "Z650 / Z650RS": {
+      "2017–2024": [
+        "Z650 68cv",
+        "Z650RS 68cv"
+      ]
+    },
+    "Z125 Pro": {
+      "2017–2024": [
+        "Z125 9.7cv"
+      ]
+    },
+    "Ninja 650": {
+      "2017–2024": [
+        "Ninja 650 68cv",
+        "Ninja 650 KRT 68cv"
+      ]
+    },
+    "Ninja 1000SX": {
+      "2020–2024": [
+        "Ninja 1000SX 142cv",
+        "Ninja 1000SX Tourer 142cv"
+      ]
+    },
+    "ZZR 1400": {
+      "2012–2020": [
+        "ZZR 1400 200cv ABS",
+        "ZZR 1400 Special Edition 200cv"
+      ]
+    },
+    "H2 / H2R": {
+      "2015–2024": [
+        "H2 231cv Supercharged",
+        "H2 SX 200cv Supercharged",
+        "H2R 310cv Track"
+      ]
+    },
+    "Versys 650": {
+      "2015–2024": [
+        "Versys 650 69cv",
+        "Versys 650 Grand Tourer 69cv"
+      ]
+    },
+    "Versys 1000": {
+      "2019–2024": [
+        "Versys 1000 120cv",
+        "Versys 1000 SE 120cv KCMC"
+      ]
+    },
+    "Z400": {
+      "2019–2024": [
+        "Z400 45cv A2"
+      ]
+    },
+    "Ninja 400": {
+      "2018–2024": [
+        "Ninja 400 45cv A2"
+      ]
+    },
+    "KLE 500": {
+      "2025–2025": [
+        "KLE 500 48cv A2"
+      ]
+    }
+  },
+  "KTM": {
+    "125 Duke / RC 125": {
+      "2011–2024": [
+        "125 Duke 15cv",
+        "RC 125 15cv"
+      ]
+    },
+    "390 Duke / RC 390": {
+      "2013–2024": [
+        "390 Duke 44cv",
+        "RC 390 44cv"
+      ]
+    },
+    "790 Duke": {
+      "2018–2023": [
+        "790 Duke 95cv",
+        "790 Duke R 95cv"
+      ]
+    },
+    "890 Duke R": {
+      "2020–2024": [
+        "890 Duke 121cv",
+        "890 Duke R 121cv",
+        "890 SMT 121cv"
+      ]
+    },
+    "1290 Super Duke R": {
+      "2014–2024": [
+        "1290 Super Duke R 180cv",
+        "1290 Super Duke RR 180cv EVO"
+      ]
+    },
+    "790 / 890 Adventure": {
+      "2019–2024": [
+        "790 Adventure 95cv",
+        "890 Adventure 105cv",
+        "890 Adventure R 105cv"
+      ]
+    },
+    "1290 Super Adventure": {
+      "2015–2024": [
+        "1290 Super Adventure S 160cv",
+        "1290 Super Adventure R 160cv"
+      ]
+    },
+    "250 / 390 Adventure": {
+      "2020–2024": [
+        "250 Adventure 30cv",
+        "390 Adventure 46cv"
+      ]
+    },
+    "Duke 200": {
+      "2011–2024": [
+        "200 Duke 25cv"
+      ]
+    }
+  },
+  "Moto Guzzi": {
+    "V7 (III/IV)": {
+      "2012–2024": [
+        "V7 Special 52cv",
+        "V7 Stone 52cv",
+        "V7 Centenario 52cv",
+        "V7 Stone Corsa 52cv"
+      ]
+    },
+    "V9 Bobber / Roamer": {
+      "2016–2024": [
+        "V9 Bobber 55cv",
+        "V9 Roamer 55cv"
+      ]
+    },
+    "V85 TT": {
+      "2019–2024": [
+        "V85 TT 80cv",
+        "V85 TT Travel 80cv",
+        "V85 TT Guardia d'Onore"
+      ]
+    },
+    "Stelvio": {
+      "2023–2024": [
+        "Stelvio 115cv"
+      ]
+    },
+    "V100 Mandello": {
+      "2022–2024": [
+        "V100 Mandello 115cv",
+        "V100 Mandello S 115cv"
+      ]
+    },
+    "Griso 1200 8V": {
+      "2007–2016": [
+        "Griso 1200 8V 110cv"
+      ]
+    }
+  },
+  "Moto Morini": {
+    "X-Cape 650": {
+      "2021–2024": [
+        "X-Cape 650 60cv",
+        "X-Cape 650X 60cv"
+      ]
+    },
+    "Seiemmezzo SCR / STR": {
+      "2021–2024": [
+        "Seiemmezzo SCR 55cv",
+        "Seiemmezzo STR 55cv"
+      ]
+    }
+  },
+  "MV Agusta": {
+    "Brutale 800 / 1000": {
+      "2013–2024": [
+        "Brutale 800 140cv",
+        "Brutale 800 Dragster RR 140cv",
+        "Brutale 1000 RR 208cv",
+        "Brutale 1000 RS 208cv"
+      ]
+    },
+    "F3 675 / 800": {
+      "2012–2022": [
+        "F3 675 128cv",
+        "F3 800 148cv",
+        "F3 800 RC 153cv"
+      ]
+    },
+    "Turismo Veloce 800": {
+      "2015–2024": [
+        "Turismo Veloce 800 110cv",
+        "Turismo Veloce 800 Lusso 110cv"
+      ]
+    },
+    "Superveloce 800": {
+      "2020–2024": [
+        "Superveloce 800 148cv Serie Oro"
+      ]
+    }
+  },
+  "Piaggio": {
+    "Beverly 300 / 400": {
+      "2010–2024": [
+        "Beverly 300 ABS 22cv",
+        "Beverly 400 ABS 35cv",
+        "Beverly S 400 ABS 35cv"
+      ]
+    },
+    "Liberty 125": {
+      "2009–2024": [
+        "Liberty 125 ABS 11cv iGet"
+      ]
+    },
+    "Medley 125 / 150": {
+      "2016–2024": [
+        "Medley 125 ABS 13cv",
+        "Medley 150 ABS 15cv"
+      ]
+    },
+    "MP3 300 / 500": {
+      "2014–2024": [
+        "MP3 300 ABS 25cv",
+        "MP3 500 ABS 40cv HPE"
+      ]
+    },
+    "Vespa GTS 300": {
+      "2019–2024": [
+        "Vespa GTS 300 Super 24cv",
+        "Vespa GTS 300 HPE SuperTech",
+        "Vespa GTS 300 Super Sport 24cv"
+      ]
+    },
+    "Vespa Primavera / Sprint 125": {
+      "2013–2024": [
+        "Vespa Primavera 125 ABS 10cv",
+        "Vespa Sprint 125 ABS 10cv",
+        "Vespa Primavera S 125 ABS"
+      ]
+    }
+  },
+  "Royal Enfield": {
+    "Interceptor 650 / GT 650": {
+      "2019–2024": [
+        "Interceptor 650 47cv",
+        "Continental GT 650 47cv"
+      ]
+    },
+    "Himalayan 411 / 450": {
+      "2018–2024": [
+        "Himalayan 411 24.5cv",
+        "Himalayan 450 40cv"
+      ]
+    },
+    "Meteor 350": {
+      "2021–2024": [
+        "Meteor 350 20cv"
+      ]
+    },
+    "Hunter 350": {
+      "2022–2024": [
+        "Hunter 350 20cv"
+      ]
+    },
+    "Scram 411": {
+      "2022–2024": [
+        "Scram 411 24.5cv"
+      ]
+    },
+    "Super Meteor 650": {
+      "2023–2024": [
+        "Super Meteor 650 47cv"
+      ]
+    }
+  },
+  "Suzuki": {
+    "GSX-S750 / GSX-S950": {
+      "2015–2024": [
+        "GSX-S750 114cv",
+        "GSX-S950 110cv"
+      ]
+    },
+    "GSX-S1000 / GT": {
+      "2015–2024": [
+        "GSX-S1000 150cv",
+        "GSX-S1000GT 152cv",
+        "GSX-S1000GX 152cv"
+      ]
+    },
+    "V-Strom 650 / XT": {
+      "2012–2024": [
+        "V-Strom 650 71cv",
+        "V-Strom 650XT 71cv"
+      ]
+    },
+    "V-Strom 1050 / XT": {
+      "2020–2024": [
+        "V-Strom 1050 107cv",
+        "V-Strom 1050XT 107cv"
+      ]
+    },
+    "Burgman 400 / 650": {
+      "2017–2024": [
+        "Burgman 400 34cv ABS",
+        "Burgman 650 56cv Executive"
+      ]
+    },
+    "GSX-R 600 / 750 / 1000": {
+      "2011–2024": [
+        "GSX-R 600 125cv",
+        "GSX-R 750 150cv",
+        "GSX-R 1000 202cv R"
+      ]
+    },
+    "SV 650": {
+      "2016–2024": [
+        "SV 650 73cv",
+        "SV 650X 73cv"
+      ]
+    },
+    "Katana 1000": {
+      "2019–2024": [
+        "Katana 150cv"
+      ]
+    }
+  },
+  "Triumph": {
+    "Tiger 900 / GT / Rally": {
+      "2020–2024": [
+        "Tiger 900 95cv",
+        "Tiger 900 GT Pro 95cv",
+        "Tiger 900 Rally Pro 95cv",
+        "Tiger 900 GT Low 95cv"
+      ]
+    },
+    "Tiger 1200 GT / Rally": {
+      "2022–2024": [
+        "Tiger 1200 GT 150cv",
+        "Tiger 1200 GT Pro 150cv",
+        "Tiger 1200 GT Explorer 150cv",
+        "Tiger 1200 Rally Pro 150cv",
+        "Tiger 1200 Rally Explorer 150cv"
+      ]
+    },
+    "Street Triple 765": {
+      "2017–2024": [
+        "Street Triple 765 R 118cv",
+        "Street Triple 765 RS 130cv",
+        "Street Triple 765 Moto2 130cv"
+      ]
+    },
+    "Bonneville T100 / T120": {
+      "2016–2024": [
+        "Bonneville T100 54cv",
+        "Bonneville T120 80cv",
+        "Bonneville T120 Black 80cv"
+      ]
+    },
+    "Scrambler 400X / 900 / 1200": {
+      "2019–2024": [
+        "Scrambler 400X 40cv A2",
+        "Scrambler 900 64cv",
+        "Scrambler 1200 XC 90cv",
+        "Scrambler 1200 XE 90cv"
+      ]
+    },
+    "Trident 660": {
+      "2021–2024": [
+        "Trident 660 81cv A2"
+      ]
+    },
+    "Speed Triple 1200": {
+      "2021–2024": [
+        "Speed Triple 1200 RR 180cv",
+        "Speed Triple 1200 RS 180cv"
+      ]
+    },
+    "Speedmaster / Thunderbird": {
+      "2018–2024": [
+        "Speedmaster 1200 77cv",
+        "Bobber Black 1200 77cv"
+      ]
+    },
+    "Rocket 3 R / GT": {
+      "2020–2024": [
+        "Rocket 3 R 167cv",
+        "Rocket 3 GT 167cv",
+        "Rocket 3 Storm GT 167cv"
+      ]
+    }
+  },
+  "Vespa": {
+    "GTS 125 / 300": {
+      "2009–2024": [
+        "GTS 125 Super ABS 12cv",
+        "GTS 300 HPE 24cv",
+        "GTS 300 Super 24cv",
+        "GTS 125 Sport 12cv"
+      ]
+    },
+    "946": {
+      "2013–2024": [
+        "946 125 12cv",
+        "946 Dragon 125",
+        "946 Bunny 125"
+      ]
+    }
+  },
+  "Voge": {
+    "525DSX / 900DSX": {
+      "2022–2024": [
+        "525DSX 50cv",
+        "525DSX Adventure 50cv",
+        "900DSX 95cv"
+      ]
+    },
+    "Valico 525": {
+      "2023–2024": [
+        "Valico 525D 50cv"
+      ]
+    }
+  },
+  "Yamaha": {
+    "MT-07": {
+      "2014–2024": [
+        "MT-07 73cv",
+        "MT-07 Moto Cage 73cv",
+        "XSR700 73cv",
+        "XSR700 Legacy 73cv"
+      ]
+    },
+    "MT-09 / SP": {
+      "2014–2024": [
+        "MT-09 115cv",
+        "MT-09 SP 119cv",
+        "XSR900 119cv",
+        "XSR900 GP 119cv"
+      ]
+    },
+    "MT-10 / SP": {
+      "2016–2024": [
+        "MT-10 166cv",
+        "MT-10 SP 166cv",
+        "MT-10 Tourer 166cv"
+      ]
+    },
+    "Tracer 7 / GT": {
+      "2020–2024": [
+        "Tracer 7 73cv",
+        "Tracer 7 GT 73cv"
+      ]
+    },
+    "Tracer 9 / GT": {
+      "2021–2024": [
+        "Tracer 9 119cv",
+        "Tracer 9 GT 119cv",
+        "Tracer 9 GT+ 119cv"
+      ]
+    },
+    "Ténéré 700 / World Raid": {
+      "2019–2024": [
+        "Ténéré 700 73cv",
+        "Ténéré 700 World Raid 73cv",
+        "Ténéré 700 Rally 73cv"
+      ]
+    },
+    "R1": {
+      "2015–2024": [
+        "R1 200cv",
+        "R1M 200cv",
+        "GYTR 200cv"
+      ]
+    },
+    "R7": {
+      "2021–2024": [
+        "R7 73cv"
+      ]
+    },
+    "XMAX 125 / 300 / 400": {
+      "2017–2024": [
+        "XMAX 125 15cv",
+        "XMAX 300 28cv",
+        "XMAX 400 35cv"
+      ]
+    },
+    "T-MAX 560": {
+      "2020–2024": [
+        "T-MAX 560 49cv",
+        "T-MAX 560 Tech MAX 49cv"
+      ]
+    },
+    "NMAX 125": {
+      "2015–2024": [
+        "NMAX 125 11cv",
+        "NMAX 125 Connected 11cv"
+      ]
+    },
+    "Tricity 300": {
+      "2020–2024": [
+        "Tricity 300 28cv LMW"
+      ]
+    },
+    "FZ6 / FZ8": {
+      "2010–2017": [
+        "FZ6 S2 98cv",
+        "FZ6 Fazer S2 98cv",
+        "FZ8 106cv",
+        "FZ8 Fazer 106cv"
+      ]
+    },
+    "Fazer 8 / FZ8 N": {
+      "2010–2016": [
+        "Fazer 8 106cv",
+        "FZ8 N 106cv"
+      ]
+    }
+  }
+};
 const SCEGLIAUTO_SLUGS = {
   "Alfa Romeo":    "alfa-romeo",
   "Audi":          "audi",
@@ -5285,8 +6266,14 @@ function switchView(id) {
 var _searchData = { marca: [], modello: [] };
 var _closeTimer = {};
 
-function buildMarcaList() { _searchData.marca = Object.keys(VEHICLES).sort(); }
-function buildModelloList(marca) { _searchData.modello = marca ? Object.keys(VEHICLES[marca]).sort() : []; }
+function buildMarcaList() {
+  var src = _vehicleMode === 'moto' ? MOTORCYCLES : VEHICLES;
+  _searchData.marca = Object.keys(src).sort();
+}
+function buildModelloList(marca) {
+  var src = _vehicleMode === 'moto' ? MOTORCYCLES : VEHICLES;
+  _searchData.modello = marca && src[marca] ? Object.keys(src[marca]).sort() : [];
+}
 
 function filterSearch(type) {
   var inp = document.getElementById('search-' + type);
@@ -5339,26 +6326,28 @@ function selectOption(type, value) {
 }
 
 function updateAnni(init) {
+  var src     = _vehicleMode === 'moto' ? MOTORCYCLES : VEHICLES;
   var marca   = document.getElementById('sel-marca').value;
   var modello = document.getElementById('sel-modello').value;
   var sel = document.getElementById('sel-anno');
   sel.innerHTML = '<option value="">— Anno —</option>';
   document.getElementById('sel-motore').innerHTML = '<option value="">— Motore —</option>';
-  if (!marca || !modello || !VEHICLES[marca] || !VEHICLES[marca][modello]) return;
-  Object.keys(VEHICLES[marca][modello]).forEach(function(a) {
+  if (!marca || !modello || !src[marca] || !src[marca][modello]) return;
+  Object.keys(src[marca][modello]).forEach(function(a) {
     var o = document.createElement('option'); o.value = a; o.textContent = a; sel.appendChild(o);
   });
-  if (init) { sel.value = Object.keys(VEHICLES[marca][modello])[0]; updateMotori(true); }
+  if (init) { sel.value = Object.keys(src[marca][modello])[0]; updateMotori(true); }
 }
 
 function updateMotori(init) {
+  var src     = _vehicleMode === 'moto' ? MOTORCYCLES : VEHICLES;
   var marca   = document.getElementById('sel-marca').value;
   var modello = document.getElementById('sel-modello').value;
   var anno    = document.getElementById('sel-anno').value;
   var sel = document.getElementById('sel-motore');
   sel.innerHTML = '<option value="">— Motore —</option>';
   if (!marca || !modello || !anno) return;
-  var motori = (VEHICLES[marca] && VEHICLES[marca][modello] && VEHICLES[marca][modello][anno]) || [];
+  var motori = (src[marca] && src[marca][modello] && src[marca][modello][anno]) || [];
   motori.forEach(function(m) {
     var o = document.createElement('option'); o.value = m; o.textContent = m; sel.appendChild(o);
   });
@@ -5366,6 +6355,7 @@ function updateMotori(init) {
 }
 
 function populateMarca() {
+  _vehicleMode = 'auto';
   buildMarcaList();
   selectOption('marca','Alfa Romeo');
   selectOption('modello','Giulia');
@@ -6715,6 +7705,33 @@ function initThemeBtn() {
   var btn   = document.getElementById('theme-toggle');
   var theme = document.documentElement.getAttribute('data-theme') || 'dark';
   if (btn) btn.textContent = theme === 'dark' ? '🌙' : '☀️';
+}
+
+
+// ── VEHICLE MODE (auto / moto) ──────────────────────────────────────────────
+function setVehicleMode(mode) {
+  _vehicleMode = mode;
+  document.getElementById('type-auto').className = 'type-btn' + (mode==='auto'?' active':'');
+  document.getElementById('type-moto').className = 'type-btn' + (mode==='moto'?' active-moto':'');
+  var hint = document.getElementById('moto-hint');
+  if (hint) hint.className = 'moto-hint' + (mode==='moto'?' visible':'');
+
+  // Reset selectors
+  var sm = document.getElementById('search-marca');
+  var sd = document.getElementById('search-modello');
+  var sa = document.getElementById('sel-anno');
+  var sm2= document.getElementById('sel-motore');
+  if (sm)  { sm.value=''; document.getElementById('sel-marca').value=''; }
+  if (sd)  { sd.value=''; sd.disabled=true; sd.placeholder='Prima seleziona marca'; document.getElementById('sel-modello').value=''; }
+  if (sa)  sa.innerHTML='<option value="">— Anno —</option>';
+  if (sm2) sm2.innerHTML='<option value="">— Motore —</option>';
+
+  // Rebuild marca list
+  buildMarcaList();
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('tabs').className = 'tabs';
+  document.getElementById('filter-bar').className = 'filter-bar';
+  document.getElementById('vehicle-bar').className = '';
 }
 
 // ═══════════════════════════════════════════════════════════════════
